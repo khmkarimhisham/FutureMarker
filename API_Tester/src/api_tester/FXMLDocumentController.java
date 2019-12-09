@@ -18,7 +18,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import net.lingala.zip4j.core.ZipFile;
@@ -29,13 +32,20 @@ public class FXMLDocumentController implements Initializable {
     FileChooser fileChooser = new FileChooser();
     File file = null;
     Alert a = new Alert(AlertType.INFORMATION);
+    Thread thread = null;
+    int fileCounter = 0;
+
+    @FXML
+    Button okBtn = new Button();
 
     @FXML
     Label filePathLabel = new Label();
 
     @FXML
+    TextArea outputTextArea = new TextArea();
+
+    @FXML
     private void handleChooserbtn(ActionEvent event) {
-        // configureFileChooser(fileChooser);
         File tempFile = fileChooser.showOpenDialog(new Stage());
         if (tempFile != null) {
             this.file = tempFile;
@@ -44,15 +54,42 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
+    private void handleCancelbtn(ActionEvent event) {
+        if (thread != null && thread.isAlive()) {
+            thread.stop();
+            okBtn.setDisable(false);
+        }
+    }
+
+    @FXML
     private void handleOkbtn(ActionEvent event) throws IOException {
+
         if (file != null) {
-            String ext = file.getName().substring(file.getName().lastIndexOf("."));
-            if (ext.equals(".java")) {
-                String response = sendFileToHTTP(file.getPath());
-                createResponseFile(file.getParent() + "/feedback.txt", response);
-            } else if (ext.equals(".zip")) {
-                handleZipFile();
-            }
+            Runnable runnable = () -> {
+                String ext = file.getName().substring(file.getName().lastIndexOf("."));
+                if (ext.equals(".java")) {
+                    String response = sendFileToHTTP(file.getPath());
+                    try {
+                        createResponseFile(file.getParent() + "/feedback.txt", response);
+                    } catch (IOException ex) {
+                        System.out.println(ex.toString());
+                    }
+
+                } else if (ext.equals(".zip")) {
+                    try {
+                        handleZipFile();
+                    } catch (IOException ex) {
+                        System.out.println(ex.toString());
+                    }
+                }
+                okBtn.setDisable(false);
+
+            };
+            okBtn.setDisable(true);
+            thread = new Thread(runnable);
+            thread.setDaemon(true);
+            thread.start();
+
         } else {
             a.setContentText("Please choose a file");
             a.show();
@@ -87,10 +124,6 @@ public class FXMLDocumentController implements Initializable {
 
         String result = "";
 
-        int bytesRead, bytesAvailable, bufferSize;
-        byte[] buffer;
-        int maxBufferSize = 1 * 1024 * 1024;
-
         try {
             File filee = new File(filepath);
             FileInputStream fileInputStream = new FileInputStream(filee);
@@ -112,20 +145,6 @@ public class FXMLDocumentController implements Initializable {
             outputStream.writeBytes("Content-Disposition: form-data; name=\"" + filefield + "\"; filename=\"" + filepath + "\"" + lineEnd);
 
             outputStream.writeBytes(lineEnd);
-
-            bytesAvailable = fileInputStream.available();
-            bufferSize = Math.min(bytesAvailable, maxBufferSize);
-            buffer = new byte[bufferSize];
-
-            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-            while (bytesRead > 0) {
-                outputStream.write(buffer, 0, bufferSize);
-                bytesAvailable = fileInputStream.available();
-                bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-            }
-
-            outputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
 
             inputStream = connection.getInputStream();
             result = convertStreamToString(inputStream);
@@ -177,10 +196,6 @@ public class FXMLDocumentController implements Initializable {
                 // of directory pointed by maindir 
                 File arr[] = maindir.listFiles();
 
-                System.out.println("**********************************************");
-                System.out.println("Files from main directory : " + maindir);
-                System.out.println("**********************************************");
-
                 // Calling recursive method 
                 exploreFiles(arr, 0, 0);
             }
@@ -197,6 +212,7 @@ public class FXMLDocumentController implements Initializable {
 
         // for files 
         if (arr[index].isFile()) {
+            fileCounter++;
             String tempFilePath = arr[index].getPath();
             String response = sendFileToHTTP(tempFilePath);
             createResponseFile(arr[index].getParent() + "/feedback.txt", response);
@@ -224,13 +240,8 @@ public class FXMLDocumentController implements Initializable {
 
     public void createResponseFile(String filePath, String response) throws IOException {
         File file = new File(filePath);
-
-        //Create the file
-        if (file.createNewFile()) {
-            System.out.println("File is created!");
-        } else {
-            System.out.println("File already exists.");
-        }
+        file.createNewFile();
+        outputTextArea.appendText(filePath + "\n");
         //Write Content
         FileWriter writer = new FileWriter(file);
         writer.write(response);
