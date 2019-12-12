@@ -20,7 +20,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -123,10 +122,13 @@ public class FXMLDocumentController implements Initializable {
         String lineEnd = "\r\n";
 
         String result = "";
+        int bytesRead, bytesAvailable, bufferSize;
+        byte[] buffer;
+        int maxBufferSize = 1 * 1024 * 1024;
 
         try {
-            File filee = new File(filepath);
-            FileInputStream fileInputStream = new FileInputStream(filee);
+            File file = new File(filepath);
+            FileInputStream fileInputStream = new FileInputStream(file);
 
             URL url = new URL(urlTo);
             connection = (HttpURLConnection) url.openConnection();
@@ -143,8 +145,22 @@ public class FXMLDocumentController implements Initializable {
             outputStream = new DataOutputStream(connection.getOutputStream());
             outputStream.writeBytes(twoHyphens + boundary + lineEnd);
             outputStream.writeBytes("Content-Disposition: form-data; name=\"" + filefield + "\"; filename=\"" + filepath + "\"" + lineEnd);
-
+            outputStream.writeBytes("Content-Transfer-Encoding: binary" + lineEnd);
             outputStream.writeBytes(lineEnd);
+
+            bytesAvailable = fileInputStream.available();
+            bufferSize = Math.min(bytesAvailable, maxBufferSize);
+            buffer = new byte[bufferSize];
+
+            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+            while (bytesRead > 0) {
+                outputStream.write(buffer, 0, bufferSize);
+                bytesAvailable = fileInputStream.available();
+                bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+            }
+
+            outputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
 
             inputStream = connection.getInputStream();
             result = convertStreamToString(inputStream);
@@ -155,7 +171,6 @@ public class FXMLDocumentController implements Initializable {
             outputStream.close();
 
             return result;
-
         } catch (Exception e) {
             return e.toString();
         }

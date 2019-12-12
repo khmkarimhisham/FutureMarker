@@ -5,43 +5,47 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import org.json.simple.JSONObject;
-import com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTag;
-
 
 public class run {
 
     public static void main(String[] args) throws Exception {
-        String filePath = "C:\\Users\\khmka\\Desktop\\test.java";
-        new editText("C:\\Users\\khmka\\Desktop\\test.java");
-        
-        JavadocTag x= new JavadocTag(5, 6, filePath);
-
-        String output = "";
-        String line;
-        double count = 0;
+        String filePath = args[0];
+        double codeLineCount = linesCount(filePath);
         JSONObject result = new JSONObject();
 
-        try {
+        String indentationOutput = "";
+        String identifiersOutput = "";
 
+        double indentationCount = 0;
+        double idenftifersCount = 0;
+
+        try {
             Process process = Runtime.getRuntime().exec(
-                    "java -jar ./lib/checkstyle-8.26-all.jar -c /google_checks.xml " + filePath);
+                    "java -jar ./lib/checkstyle-8.26-all.jar -c google_checksindeni.xml " + filePath);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
 
             while ((line = reader.readLine()) != null) {
                 if (line.contains("[Indentation]") || line.contains("[CommentsIndentation]")) {
-                    output += line;
-                    count += 1;
+                    indentationOutput += line.substring(line.lastIndexOf("java:") + 5);
+                    indentationCount += 1;
+
+                } else if (line.contains("[AbbreviationAsWordInName]")) {
+                    identifiersOutput += line.substring(line.lastIndexOf("java:") + 5);
+                    idenftifersCount += 1;
                 }
             }
-            result.put("input", output);
-
+            result.put("Indentation output", indentationOutput);
+            result.put("Identifiers output", identifiersOutput);
         } catch (IOException e) {
             throw e;
         }
 
-        double grade = 1.0 - (count / linesCount(filePath));
-        result.put("Grade", grade);
+        double indentationGrade = 1.0 - (indentationCount / codeLineCount);
+        double identifiersGrade = 1.0 - (idenftifersCount / codeLineCount);
+        result.put("Indentation Grade", indentationGrade);
+        result.put("Identifiers Grade", identifiersGrade);
         System.out.println(result);
     }
 
@@ -54,11 +58,9 @@ public class run {
                 counter++;
             }
             reader.close();
-
         } catch (Exception e) {
             throw e;
         }
         return counter;
     }
-
 }

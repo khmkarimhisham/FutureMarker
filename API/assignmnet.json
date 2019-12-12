@@ -1,6 +1,13 @@
 {
-    "input":"",
-    "output":"",
-    "loop":"",
-    "condeition":""
+    "comments": true,
+    "indentation": true,
+    "testcode": true,
+    "input": "5",
+    "output": "The area of the pentagon is 59.44",
+    "model answer": "C:/Users/server/modelAnswer.java",
+    "loop": false,
+    "if statment": false,
+    "else if statment": false,
+    "switch": false,
+    "method": false
 }
