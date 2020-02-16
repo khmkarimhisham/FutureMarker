@@ -1,3 +1,13 @@
+
+<?php 
+session_start();
+require('db.php');
+// IF USER LOGGED IN
+if(isset($_SESSION['user_email'])){
+header('Location: home.php');
+exit;
+}
+?>
 <!DOCTYPE html>
 <html>
 
@@ -38,25 +48,26 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title text-center">Register</h5>
-                        <form class="form-signin">
+                        <form class="form-signin" method="post" action="insert_user.php">
                             <div class="form-label-group">
-                                <input type="text" id="inputfirstname" class="form-control" placeholder="Username" required autofocus>
+                                <input type="text" id="inputfirstname" class="form-control" placeholder="Username" name="firstname" required autofocus
+                                 >
                                 <label for="inputfirstname">First Name</label>
                             </div>
                              <div class="form-label-group">
-                                <input type="text" id="inputlastanme" class="form-control" placeholder="Username" required autofocus>
+                                <input type="text" id="inputlastanme" class="form-control" placeholder="Username"  name="lastname"required autofocus>
                                 <label for="inputlastname">Last Name</label>
                             </div>
 
                             <div class="form-label-group">
-                                <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
+                                <input type="email" id="inputEmail" class="form-control" placeholder="Email address" name="inst_email" required>
                                 <label for="inputEmail">Email address</label>
                             </div>
 
                             <hr>
 
                             <div class="form-label-group">
-                                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                                <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required>
                                 <label for="inputPassword">Password</label>
                             </div>
 
@@ -65,8 +76,8 @@
                                 <label for="inputConfirmPassword">Confirm password</label>
                             </div>
 
-                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Register</button>
-                            <a class="d-block text-center mt-2 small" href="login.html">Have A Account? Login</a>
+                            <button type="submit" class="btn btn-lg btn-primary btn-block text-uppercase">Register</button>
+                            <a class="d-block text-center mt-2 small" href="login.php">Have A Account? Login</a>
                             <hr class="my-4">
 
                         </form>

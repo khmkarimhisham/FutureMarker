@@ -1,3 +1,12 @@
+<?php 
+session_start();
+require('db.php');
+// IF USER LOGGED IN
+if(isset($_SESSION['user_email'])){
+header('Location: Home.php');
+exit;
+}
+?>
 <!DOCTYPE html>
 <html>
 
@@ -37,25 +46,36 @@
                         <!-- Background image for card set in CSS! -->
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title text-center">Log In</h5>
-                        <form class="form-signin">
-                           
+                        <h5 class="card-title text-center">Register</h5>
+                        <form class="form-signin" method="post" action="insert_user.php">
+                             <div class="form-label-group">
+                                <input type="text" id="inputfirstname" name="firstname" class="form-control" placeholder="Username" required autofocus>
+                                <label for="inputfirstname">First Name</label>
+                            </div>
+                             <div class="form-label-group">
+                                <input type="text" id="inputlastanme"  name="lastname" class="form-control" placeholder="Username" required autofocus>
+                                <label for="inputlastname">Last Name</label>
+                            </div>
 
                             <div class="form-label-group">
-                                <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
+                                <input type="email" id="inputEmail"  name="std_email" class="form-control" placeholder="Email address" required>
                                 <label for="inputEmail">Email address</label>
                             </div>
 
                             <hr>
 
                             <div class="form-label-group">
-                                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                                <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
                                 <label for="inputPassword">Password</label>
                             </div>
 
+                            <div class="form-label-group">
+                                <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Password" required>
+                                <label for="inputConfirmPassword">Confirm password</label>
+                            </div>
 
-                            <button class="btn btn-lg btn-primary btn-block " type="submit"onclick="window.location.href = 'Home.html';">Log In</button>
-                            <a class="d-block text-center mt-2 small" href="#">Forget Password ?</a>
+                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Register</button>
+                            <a class="d-block text-center mt-2 small" href="login.html">Have A Account? Login</a>
                             <hr class="my-4">
 
                         </form>

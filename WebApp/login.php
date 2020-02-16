@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Sign Up For Future Marker Account </title>
+    <title>Login For Future Marker Account </title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -14,11 +14,12 @@
 </head>
 
 <body>
+
     <!-- Navigation -->
     <div class="signupheader ">
         <nav class="navbar navbar-expand-sm navbar-custom">
             <div class="container">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="index.php">
                     <img class="navbar-brand" src="images/logo.png">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,36 +38,30 @@
                         <!-- Background image for card set in CSS! -->
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title text-center">Register</h5>
-                        <form class="form-signin">
-                             <div class="form-label-group">
-                                <input type="text" id="inputfirstname" class="form-control" placeholder="Username" required autofocus>
-                                <label for="inputfirstname">First Name</label>
-                            </div>
-                             <div class="form-label-group">
-                                <input type="text" id="inputlastanme" class="form-control" placeholder="Username" required autofocus>
-                                <label for="inputlastname">Last Name</label>
-                            </div>
+                        <h5 class="card-title text-center">Log In</h5>
+                        <form class="form-signin" method="post" action="checkUser.php">
+                           
 
                             <div class="form-label-group">
-                                <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
+                                <input type="email" id="user_email" name="user_email" class="form-control" placeholder="Email address" required>
                                 <label for="inputEmail">Email address</label>
                             </div>
 
                             <hr>
 
                             <div class="form-label-group">
-                                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                                <input type="password" id="user_password" name="user_password" class="form-control" placeholder="Password" required>
                                 <label for="inputPassword">Password</label>
                             </div>
-
                             <div class="form-label-group">
-                                <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Password" required>
-                                <label for="inputConfirmPassword">Confirm password</label>
-                            </div>
+                                <select name = "myList" class="form-control" >
+                                   <option value = "1">instructor</option>
+                                   <option value = "2">student</option>
 
-                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Register</button>
-                            <a class="d-block text-center mt-2 small" href="login.html">Have A Account? Login</a>
+                                </select>
+                            </div>
+                            <button class="btn btn-lg btn-primary btn-block " type="submit" >Log In</button>
+                            <a class="d-block text-center mt-2 small" href="#">Forget Password ?</a>
                             <hr class="my-4">
 
                         </form>

@@ -1,3 +1,4 @@
+
 <html>
 
 <head>
@@ -15,7 +16,7 @@
 
 <body style="background-color: f0f0f0">
     <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark homeheader">
-        <a class="navbar-brand" href="Home.html">
+        <a class="navbar-brand" href="index.php">
             <img class="navbar-brand" src="images/logo.png">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,7 +74,9 @@
                         <button type="button" class="btn btn-primary dropdown-toggle mydropbutton" data-toggle="dropdown">
                             <img src="http://www.bobmazzo.com/wp-content/uploads/2009/07/bobmazzoCD.jpg" width="30" height="30">
 
-                            anashassan299@outlook.com
+                            <?php
+                            $user_email;
+                            ?>
                         </button>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="Profile.html">Your Profile</a>
