@@ -1,7 +1,7 @@
 
 <?php 
 session_start();
-require('db.php');
+require('DB/db.php');
 // IF USER LOGGED IN
 if(isset($_SESSION['user_email'])){
 header('Location: home.php');
@@ -19,8 +19,8 @@ exit;
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src="index.js"></script>
+    <link rel="stylesheet" href="CSS/style.css">
+    <script type="text/javascript" src="JS/index.js"></script>
 </head>
 
 <body>
@@ -43,7 +43,7 @@ exit;
         <div class="row">
             <div class="col-lg-10 col-xl-9 mx-auto">
                 <div class="card card-signin flex-row my-5">
-                    <div class="card-img-left d-none d-md-flex">
+                    <div class="card-img-left d-none d-md-flex" style=" background-image: url('images/signup.jpg');">
                         <!-- Background image for card set in CSS! -->
                     </div>
                     <div class="card-body">

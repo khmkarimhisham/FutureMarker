@@ -142,7 +142,7 @@
 .mydrop .dropdown-menu {
     background-color: #230444;
     border-radius: 15px;
-    width: 280px;
+    width: auto;
 
 }
 

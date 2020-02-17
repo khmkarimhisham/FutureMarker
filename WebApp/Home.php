@@ -9,7 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link rel="stylesheet" href="content.css">
+    <link rel="stylesheet" href="CSS/content.css">
 
     <!------ Include the above in your HEAD tag ---------->
 </head>
@@ -69,14 +69,13 @@
                         </i>
                     </a>
                 </li>
-                <li>
+                <li >
+                    
                     <div class="dropdown mydrop">
                         <button type="button" class="btn btn-primary dropdown-toggle mydropbutton" data-toggle="dropdown">
                             <img src="http://www.bobmazzo.com/wp-content/uploads/2009/07/bobmazzoCD.jpg" width="30" height="30">
 
-                            <?php
-                            $user_email;
-                            ?>
+                        anashassan299@outlook.com
                         </button>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="Profile.html">Your Profile</a>

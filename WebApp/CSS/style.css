@@ -1,7 +1,7 @@
 .masthead {
     height: 100vh;
     min-height: 500px;
-    background-image: url('images/header.jpg');
+   
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -141,7 +141,7 @@
 .card-signin .card-img-left {
     width: 45%;
     /* Link to your background image using in the property below! */
-    background: scroll center url('images/signup.jpg');
+   
     background-size: cover;
 }
 

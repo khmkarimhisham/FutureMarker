@@ -1,5 +1,5 @@
 <?php
-require 'db.php';
+require 'DB/db.php';
 if(isset($_POST['user_email']) && isset($_POST['user_password'])){
     if($_POST['myList']=="1"){
     $email=$_POST['user_email'];

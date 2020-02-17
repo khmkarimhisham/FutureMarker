@@ -1,5 +1,5 @@
 <?php
-require_once 'db.php';
+require_once 'DB/db.php';
 if(isset($_POST['inst_email']))
 {
     $firstname=$_POST["firstname"];
