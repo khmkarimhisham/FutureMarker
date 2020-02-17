@@ -1,8 +1,7 @@
 <?php
 session_start();
-require('db.php');
-//require 'login.php';
-// IF USER LOGGED IN
+require('DB/db.php');
+
 if(isset($_SESSION['user_email'])){
 header('Location: home.php');
 exit;

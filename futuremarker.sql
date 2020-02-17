@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 15, 2020 at 07:23 PM
+-- Generation Time: Feb 17, 2020 at 10:59 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -101,6 +101,13 @@ CREATE TABLE `instructor` (
   `Instructor_image` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `instructor`
+--
+
+INSERT INTO `instructor` (`Instructor_ID`, `Instructor_firstname`, `Instructor_lastname`, `Instructor_Email`, `Instructor_password`, `Instructor_image`) VALUES
+(1, 'essam', 'eliwa', 'essameliwa@gmail.com', '123456789', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -147,6 +154,14 @@ CREATE TABLE `student` (
   `Student_password` varchar(50) DEFAULT NULL,
   `Student_image` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `student`
+--
+
+INSERT INTO `student` (`Student_ID`, `Student_firstname`, `Student_lastname`, `Student_Email`, `Student_password`, `Student_image`) VALUES
+(1, 'Karim', 'Hisham', 'khm.karimhisham@gmail.com', '123456789', NULL),
+(2, 'ahmed', 'hassan', 'ahmedhassan@gmail.com', '123456789', NULL);
 
 -- --------------------------------------------------------
 
@@ -230,6 +245,64 @@ ALTER TABLE `teaches`
   ADD PRIMARY KEY (`Teaches_ID`),
   ADD KEY `Instructor_ID` (`Instructor_ID`),
   ADD KEY `Course_ID` (`Course_ID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `assignment`
+--
+ALTER TABLE `assignment`
+  MODIFY `Assignment_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `course`
+--
+ALTER TABLE `course`
+  MODIFY `Course_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `doing_assignment`
+--
+ALTER TABLE `doing_assignment`
+  MODIFY `Doing_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `enrollment`
+--
+ALTER TABLE `enrollment`
+  MODIFY `Enrollment_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `instructor`
+--
+ALTER TABLE `instructor`
+  MODIFY `Instructor_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `message`
+--
+ALTER TABLE `message`
+  MODIFY `Message_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `notification`
+--
+ALTER TABLE `notification`
+  MODIFY `Notification_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `student`
+--
+ALTER TABLE `student`
+  MODIFY `Student_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `teaches`
+--
+ALTER TABLE `teaches`
+  MODIFY `Teaches_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables

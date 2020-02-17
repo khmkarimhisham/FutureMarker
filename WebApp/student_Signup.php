@@ -1,12 +1,7 @@
-<?php 
+<?php
 session_start();
-require('DB/db.php');
-// IF USER LOGGED IN
-if(isset($_SESSION['user_email'])){
-header('Location: Home.php');
-exit;
-}
 ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -48,17 +43,17 @@ exit;
                     <div class="card-body">
                         <h5 class="card-title text-center">Register</h5>
                         <form class="form-signin" method="post" action="insert_user.php">
-                             <div class="form-label-group">
+                            <div class="form-label-group">
                                 <input type="text" id="inputfirstname" name="firstname" class="form-control" placeholder="Username" required autofocus>
                                 <label for="inputfirstname">First Name</label>
                             </div>
-                             <div class="form-label-group">
-                                <input type="text" id="inputlastanme"  name="lastname" class="form-control" placeholder="Username" required autofocus>
+                            <div class="form-label-group">
+                                <input type="text" id="inputlastname" name="lastname" class="form-control" placeholder="Username" required>
                                 <label for="inputlastname">Last Name</label>
                             </div>
 
                             <div class="form-label-group">
-                                <input type="email" id="inputEmail"  name="std_email" class="form-control" placeholder="Email address" required>
+                                <input type="email" id="inputEmail" name="std_email" class="form-control" placeholder="Email address" required>
                                 <label for="inputEmail">Email address</label>
                             </div>
 
@@ -75,7 +70,7 @@ exit;
                             </div>
 
                             <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Register</button>
-                            <a class="d-block text-center mt-2 small" href="login.html">Have A Account? Login</a>
+                            <a class="d-block text-center mt-2 small" href="login.html">Have an account? Login</a>
                             <hr class="my-4">
 
                         </form>
@@ -85,6 +80,5 @@ exit;
         </div>
     </div>
 </body>
-
 
 </html>

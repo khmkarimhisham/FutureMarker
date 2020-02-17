@@ -1,3 +1,15 @@
+<?php
+
+session_start();
+
+// Check if the user is already logged in, if yes then redirect him to welcome page
+if (isset($_SESSION["user_email"])) {
+    header("location: Home.php");
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -40,7 +52,7 @@
                     <div class="card-body">
                         <h5 class="card-title text-center">Log In</h5>
                         <form class="form-signin" method="post" action="checkUser.php">
-                           
+
 
                             <div class="form-label-group">
                                 <input type="email" id="inputEmail" name="user_email" class="form-control" placeholder="Email address" required>
@@ -54,16 +66,15 @@
                                 <label for="inputPassword">Password</label>
                             </div>
                             <div class="form-label-group">
-                                <select name = "myList" class="form-control" >
-                                   <option value = "1">instructor</option>
-                                   <option value = "2">student</option>
+                                <select name="myList" class="form-control">
+                                    <option value="1">instructor</option>
+                                    <option value="2">student</option>
 
                                 </select>
                             </div>
-                            <button class="btn btn-lg btn-primary btn-block " type="submit" >Log In</button>
+                            <button class="btn btn-lg btn-primary btn-block " type="submit">Log In</button>
                             <a class="d-block text-center mt-2 small" href="#">Forget Password ?</a>
                             <hr class="my-4">
-
                         </form>
                     </div>
                 </div>
@@ -71,6 +82,5 @@
         </div>
     </div>
 </body>
-
 
 </html>
