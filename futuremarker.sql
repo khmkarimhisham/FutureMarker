@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 17, 2020 at 10:59 PM
+-- Generation Time: Feb 18, 2020 at 09:16 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -31,17 +31,17 @@ SET time_zone = "+00:00";
 CREATE TABLE `assignment` (
   `Assignment_ID` int(11) NOT NULL,
   `Course_ID` int(11) DEFAULT NULL,
-  `Assignment_Title` varchar(100) DEFAULT NULL,
+  `Assignment_title` varchar(100) DEFAULT NULL,
   `Assignment_desc_dir` varchar(250) DEFAULT NULL,
-  `Assignment_grade` int(11) DEFAULT NULL,
-  `Assignment_date` datetime DEFAULT NULL,
+  `Full_grade` int(11) DEFAULT NULL,
+  `Compilation_grade` int(11) DEFAULT NULL,
+  `Style_grade` int(11) DEFAULT NULL,
+  `Dynamic_test_grade` int(11) DEFAULT NULL,
+  `Feature_test_grade` int(11) DEFAULT NULL,
+  `Assignment_date` datetime DEFAULT current_timestamp(),
   `Assignment_deadline` datetime DEFAULT NULL,
   `Assignment_model_ans` varchar(250) DEFAULT NULL,
-  `Attachments_dir` varchar(250) DEFAULT NULL,
-  `inputs_dir` varchar(250) DEFAULT NULL,
-  `outputs_dir` varchar(250) DEFAULT NULL,
-  `Dynamic_testing_files` varchar(250) DEFAULT NULL,
-  `Feature_testing_file` varchar(250) DEFAULT NULL
+  `Attachments_dir` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -69,9 +69,27 @@ CREATE TABLE `doing_assignment` (
   `Doing_ID` int(11) NOT NULL,
   `Student_ID` int(11) DEFAULT NULL,
   `Assignment_ID` int(11) DEFAULT NULL,
-  `Assignment_grade` int(11) DEFAULT NULL,
+  `Compilation_grade` int(11) DEFAULT NULL,
+  `Style_grade` int(11) DEFAULT NULL,
+  `Dynamic_test_grade` int(11) DEFAULT NULL,
+  `Feature_test_grade` int(11) DEFAULT NULL,
   `Assignment_feedback` text DEFAULT NULL,
   `Assignment_alert` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dynamic_test`
+--
+
+CREATE TABLE `dynamic_test` (
+  `Test_ID` int(11) NOT NULL,
+  `Assignment_ID` int(11) DEFAULT NULL,
+  `Input` text DEFAULT NULL,
+  `output` text DEFAULT NULL,
+  `Test_Attachments` varchar(250) DEFAULT NULL,
+  `Hidden` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -89,6 +107,18 @@ CREATE TABLE `enrollment` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `feature_test`
+--
+
+CREATE TABLE `feature_test` (
+  `Test_ID` int(11) NOT NULL,
+  `Test_name` varchar(100) DEFAULT NULL,
+  `regex` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `instructor`
 --
 
@@ -96,17 +126,10 @@ CREATE TABLE `instructor` (
   `Instructor_ID` int(11) NOT NULL,
   `Instructor_firstname` varchar(20) DEFAULT NULL,
   `Instructor_lastname` varchar(20) DEFAULT NULL,
-  `Instructor_Email` varchar(100) DEFAULT NULL,
+  `Instructor_email` varchar(100) DEFAULT NULL,
   `Instructor_password` varchar(50) DEFAULT NULL,
   `Instructor_image` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `instructor`
---
-
-INSERT INTO `instructor` (`Instructor_ID`, `Instructor_firstname`, `Instructor_lastname`, `Instructor_Email`, `Instructor_password`, `Instructor_image`) VALUES
-(1, 'essam', 'eliwa', 'essameliwa@gmail.com', '123456789', NULL);
 
 -- --------------------------------------------------------
 
@@ -155,14 +178,6 @@ CREATE TABLE `student` (
   `Student_image` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `student`
---
-
-INSERT INTO `student` (`Student_ID`, `Student_firstname`, `Student_lastname`, `Student_Email`, `Student_password`, `Student_image`) VALUES
-(1, 'Karim', 'Hisham', 'khm.karimhisham@gmail.com', '123456789', NULL),
-(2, 'ahmed', 'hassan', 'ahmedhassan@gmail.com', '123456789', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -201,12 +216,25 @@ ALTER TABLE `doing_assignment`
   ADD KEY `Assignment_ID` (`Assignment_ID`);
 
 --
+-- Indexes for table `dynamic_test`
+--
+ALTER TABLE `dynamic_test`
+  ADD PRIMARY KEY (`Test_ID`),
+  ADD KEY `Assignment_ID` (`Assignment_ID`);
+
+--
 -- Indexes for table `enrollment`
 --
 ALTER TABLE `enrollment`
   ADD PRIMARY KEY (`Enrollment_ID`),
   ADD KEY `Course_ID` (`Course_ID`),
   ADD KEY `Student_ID` (`Student_ID`);
+
+--
+-- Indexes for table `feature_test`
+--
+ALTER TABLE `feature_test`
+  ADD PRIMARY KEY (`Test_ID`);
 
 --
 -- Indexes for table `instructor`
@@ -251,22 +279,10 @@ ALTER TABLE `teaches`
 --
 
 --
--- AUTO_INCREMENT for table `assignment`
---
-ALTER TABLE `assignment`
-  MODIFY `Assignment_ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `course`
 --
 ALTER TABLE `course`
   MODIFY `Course_ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `doing_assignment`
---
-ALTER TABLE `doing_assignment`
-  MODIFY `Doing_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `enrollment`
@@ -278,7 +294,7 @@ ALTER TABLE `enrollment`
 -- AUTO_INCREMENT for table `instructor`
 --
 ALTER TABLE `instructor`
-  MODIFY `Instructor_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Instructor_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `message`
@@ -296,7 +312,7 @@ ALTER TABLE `notification`
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `Student_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Student_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `teaches`
@@ -320,6 +336,12 @@ ALTER TABLE `assignment`
 ALTER TABLE `doing_assignment`
   ADD CONSTRAINT `doing_assignment_ibfk_1` FOREIGN KEY (`Student_ID`) REFERENCES `student` (`Student_ID`),
   ADD CONSTRAINT `doing_assignment_ibfk_2` FOREIGN KEY (`Assignment_ID`) REFERENCES `assignment` (`Assignment_ID`);
+
+--
+-- Constraints for table `dynamic_test`
+--
+ALTER TABLE `dynamic_test`
+  ADD CONSTRAINT `dynamic_test_ibfk_1` FOREIGN KEY (`Assignment_ID`) REFERENCES `assignment` (`Assignment_ID`);
 
 --
 -- Constraints for table `enrollment`
