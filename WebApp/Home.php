@@ -54,7 +54,7 @@ if (!isset($_SESSION['user_email'])) {
 
 
             </ul>
-            <ul class="navbar-nav ">
+            <ul class="navbar-nav navedit ">
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="fa fa-bell">
