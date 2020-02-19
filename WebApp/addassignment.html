@@ -43,10 +43,10 @@
                 <div class="card -row my-5">
                     <div class="card-body">
                         <h5 class="card-title text-center">Add Assignment</h5>
-                        <form class="form-signin">
+                        <form class="form-signin" method="post" enctype="multipart/form-data" action="upload.php">
                             <div class="container">
                                 <label for="deadline">Deadline</label>
-                                <input type="datetime-local" id="deadline" name="Deadline">
+                                <input type="datetime-local" id="deadline" name="Deadline" required>
 
 
                             </div>
@@ -55,7 +55,7 @@
 
                                 <div class="form-label-group">
                                     <input type="text" id="inputtitel" class="form-control" placeholder="Titel" required>
-                                    <label for="inputtitel">Titel</label>
+                                    <label for="inputtitel">Title</label>
                                 </div>
                             </div>
 
@@ -96,7 +96,7 @@
                             <div class="form-label-group">
                                 <input type="number" id="dynamicinput" class="form-control" placeholder="Dgree Of Dynamic Testing" required>
                                 <label for="dynamicinput">Dgree Of Dynamic Testing</label>
-                            </div>
+                                                            </div>
                               <div class="form-label-group">
                                 <input type="number" id="totalgrade" class="form-control" placeholder="Total Grade" required>
                                 <label for="totalgrade">Total Grade</label>
@@ -106,17 +106,17 @@
 
 
                                 <div class="form-group ">
-                                    <label for="exampleFormControlFile1">Upload File</label>
+                                    <label for="attach">Upload File</label>
 
-                                    <input type="file" class="form-control-file " id="exampleFormControlFile1">
+                                    <input type="file" class="form-control-file " id="file" name="file">
 
 
 
                                 </div>
                                 <div class="form-group ">
-                                    <label for="exampleFormControlFile2">Upload model answer</label>
+                                    <label for="attach_model">Upload model answer</label>
 
-                                    <input type="file" class="form-control-file " id="exampleFormControlFile2">
+                                    <input type="file" class="form-control-file " id="file2" name="file2">
 
 
 
@@ -125,6 +125,10 @@
                             <div class="container">
                                 <button type="button" class="btn btn-primary btn-lg " data-toggle="modal" data-target="#dynamictest">Dynamic Testing</button>
                                 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#featuretest">Feature Testing</button>
+                                 <hr class="my-3">
+                            <div class="text-right">
+                                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                            </div>
                                 <!--popup Dynamic test form-->
                                 <div class="modal fade bd-example-modal-lg" id="dynamictest" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
@@ -139,7 +143,7 @@
                                                 </div>
                                                 <div class="card-body text-left">
                                                     <h5 class="card-title text-center">Dynamic Testing</h5>
-                                                    <form class="form-signin">
+                                                    <form class="form-signin" >
                                                         <script type="text/javascript">
                                                             function addtoform() {
                                                                 document.getElementById("mylocation").innerHTML += "<div class='form-label-group'><input type='text' id='input2' class='form-control' placeholder='Input'><label for='input2'>Input</label></div><div class='form-label-group'><input type='text' id='output2' class='form-control' placeholder='Output'><label for='output2'>Output</label></div><hr>";
@@ -195,15 +199,10 @@
                                                 </div>
                                                 <div class="card-body text-left">
                                                     <h5 class="card-title text-center">Feature Testing</h5>
-                                                    <form class="form-signin">
+                                                    <form class="form-signin" >
                                                         <script type="text/javascript">
                                                             function addtoform2() {
                                                                 document.getElementById("mylocation2").innerHTML += "<div class='form-group'><label for='inputState'>Choose Type</label><select id='inputState' class='form-control'><option>if statment</option><option>if --else</option><option>elseif</option><option>switch</option><option>while</option></select></div><div class='form-group'> <label for='exampleFormControlTextarea1'>Regular Expretions</label><textarea class='form-control' id='exampleFormControlTextarea1' rows='3'></textarea></div><hr>";
-
-
-
-
-
 
 
                                                             }
@@ -242,14 +241,9 @@
                                 </div>
 
                             </div>
-                            <hr class="my-3">
-                            <div class="text-right">
-
-                                <button type="button" class="btn btn-primary">Submit</button>
-                            </div>
-
-
+                           
                         </form>
+
                     </div>
                 </div>
             </div>
