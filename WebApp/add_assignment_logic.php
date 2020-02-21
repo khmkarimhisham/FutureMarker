@@ -25,9 +25,9 @@ $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
 
 if(isset($_POST["submit"]) && !empty($_FILES["file"]["name"])){
     
-    if(isset($_POST['inputtitel'])){
-        $title=$_POST['inputtitel'];
-    } 
+    
+    $title=$_POST['inputtitle'];
+  
     if(isset($_POST['deadline'])){
         $deadline=$_POST['deadline'];
     }
@@ -56,20 +56,23 @@ if(isset($_POST["submit"]) && !empty($_FILES["file"]["name"])){
     // Allow certain file formats
     if(move_uploaded_file($_FILES["file"]["tmp_name"] , $targetFilePath)){
         // Insert image file name into database
-        $query="INSERT INTO `assignment` (`Assignment_title`,`Assignment_desc_dir`,
+        // $query="INSERT INTO `assignment` (`Assignment_title`,`Assignment_desc_dir`,
+        // `Full_grade`, `Compilation_grade`, `Style_grade`,`Dynamic_test_grade`,
+        //  `Feature_test_grade`,`Assignment_model_ans`, `Attachments_dir`)
+        //   VALUES ($title , $desc , $total_grade, $compile , $style , $deg_Dynamic ,
+        //    $deg_Feature , NULL, NULL);";
+        $insert = mysqli_query($db_connection,"INSERT INTO `assignment` (`Assignment_title`,`Assignment_desc_dir`,
         `Full_grade`, `Compilation_grade`, `Style_grade`,`Dynamic_test_grade`,
          `Feature_test_grade`,`Assignment_model_ans`, `Attachments_dir`)
-          VALUES ('$title' , $desc , $total_grade, $compile , $style , $deg_Dynamic ,
-           $deg_Feature , NULL, '$fileName');";
-        $insert = mysqli_query($db_connection,$query);
+          VALUES ('$title' , '$desc' , $total_grade, $compile , $style ,$deg_Dynamic ,
+           $deg_Feature , NULL, '$fileName');");
         if($insert){
             $statusMsg = "The file ".$fileName. " has been uploaded successfully.";
         }else{
             
             $statusMsg = "File upload failed, please try again.";
-            echo gettype($fileName);
+            echo gettype($total_grade);
             echo $fileName;
-            echo $deadline;
         } 
     }else{
         $statusMsg = "Sorry, there was an error uploading your file.";
