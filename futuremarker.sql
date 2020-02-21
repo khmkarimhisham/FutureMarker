@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 18, 2020 at 09:16 PM
+-- Generation Time: Feb 21, 2020 at 06:32 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -277,6 +277,12 @@ ALTER TABLE `teaches`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `assignment`
+--
+ALTER TABLE `assignment`
+  MODIFY `Assignment_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `course`
