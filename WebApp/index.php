@@ -2,9 +2,9 @@
 session_start();
 require('DB/db.php');
 
-if (isset($_SESSION['user_email'])) {
-    header('Location: home.php');
-    exit;
+if (isset($_SESSION['User_ID'])) {
+    header('Location: Home.php');
+   
 }
 ?>
 <!DOCTYPE html>
@@ -60,14 +60,14 @@ if (isset($_SESSION['user_email'])) {
                     <hr class="divider my-4">
                 </div>
                 <div class="col-lg-8 align-self-baseline">
-                    <button type="button" class=" headerbtn">Sign Up</button>
+                    <button type="button" class=" headerbtn">Join Us</button>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- Page Content -->
-    <div class="box">
+    <div class="box" style="background-image: url(images/515.jpg);">
         <div class="container">
             <div class="row">
 
@@ -161,6 +161,68 @@ if (isset($_SESSION['user_email'])) {
             <span class="carousel-control-next-icon"></span>
         </a>
     </div>
+    <!-- Page Content -->
+    <div class="box" style="background-image: url(images/section-background.png);">
+        <div class="container">
+            <div class="row">
+
+                <div class="col">
+
+                    <div class="box-part text-left">
+
+                        <p><img src="images/chat.png" style="width:96px; height:104px"></p>
+
+                        <h2>Easy and Fast Communication</h2>
+
+                        <p style="font-size:24px;line-height:1.25em;">Now the users don't have to wait untill seeing each others when they can communicate through online messenger </p>
+                        <a href="signup.php" class="btn btn-warning btn btn-lg">Sign up!</a>
+
+                    </div>
+                </div>
+
+                <div class="col">
+
+                    <div class="box-part text-right">
+
+                        <p><img src="images/comp.png" style="width:90%; height:80%"></p>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Page Content -->
+    <div class="box" style="background-image: url(images/639.jpg); background-size: cover;">
+        <div class="container">
+            <div class="row">
+
+                <div class="col">
+                    <h2 class="glow">Future Marker is multiplatform which can be used from smart phone and PC</h2>
+                    <div class="box-part text-center textstyle">
+
+                        
+                        <div class="row justify-content-center">
+                            <div class="col-4">
+                                 <p><img src="images/google.png" style="width:50%; height:50%"></p>
+                            </div>
+                            <div class="col-4" >
+                               <p><img src="images/apple.png" style="width:50%; height:50%"></p>
+                            </div>
+                        </div>
+                       
+                        
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
     <!-- Footer -->
     <footer class="page-footer font-small footerstyle">
 
@@ -174,10 +236,10 @@ if (isset($_SESSION['user_email'])) {
                 <div class="col-md-4 mx-auto">
 
                     <!-- Content -->
-                    <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Footer Content</h5>
-                    <p>Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit amet,
-                        consectetur
-                        adipisicing elit.</p>
+                    <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Future Marker</h5>
+                    <p>
+                        Future Marker is the first automated assessment for coding tasks in Future Academy which is developed by Computer science students
+                    </p>
 
                 </div>
                 <!-- Grid column -->
@@ -188,20 +250,20 @@ if (isset($_SESSION['user_email'])) {
                 <div class="col-md-2 mx-auto">
 
                     <!-- Links -->
-                    <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+                    <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Resourses</h5>
 
                     <ul class="list-unstyled">
                         <li>
-                            <a href="#!">Link 1</a>
+                            <a href="#!">Video</a>
                         </li>
                         <li>
-                            <a href="#!">Link 2</a>
+                            <a href="#!">Presentations</a>
                         </li>
                         <li>
-                            <a href="#!">Link 3</a>
+                            <a href="#!">Research</a>
                         </li>
                         <li>
-                            <a href="#!">Link 4</a>
+                            <a href="#!">Stories</a>
                         </li>
                     </ul>
 
@@ -214,21 +276,19 @@ if (isset($_SESSION['user_email'])) {
                 <div class="col-md-2 mx-auto">
 
                     <!-- Links -->
-                    <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+                    <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Connect</h5>
 
                     <ul class="list-unstyled">
                         <li>
-                            <a href="#!">Link 1</a>
+                            <a href="#!">Blog</a>
                         </li>
                         <li>
-                            <a href="#!">Link 2</a>
+                            <a href="#!">News&amp;Press</a>
                         </li>
                         <li>
-                            <a href="#!">Link 3</a>
+                            <a href="#!">Event</a>
                         </li>
-                        <li>
-                            <a href="#!">Link 4</a>
-                        </li>
+
                     </ul>
 
                 </div>
@@ -240,21 +300,14 @@ if (isset($_SESSION['user_email'])) {
                 <div class="col-md-2 mx-auto">
 
                     <!-- Links -->
-                    <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+                    <h5 class="font-weight-bold text-uppercase mt-3 mb-4">About</h5>
 
                     <ul class="list-unstyled">
                         <li>
-                            <a href="#!">Link 1</a>
+                            <a href="#!">Contact</a>
                         </li>
-                        <li>
-                            <a href="#!">Link 2</a>
-                        </li>
-                        <li>
-                            <a href="#!">Link 3</a>
-                        </li>
-                        <li>
-                            <a href="#!">Link 4</a>
-                        </li>
+
+
                     </ul>
 
                 </div>
@@ -269,21 +322,9 @@ if (isset($_SESSION['user_email'])) {
         <hr>
 
         <!-- Call to action -->
-        <ul class="list-unstyled list-inline text-center py-2">
-            <li class="list-inline-item">
-                <h5 class="mb-1">Register for free</h5>
-            </li>
-            <li class="list-inline-item">
-                <a href="#!" class="btn btn-danger btn-rounded">Sign up!</a>
-            </li>
-        </ul>
-        <!-- Call to action -->
-
-        <hr>
-
 
         <!-- Copyright -->
-        <div class="footer-copyright text-center py-3">© 2020 Copyright:
+        <div class="footer-copyright text-center py-3">© 2020 Future Marker Copyright
 
         </div>
         <!-- Copyright -->
