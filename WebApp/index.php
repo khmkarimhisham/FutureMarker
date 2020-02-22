@@ -2,9 +2,9 @@
 session_start();
 require('DB/db.php');
 
-if(isset($_SESSION['user_email'])){
-header('Location: home.php');
-exit;
+if (isset($_SESSION['user_email'])) {
+    header('Location: home.php');
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -39,26 +39,16 @@ exit;
                 </button>
                 <div class="navbar-collapse collapse" id="navbarCustom">
                     <ul class="navbar-nav ml-auto ">
-
                         <li class="nav-item">
                             <a class="nav-link" href="login.php">Log In</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Sign Up </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="instructor_Signup.php">Insrtuctor</a>
-                                <a class="dropdown-item" href="student_Signup.php">Student</a>
-
-                            </div>
+                        <li class="nav-item">
+                            <a class="nav-link" href="signup.php">Sign Up</a>
                         </li>
-
                     </ul>
                 </div>
             </div>
-
-
         </nav>
-
     </div>
 
     <!-- Full Page Image Header with Vertically Centered Content -->
@@ -301,4 +291,6 @@ exit;
     </footer>
     <!-- Footer -->
 
-</body></html>
+</body>
+
+</html>
