@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 22, 2020 at 08:02 AM
+-- Generation Time: Feb 22, 2020 at 12:25 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -41,6 +41,7 @@ CREATE TABLE `assignment` (
   `Assignment_date` datetime DEFAULT NULL,
   `Assignment_deadline` datetime DEFAULT NULL,
   `Assignment_model_ans` varchar(250) DEFAULT NULL,
+  `Assignment_ma_main` varchar(250) DEFAULT NULL,
   `Attachments_dir` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -82,6 +83,8 @@ CREATE TABLE `doing_assignment` (
   `Doing_ID` int(11) NOT NULL,
   `Student_ID` int(11) DEFAULT NULL,
   `Assignment_ID` int(11) DEFAULT NULL,
+  `Assignment_dir` varchar(250) DEFAULT NULL,
+  `Assignment_main` varchar(250) DEFAULT NULL,
   `Compilation_grade` int(11) DEFAULT NULL,
   `Style_grade` int(11) DEFAULT NULL,
   `Dynamic_test_grade` int(11) DEFAULT NULL,
