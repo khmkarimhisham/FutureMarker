@@ -1,3 +1,33 @@
+<?php
+
+session_start();
+require 'DB/db.php';
+if (!isset($_SESSION['User_ID'])) {
+    header("Location: login.php");
+}
+$User_ID = $_SESSION['User_ID'];
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $Course_name = $_POST["CourseName"];
+    $Course_desc = $_POST["CourseDescription"];
+    $Course_image = $_POST["CourseImage"];
+
+    $sql_stat = "INSERT INTO `course`( `Course_name`, `Course_desc`, `Course_image`) VALUES ('$Course_name','$Course_desc','$Course_image');";
+
+    if (mysqli_query($db_connection, $sql_stat)) {
+        $Course_ID = mysqli_insert_id($db_connection);
+        $query2 = mysqli_query($db_connection, "INSERT INTO `teaches`(`Instructor_ID`, `Course_ID`) VALUES ($User_ID,$Course_ID)");
+        if ($query2) {
+            header('Location: coursesinstructor.php');
+        }
+    } else {
+
+        echo "hhhhhhhh";
+        $error_message = $error_message . "There is a problem, Please try again later.\n";
+    }
+}
+
+?>
 <html>
 
 <head>
@@ -9,6 +39,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="CSS/content.css">
+
     <!------ Include the above in your HEAD tag ---------->
 </head>
 
@@ -20,39 +51,34 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
-
     </nav>
 
     <div class="box">
         <div class="container">
             <div class="row">
 
+                <?php
+$result = mysqli_query($db_connection, "SELECT `Course_ID`, `Course_name`, `Course_image` FROM `course` WHERE (SELECT `Course_ID` FROM `teaches` WHERE `Instructor_ID` = $User_ID);");
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        echo '
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <div class="box-part text-center">
+                                    <img src="' . $row['Course_image'] . '" width="160" height="160">
+                                    <div class="title">
+                                        <a href="couresbody.php?course_id=' . $row['Course_ID'] . '">
+                                            <h4>' . $row['Course_name'] . '</h4>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        ';
+    }
+}
 
+?>
 
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-
-                    <div class="box-part text-center">
-
-                        <img src="images/logo-2249282902_5d8718c251f32.png" width="120" height="120">
-
-                        <div class="title">
-                            <a href="couresbody.html">
-                                <h4>csc413 mobil programming</h4>
-                            </a>
-                        </div>
-
-                        <div class="text">
-                            <span>Future Academy - Higher Institute For Specialized Technological Studies</span>
-                        </div>
-
-                        <div class="title">
-                            <h4>fall 2020</h4>
-                        </div>
-
-                    </div>
-                </div>
-
+               </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 
                     <div class="box-part text-center">
@@ -62,7 +88,7 @@
                         <div class="title">
                             <div class="container">
                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form">
-                                    See Modal with Form
+                                    Create New Course
                                 </button>
                             </div>
 
@@ -70,25 +96,24 @@
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header border-bottom-0">
-                                            <h5 class="modal-title" id="exampleModalLabel">Create Account</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Create New Course</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form>
+                                        <form method="post">
                                             <div class="modal-body">
                                                 <div class="form-group">
-                                                    <label for="email1">Email address</label>
-                                                    <input type="email" class="form-control" id="email1" aria-describedby="emailHelp" placeholder="Enter email">
-                                                    <small id="emailHelp" class="form-text text-muted">Your information is safe with us.</small>
+                                                    <label for="CourseName">CourseName</label>
+                                                    <input type="text" class="form-control" name="CourseName" id="CourseName"  placeholder="Enter CourseName">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="password1">Password</label>
-                                                    <input type="password" class="form-control" id="password1" placeholder="Password">
+                                                    <label for="CourseDescription">Course Description</label>
+                                                    <input type="text" class="form-control" name="CourseDescription" id="CourseDescription" placeholder="Enter CourseDescription">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="password1">Confirm Password</label>
-                                                    <input type="password" class="form-control" id="password2" placeholder="Confirm Password">
+                                                    <label for="CourseImage">Course Image</label>
+                                                    <input type="file" class="form-control" name="CourseImage" id="CourseImage" placeholder="Image">
                                                 </div>
                                             </div>
                                             <div class="modal-footer border-top-0 d-flex justify-content-center">
@@ -102,17 +127,19 @@
 
                     </div>
                 </div>
-
-
-
-
             </div>
         </div>
     </div>
-
     <!-- Footer -->
-    <div class="footerstyle">
-        <p>©Future Marker 2020 Copyright</p>
-    </div>
-</body></html>
+    <footer class="page-footer font-small footerstyle">
+        <hr>
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">©Future Marker 2020 Copyright:
 
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+</body>
+
+</html>
