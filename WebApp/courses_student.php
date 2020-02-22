@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="row">
 
                 <?php
-                $result = mysqli_query($db_connection, "SELECT `Course_ID`, `Course_name`, `Course_image` FROM `course` WHERE (SELECT `Course_ID` FROM `enrollment` WHERE `Student_ID` = $User_ID);");
+                $result = mysqli_query($db_connection, "SELECT `Course_ID`, `Course_name`, `Course_image` FROM `course` WHERE `Course_ID` IN (SELECT `Course_ID` FROM `enrollment` WHERE `Student_ID` = $User_ID);");
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo '
