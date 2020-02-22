@@ -13,71 +13,52 @@ $total_grade=NULL;
 
 
 // File upload path
-$targetDir = "uploads/";
+$targetDir = "uploads/assignments/attachments"; 
 $fileName = basename($_FILES["file"]["name"]);
 $targetFilePath = $targetDir . $fileName;
 $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
 
-// $targetDir_model = "uploads/";
-// $fileName2 = basename($_FILES["file2"]["name"]);
-// $targetFilePath_model = $targetDir_model . $fileName2;
-// $fileType2 = pathinfo($targetFilePath_model,PATHINFO_EXTENSION);
+$targetDir_model = "uploads/assignments/model_answer";
+$fileName2 = basename($_FILES["file2"]["name"]);
+$targetFilePath_model = $targetDir_model . $fileName2;
+$fileType2 = pathinfo($targetFilePath_model,PATHINFO_EXTENSION);
 
-if(isset($_POST["submit"]) && !empty($_FILES["file"]["name"])){
-    
-    
+if(isset($_POST["submit"])){
     $title=$_POST['inputtitle'];
+    $deadline=date('Y-m-d H:i:s',strtotime($_POST['deadline']));
+    //$desc=$_POST['summernote'];
+    $compile=$_POST['compile'];
+    $style=$_POST['Styleofcode'];
+    $deg_Feature=$_POST['featureinput'];
+    $deg_Dynamic=$_POST['dynamicinput'];
+    $total_grade=$_POST['totalgrade'];
+    if(move_uploaded_file($_FILES["file"]["tmp_name"] , $targetFilePath) || move_uploaded_file($_FILES["file2"]["tmp_name"], $targetFilePath_model)){
   
-    if(isset($_POST['deadline'])){
-        $deadline=$_POST['deadline'];
-    }
-
-    if(isset($_POST['summernote'])){
-        $desc=$_POST['summernote'];
-    }
-    if(isset($_POST['compile'])){
-        $compile=$_POST['compile'];
-    }
-    if(isset($_POST['Styleofcode'])){
-        $style=$_POST['Styleofcode'];
-    }
-    if(isset($_POST['featureinput'])){
-        $deg_Feature=$_POST['featureinput'];
-    }
-    if(isset($_POST['dynamicinput'])){
-        $deg_Dynamic=$_POST['dynamicinput'];
-    }
-    if(isset($_POST['totalgrae'])){
-        $total_grade=$_POST['totalgrade'];
-    }
-    // if(empty($_FILES["file2"]["name"])){
-    //     $fileName2=NULL;
-    // }
-    // Allow certain file formats
-    if(move_uploaded_file($_FILES["file"]["tmp_name"] , $targetFilePath)){
-        // Insert image file name into database
-        // $query="INSERT INTO `assignment` (`Assignment_title`,`Assignment_desc_dir`,
-        // `Full_grade`, `Compilation_grade`, `Style_grade`,`Dynamic_test_grade`,
-        //  `Feature_test_grade`,`Assignment_model_ans`, `Attachments_dir`)
-        //   VALUES ($title , $desc , $total_grade, $compile , $style , $deg_Dynamic ,
-        //    $deg_Feature , NULL, NULL);";
-        $insert = mysqli_query($db_connection,"INSERT INTO `assignment` (`Assignment_title`,`Assignment_desc_dir`,
-        `Full_grade`, `Compilation_grade`, `Style_grade`,`Dynamic_test_grade`,
-         `Feature_test_grade`,`Assignment_model_ans`, `Attachments_dir`)
-          VALUES ('$title' , '$desc' , $total_grade, $compile , $style ,$deg_Dynamic ,
-           $deg_Feature , NULL, '$fileName');");
+        $insert = mysqli_query($db_connection,"INSERT INTO `assignment` (`Assignment_title`, `Assignment_desc_dir`,
+         `Full_grade`, `Compilation_grade`, `Style_grade`, `Dynamic_test_grade`, `Feature_test_grade`, `Assignment_date`,
+          `Assignment_deadline`, `Assignment_model_ans`, `Assignment_ma_main`, `Attachments_dir`)
+          VALUES ('$title' , '$desc' , $total_grade, $compile , $style , $deg_Dynamic ,
+           $deg_Feature,NOW(), '$deadline' , NULL,  '$fileName2', '$fileName');");
         if($insert){
             $statusMsg = "The file ".$fileName. " has been uploaded successfully.";
+            print_r($_POST);
         }else{
-            
             $statusMsg = "File upload failed, please try again.";
-            echo gettype($total_grade);
-            echo $fileName;
+        
         } 
     }else{
+        $insert = mysqli_query($db_connection,"INSERT INTO `assignment` (`Assignment_title`, `Assignment_desc_dir`,
+        `Full_grade`, `Compilation_grade`, `Style_grade`, `Dynamic_test_grade`, `Feature_test_grade`, `Assignment_date`,
+         `Assignment_deadline`, `Assignment_model_ans`, `Assignment_ma_main`, `Attachments_dir`)
+         VALUES ('$title' , '$desc' , $total_grade, $compile , $style , $deg_Dynamic ,
+          $deg_Feature,NOW(), '$deadline' , NULL, NULL, NULL);");
+           if($insert){
+               $statusMsg="upload without file  s";
+           }else{
         $statusMsg = "Sorry, there was an error uploading your file.";
+           }
     }
-    // if(move_uploaded_file($_FILES['file2']["tmp_name"], $targetFilePath_model)){
+    // if(move_uploaded_file($_FILES["file2"]["tmp_name"], $targetFilePath_model)){
     //     // Insert image file name into database
     //     $query="";
     //     $insert = mysqli_query($db_connection,$query);
