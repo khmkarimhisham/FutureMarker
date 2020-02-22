@@ -26,7 +26,8 @@ $fileType2 = pathinfo($targetFilePath_model,PATHINFO_EXTENSION);
 if(isset($_POST["submit"])){
     $title=$_POST['inputtitle'];
     $deadline=date('Y-m-d H:i:s',strtotime($_POST['deadline']));
-    //$desc=$_POST['summernote'];
+    $desc=$_POST['summernote'];
+    $desc=strip_tags($desc);
     $compile=$_POST['compile'];
     $style=$_POST['Styleofcode'];
     $deg_Feature=$_POST['featureinput'];
@@ -38,10 +39,9 @@ if(isset($_POST["submit"])){
          `Full_grade`, `Compilation_grade`, `Style_grade`, `Dynamic_test_grade`, `Feature_test_grade`, `Assignment_date`,
           `Assignment_deadline`, `Assignment_model_ans`, `Assignment_ma_main`, `Attachments_dir`)
           VALUES ('$title' , '$desc' , $total_grade, $compile , $style , $deg_Dynamic ,
-           $deg_Feature,NOW(), '$deadline' , NULL,  '$fileName2', '$fileName');");
+           $deg_Feature,NOW(), '$deadline' ,'$fileName2', NULL  , '$fileName');");
         if($insert){
             $statusMsg = "The file ".$fileName. " has been uploaded successfully.";
-            print_r($_POST);
         }else{
             $statusMsg = "File upload failed, please try again.";
         
