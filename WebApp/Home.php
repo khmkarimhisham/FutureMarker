@@ -1,9 +1,8 @@
 <?php
 
-
 session_start();
 
-if (!isset($_SESSION['user_email'])) {
+if (!isset($_SESSION['User_ID'])) {
     header("Location: login.php");
 }
 ?>
@@ -77,13 +76,13 @@ if (!isset($_SESSION['user_email'])) {
                         </i>
                     </a>
                 </li>
-                <li >
-                    
+                <li>
+
                     <div class="dropdown mydrop">
                         <button type="button" class="btn btn-primary dropdown-toggle mydropbutton" data-toggle="dropdown">
                             <img src="http://www.bobmazzo.com/wp-content/uploads/2009/07/bobmazzoCD.jpg" width="30" height="30">
 
-                        anashassan299@outlook.com
+                            anashassan299@outlook.com
                         </button>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="Profile.html">Your Profile</a>
@@ -93,10 +92,7 @@ if (!isset($_SESSION['user_email'])) {
                         </div>
                     </div>
                 </li>
-
             </ul>
-
-
         </div>
     </nav>
     <div class="container">
@@ -168,7 +164,6 @@ if (!isset($_SESSION['user_email'])) {
                             </div>
                             <div class="diveditfirst">
                                 Ghost Stories was a U.S. pulp magazine that published 64 issues between 1926 and 1932. It was one of the earliest competitors to Weird Tales, the first magazine to specialize in the fantasy and occult fiction genre. Ghost Stories was a companion magazine to True Story and True Detective Stories, and focused almost entirely on stories about ghosts, many of which were written by staff writers but presented under pseudonyms as true confessions. These were often accompanied by faked photographs to make the stories appear more believable. Ghost Stories also ran original and reprinted contributions, including works by Robert E. Howard, Carl Jacobi, and Frank Belknap Long. Among the reprints were Agatha Christie's "The Last Seance" (under the title "The Woman Who Stole a Ghost"), several stories by H. G. Wells, and Charles Dickens's "The Signal-Man". The magazine was initially successful, but had begun to lose readers by 1930, and ceased publication at the start of 1932.
-
 
                                 <hr class="my-2">
                                 <div class="row bootstrap snippets">
@@ -258,4 +253,6 @@ if (!isset($_SESSION['user_email'])) {
     </footer>
     <!-- Footer -->
 
-</body></html>
+</body>
+
+</html>

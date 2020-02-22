@@ -1,13 +1,25 @@
 <?php
+require_once 'DB/db.php';
 
 session_start();
 
 // Check if the user is already logged in, if yes then redirect him to welcome page
-if (isset($_SESSION["user_email"])) {
+if (isset($_SESSION["User_ID"])) {
     header("location: Home.php");
-    exit;
 }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['inputEmail'];
+    $password = $_POST['inputPassword'];
+    $query = mysqli_query($db_connection, "SELECT * FROM `user` WHERE `Email`='$email' AND `Password` = '$password';");
+    $row = mysqli_fetch_assoc($query);
+    if (isset($row)) {
+        $_SESSION['User_ID'] = $row['User_ID'];
+        header('Location: Home.php');
+    } else {
+        echo 'failure';
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -51,26 +63,19 @@ if (isset($_SESSION["user_email"])) {
                     </div>
                     <div class="card-body">
                         <h5 class="card-title text-center">Log In</h5>
-                        <form class="form-signin" method="post" action="checkUser.php">
+                        <form class="form-signin" method="post">
 
 
                             <div class="form-label-group">
-                                <input type="email" id="inputEmail" name="user_email" class="form-control" placeholder="Email address" required>
+                                <input type="email" id="inputEmail" name="inputEmail" class="form-control" placeholder="Email address" required>
                                 <label for="inputEmail">Email address</label>
                             </div>
 
                             <hr>
 
                             <div class="form-label-group">
-                                <input type="password" id="inputPassword" name="user_password" class="form-control" placeholder="Password" required>
+                                <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required>
                                 <label for="inputPassword">Password</label>
-                            </div>
-                            <div class="form-label-group">
-                                <select name="myList" class="form-control">
-                                    <option value="1">instructor</option>
-                                    <option value="2">student</option>
-
-                                </select>
                             </div>
                             <button class="btn btn-lg btn-primary btn-block " type="submit">Log In</button>
                             <a class="d-block text-center mt-2 small" href="#">Forget Password ?</a>
