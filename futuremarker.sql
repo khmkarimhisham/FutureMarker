@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 22, 2020 at 12:25 PM
+-- Generation Time: Feb 23, 2020 at 10:07 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -38,7 +38,7 @@ CREATE TABLE `assignment` (
   `Style_grade` int(11) DEFAULT NULL,
   `Dynamic_test_grade` int(11) DEFAULT NULL,
   `Feature_test_grade` int(11) DEFAULT NULL,
-  `Assignment_date` datetime DEFAULT NULL,
+  `Assignment_date` datetime DEFAULT current_timestamp(),
   `Assignment_deadline` datetime DEFAULT NULL,
   `Assignment_model_ans` varchar(250) DEFAULT NULL,
   `Assignment_ma_main` varchar(250) DEFAULT NULL,
@@ -72,6 +72,13 @@ CREATE TABLE `course` (
   `Course_image` varchar(250) DEFAULT NULL,
   `Course_material_dir` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `course`
+--
+
+INSERT INTO `course` (`Course_ID`, `Course_access_code`, `Course_name`, `Course_desc`, `Course_image`, `Course_material_dir`) VALUES
+(1, 'klklksalkdkla', 'datastr', 'mama 7lwa', NULL, 'firstsem');
 
 -- --------------------------------------------------------
 
@@ -128,6 +135,7 @@ CREATE TABLE `enrollment` (
 
 CREATE TABLE `feature_test` (
   `Test_ID` int(11) NOT NULL,
+  `Assignment_ID` int(11) DEFAULT NULL,
   `Test_name` varchar(100) DEFAULT NULL,
   `regex` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -291,7 +299,8 @@ ALTER TABLE `enrollment`
 -- Indexes for table `feature_test`
 --
 ALTER TABLE `feature_test`
-  ADD PRIMARY KEY (`Test_ID`);
+  ADD PRIMARY KEY (`Test_ID`),
+  ADD KEY `Assignment_ID` (`Assignment_ID`);
 
 --
 -- Indexes for table `instructor`
@@ -371,7 +380,7 @@ ALTER TABLE `comment`
 -- AUTO_INCREMENT for table `course`
 --
 ALTER TABLE `course`
-  MODIFY `Course_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Course_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `doing_assignment`
@@ -468,6 +477,12 @@ ALTER TABLE `dynamic_test`
 ALTER TABLE `enrollment`
   ADD CONSTRAINT `enrollment_ibfk_1` FOREIGN KEY (`Course_ID`) REFERENCES `course` (`Course_ID`),
   ADD CONSTRAINT `enrollment_ibfk_2` FOREIGN KEY (`Student_ID`) REFERENCES `student` (`Student_ID`);
+
+--
+-- Constraints for table `feature_test`
+--
+ALTER TABLE `feature_test`
+  ADD CONSTRAINT `feature_test_ibfk_1` FOREIGN KEY (`Assignment_ID`) REFERENCES `assignment` (`Assignment_ID`);
 
 --
 -- Constraints for table `instructor`
