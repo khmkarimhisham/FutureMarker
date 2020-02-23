@@ -12,16 +12,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["inputPassword"];
     $confirm_password = $_POST["inputConfirmPassword"];
     if ($password != $confirm_password) {
-        $error_message = $error_message . "Password did not match.\n";
+        $error_message = $error_message . "• Password did not match.<br>";
     }
     $sql_stat = "SELECT `Email` FROM `user` WHERE `Email` = '$email';";
     $query = mysqli_query($db_connection, $sql_stat);
 
     if ($query->num_rows > 0) {
-        $error_message = $error_message . "Email is already exist.\n";
+        $error_message = $error_message . "• Email is already exist.<br>";
     }
     if (empty($error_message)) {
-        $query = mysqli_query($db_connection, "INSERT INTO `user`(`Email`, `Password`) VALUES ('$email','$password');");
+        $query = mysqli_query($db_connection, "INSERT INTO `user`(`Email`, `Password`, `User_ID`) VALUES ('$email','$password', '$user_type');");
         if ($query) {
             $result = mysqli_query($db_connection, "SELECT `User_ID` FROM `user` WHERE `Email` = '$email'");
             if ($result->num_rows > 0) {
@@ -32,12 +32,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $query2 = mysqli_query($db_connection, "INSERT INTO `student`(`Student_ID`, `Student_firstname`, `Student_lastname`, `Student_email`) VALUES ('$id','$firstname','$lastname','$email');");
                 }
                 if (!$query2) {
-                    $error_message = $error_message . "There is a problem, Please try again later.\n";
+                    $error_message = $error_message . "• There is a problem, Please try again later.<br>";
                 }
             }
             header('Location: login.php');
         } else {
-            $error_message = $error_message . "There is a problem, Please try again later.\n";
+            $error_message = $error_message . "• There is a problem, Please try again later.<br>";
         }
     }
 }
@@ -86,33 +86,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <h5 class="card-title text-center">Register</h5>
                         <form class="form-signin" method="post">
                             <div class="form-label-group">
-                                <select name="user_type" class="form-control">
+                                <select id="user_type" name="user_type" class="form-control">
                                     <option value="instructor">instructor</option>
                                     <option value="student">student</option>
                                 </select>
+                                <script type="text/javascript">
+                                    document.getElementById('user_type').value = "<?php echo isset($_POST['user_type']) ? $_POST['user_type'] : 'instructor' ?>";
+                                </script>
                             </div>
                             <div class="form-label-group">
-                                <input type="text" id="inputfirstname" name="inputfirstname" class="form-control" placeholder="Username" required autofocus>
+                                <input type="text" id="inputfirstname" name="inputfirstname" value="<?php echo isset($_POST['inputfirstname']) ? $_POST['inputfirstname'] : '' ?>" class="form-control" placeholder="Username" required autofocus>
                                 <label for="inputfirstname">First Name</label>
                             </div>
                             <div class="form-label-group">
-                                <input type="text" id="inputlastname" name="inputlastname" class="form-control" placeholder="Username" required>
+                                <input type="text" id="inputlastname" name="inputlastname" value="<?php echo isset($_POST['inputlastname']) ? $_POST['inputlastname'] : '' ?>" class="form-control" placeholder="Username" required>
                                 <label for="inputlastname">Last Name</label>
                             </div>
                             <div class="form-label-group">
-                                <input type="email" id="inputEmail" name="inputEmail" class="form-control" placeholder="Email address" required>
+                                <input type="email" id="inputEmail" name="inputEmail" value="<?php echo isset($_POST['inputEmail']) ? $_POST['inputEmail'] : '' ?>" class="form-control" placeholder="Email address" required>
                                 <label for="inputEmail">Email address</label>
                             </div>
                             <hr>
                             <div class="form-label-group">
-                                <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required>
+                                <input type="password" id="inputPassword" name="inputPassword" value="<?php echo isset($_POST['inputPassword']) ? $_POST['inputPassword'] : '' ?>" class="form-control" placeholder="Password" required>
                                 <label for="inputPassword">Password</label>
                             </div>
                             <div class="form-label-group">
-                                <input type="password" id="inputConfirmPassword" name="inputConfirmPassword" class="form-control" placeholder="Password" required>
+                                <input type="password" id="inputConfirmPassword" name="inputConfirmPassword" value="<?php echo isset($_POST['inputConfirmPassword']) ? $_POST['inputConfirmPassword'] : '' ?>" class="form-control" placeholder="Password" required>
                                 <label for="inputConfirmPassword">Confirm password</label>
                             </div>
-                            <?php echo '<span class="text-danger">' . $error_message . '</span>'; ?>
+                            <?php
+                            if (!empty($error_message)) {
+                                echo '<div class="alert alert alert-danger alert-dismissible fade show" role="alert">'
+                                    .  $error_message .
+                                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>';
+                            }
+                            ?>
                             <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Register</button>
                             <a class="d-block text-center mt-2 small" href="login.html">Have an account? Login</a>
                             <hr class="my-4">

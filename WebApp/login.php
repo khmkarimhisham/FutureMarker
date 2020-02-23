@@ -2,8 +2,7 @@
 require_once 'DB/db.php';
 
 session_start();
-
-// Check if the user is already logged in, if yes then redirect him to welcome page
+$error_message = "";
 if (isset($_SESSION["User_ID"])) {
     header("location: Home.php");
 }
@@ -15,11 +14,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $row = mysqli_fetch_assoc($query);
     if (isset($row)) {
         $_SESSION['User_ID'] = $row['User_ID'];
-        $_SESSION['User_type'] = $row['User_type']; ;
+        $_SESSION['User_type'] = $row['User_type'];;
         $_SESSION['User_email'] = $email;
         header('Location: Home.php');
     } else {
-        echo 'failure';
+        $error_message = "• Invalid Username or Password.";
     }
 }
 ?>
@@ -79,6 +78,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required>
                                 <label for="inputPassword">Password</label>
                             </div>
+
+                            <?php
+                            if (!empty($error_message)) {
+                                echo '<div class="alert alert alert-danger alert-dismissible fade show" role="alert">'
+                                    .  $error_message .
+                                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>';
+                            }
+                            ?>
                             <button class="btn btn-lg btn-primary btn-block " type="submit">Log In</button>
                             <a class="d-block text-center mt-2 small" href="#">Forget Password ?</a>
                             <hr class="my-4">
