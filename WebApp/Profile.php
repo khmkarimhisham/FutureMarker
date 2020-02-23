@@ -2,35 +2,48 @@
 
 session_start();
 require 'DB/db.php';
-if (!isset($_SESSION['User_ID'])) {
-    header("Location: login.php");
-}
-$email=$_SESSION['User_email'];
+$email = $_SESSION['User_email'];
 
 $User_ID = $_SESSION['User_ID'];
 $error_message = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-if($_SESSION['User_type']=="instructor"){
-    $sql="SELECT * FROM `instructor` WHERE `Instructor_ID`= $User_ID";
-    $res=mysqli_query($db_connection,$sql);
-    $row=mysqli_fetch_assoc($res);
-   // print_r($row);
-    if($res){
-        $bio=$row['Instructor_bio'];
-        $Phone=$row['Instructor_phone'];
-        $firstN=$row['Instructor_firstname'];
-        $lastN=$row['Instructor_lastname'];
+    $bio = $_POST["bio"];
+    $phone = $_POST["phone"];
+    if ($_SESSION['User_type'] == "instructor") {
+        $query = "UPDATE `instructor`SET `Instructor_bio`='$bio',`Instructor_phone`='$phone' WHERE  `Instructor_ID`= $User_ID";
+        $query2 = mysqli_query($db_connection, $query);
+    } else {
+        $query = "UPDATE `student`SET `Student_bio`='$bio',`Student_phone`='$phone' WHERE  `Student_ID`= $User_ID";
+        $query2 = mysqli_query($db_connection, $query);
     }
-   }else{
-    $sql="SELECT * FROM `student` WHERE `Student_ID`= $User_ID";
-    $res=mysqli_query($db_connection,$sql);
-    $row=mysqli_fetch_assoc($res);
+}
+if (!isset($_SESSION['User_ID'])) {
+    header("Location: login.php");
+}
+
+
+if ($_SESSION['User_type'] == "instructor") {
+    $sql = "SELECT * FROM `instructor` WHERE `Instructor_ID`= $User_ID";
+    $res = mysqli_query($db_connection, $sql);
+    $row = mysqli_fetch_assoc($res);
+    // print_r($row);
+    if ($res) {
+        $bio = $row['Instructor_bio'];
+        $Phone = $row['Instructor_phone'];
+        $firstN = $row['Instructor_firstname'];
+        $lastN = $row['Instructor_lastname'];
+    }
+} else {
+    $sql = "SELECT * FROM `student` WHERE `Student_ID`= $User_ID";
+    $res = mysqli_query($db_connection, $sql);
+    $row = mysqli_fetch_assoc($res);
     print_r($row);
-    if($res){
-        $bio=$row['Student_bio'];
-        $Phone=$row['Student_phone'];
-        $firstN=$row['Student_firstname'];
-        $lastN=$row['Student_lastname'];
+    if ($res) {
+        $bio = $row['Student_bio'];
+        $Phone = $row['Student_phone'];
+        $firstN = $row['Student_firstname'];
+        $lastN = $row['Student_lastname'];
     }
 }
 
@@ -146,33 +159,67 @@ if($_SESSION['User_type']=="instructor"){
                     <hr class="my-1">
                     <?php
 
-                        $query=mysqli_query($db_connection,"SELECT course.Course_ID, course.Course_name, course.Course_image FROM `Course` JOIN `teaches` ON teaches.Course_ID = course.Course_ID WHERE teaches.Instructor_ID = $User_ID");
-                        if (mysqli_num_rows($query) > 0) {
-                            while($row = mysqli_fetch_assoc($query)) {
+                    $query = mysqli_query($db_connection, "SELECT course.Course_ID, course.Course_name, course.Course_image FROM `Course` JOIN `teaches` ON teaches.Course_ID = course.Course_ID WHERE teaches.Instructor_ID = $User_ID");
+                    if (mysqli_num_rows($query) > 0) {
+                        while ($row = mysqli_fetch_assoc($query)) {
 
-                                echo '
+                            echo '
                                         <div>
-                                            <img src="'.$row['Course_image'].'" width="40" height="40">
-                                            <a href="course_content.php?course_id='.$row['Course_ID'].'">'.$row['Course_name'].'</a>
+                                            <img src="' . $row['Course_image'] . '" width="40" height="40">
+                                            <a href="course_content.php?course_id=' . $row['Course_ID'] . '">' . $row['Course_name'] . '</a>
                                         </div>
                                         <hr class="my-1">';
-                            }
-
                         }
+                    }
                     ?>
-   
+
                 </div>
             </div>
         </div>
         <div class="col-12 col-md-6">
-            <div class="card -row ">
+            <div class="card -row my-5">
                 <div class="card-body">
-                    <div> <label style="font-size: 18"><?php echo $firstN." ".$lastN.$email; ?> </label></div>
-                    <div><span>my school :</span><label style="font-size: 18"></label></div>
+                    <div class="container text-right">
+                        <a href="#" data-toggle="modal" data-target="#editForm">
+                            <label class="profilelebal">Edit Profile</label>
+                        </a>
+                    </div>
+
+                    <div class="modal fade" id="editForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header border-bottom-0">
+                                    <h5 class="modal-title" id="exampleModalLabel">Update Profile</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form method="post" enctype="multipart/form-data">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="bio">Bio</label>
+                                            <input type="text" class="form-control" name="bio" id="bio" placeholder="Enter Bio">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="phone">Phone</label>
+                                            <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter your phone number">
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer border-top-0 d-flex justify-content-center">
+                                        <button type="submit" class="btn btn-success">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div> <label style="font-size: 18"><?php echo $firstN . " " . $lastN . $email; ?> </label></div>
+
                     <hr>
                     <label class="profilelebal">About Me</label>
                     <hr class="my-1">
-                    <div><span>Name:</span><label class="profilelebal"><?php echo $firstN." ".$lastN; ?> </label></div>
+                    <div><span>Name:</span><label class="profilelebal"><?php echo $firstN . " " . $lastN; ?> </label></div>
                     <hr class="my-1">
                     <div><span>Bio:</span><label class="profilelebal"><?php echo $bio; ?></label></div>
                     <hr class="my-4">
