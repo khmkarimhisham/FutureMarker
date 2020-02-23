@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2020 at 10:07 AM
+-- Generation Time: Feb 23, 2020 at 01:17 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -143,6 +143,18 @@ CREATE TABLE `feature_test` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `feature_test_temp`
+--
+
+CREATE TABLE `feature_test_temp` (
+  `Test_ID` int(11) NOT NULL,
+  `Test_name` varchar(100) DEFAULT NULL,
+  `regex` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `instructor`
 --
 
@@ -151,7 +163,9 @@ CREATE TABLE `instructor` (
   `Instructor_firstname` varchar(20) DEFAULT NULL,
   `Instructor_lastname` varchar(20) DEFAULT NULL,
   `Instructor_email` varchar(100) DEFAULT NULL,
-  `Instructor_image` varchar(250) DEFAULT NULL
+  `Instructor_image` varchar(250) DEFAULT NULL,
+  `Instructor_bio` text DEFAULT NULL,
+  `Instructor_phone` varchar(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -221,7 +235,9 @@ CREATE TABLE `student` (
   `Student_firstname` varchar(20) DEFAULT NULL,
   `Student_lastname` varchar(20) DEFAULT NULL,
   `Student_Email` varchar(100) DEFAULT NULL,
-  `Student_image` varchar(250) DEFAULT NULL
+  `Student_image` varchar(250) DEFAULT NULL,
+  `Student_bio` text DEFAULT NULL,
+  `Student_phone` varchar(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -245,7 +261,8 @@ CREATE TABLE `teaches` (
 CREATE TABLE `user` (
   `User_ID` int(11) NOT NULL,
   `Email` varchar(100) NOT NULL,
-  `Password` varchar(50) NOT NULL
+  `Password` varchar(50) NOT NULL,
+  `User_type` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -301,6 +318,12 @@ ALTER TABLE `enrollment`
 ALTER TABLE `feature_test`
   ADD PRIMARY KEY (`Test_ID`),
   ADD KEY `Assignment_ID` (`Assignment_ID`);
+
+--
+-- Indexes for table `feature_test_temp`
+--
+ALTER TABLE `feature_test_temp`
+  ADD PRIMARY KEY (`Test_ID`);
 
 --
 -- Indexes for table `instructor`
@@ -404,6 +427,12 @@ ALTER TABLE `enrollment`
 -- AUTO_INCREMENT for table `feature_test`
 --
 ALTER TABLE `feature_test`
+  MODIFY `Test_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `feature_test_temp`
+--
+ALTER TABLE `feature_test_temp`
   MODIFY `Test_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --

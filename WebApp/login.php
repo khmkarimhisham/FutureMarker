@@ -15,6 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $row = mysqli_fetch_assoc($query);
     if (isset($row)) {
         $_SESSION['User_ID'] = $row['User_ID'];
+        $_SESSION['User_type'] = $row['User_type']; ;
+        $_SESSION['User_email'] = $email;
         header('Location: Home.php');
     } else {
         echo 'failure';
