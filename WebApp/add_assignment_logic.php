@@ -27,20 +27,32 @@ if(isset($_POST["submit"])){
     $title=$_POST['inputtitle'];
     $deadline=date('Y-m-d H:i:s',strtotime($_POST['deadline']));
     $desc=$_POST['summernote'];
-    $desc=strip_tags($desc);
+    //$desc=strip_tags($desc);
     $compile=$_POST['compile'];
     $style=$_POST['Styleofcode'];
     $deg_Feature=$_POST['featureinput'];
     $deg_Dynamic=$_POST['dynamicinput'];
     $total_grade=$_POST['totalgrade'];
+    do {
+        $newName = rand() . '.doc';
+        $target_file ="uploads/assignments/description/$newName";
+    } while (file_exists($target_file));
+   file_put_contents($target_file,$desc);
+
+    if(isset($_POST['input1'])){
+        
+    }
     if(move_uploaded_file($_FILES["file"]["tmp_name"] , $targetFilePath) || move_uploaded_file($_FILES["file2"]["tmp_name"], $targetFilePath_model)){
-  
+        
         $insert = mysqli_query($db_connection,"INSERT INTO `assignment` (`Assignment_title`, `Assignment_desc_dir`,
-         `Full_grade`, `Compilation_grade`, `Style_grade`, `Dynamic_test_grade`, `Feature_test_grade`, `Assignment_date`,
+         `Full_grade`, `Compilation_grade`, `Style_grade`, `Dynamic_test_grade`, `Feature_test_grade`,
           `Assignment_deadline`, `Assignment_model_ans`, `Assignment_ma_main`, `Attachments_dir`)
-          VALUES ('$title' , '$desc' , $total_grade, $compile , $style , $deg_Dynamic ,
-           $deg_Feature,NOW(), '$deadline' ,'$fileName2', NULL  , '$fileName');");
+          VALUES ('$title' , '$newName' , $total_grade, $compile , $style , $deg_Dynamic ,
+           $deg_Feature, '$deadline' ,'$fileName2', NULL  , '$fileName');");
            $row=$db_connection->insert_id;
+           $sql=mysqli_query($db_connection,"INSERT INTO `dynamic_test` (`Test_ID`, `Assignment_ID`,
+            `Input`, `output`, `Test_attachments`, `Hidden`)
+             VALUES (NULL, NULL, NULL, NULL, NULL, NULL);") ;
         if($insert){
             $statusMsg = "The file ".$fileName. " has been uploaded successfully.";
             print_r($_POST);
@@ -53,10 +65,10 @@ if(isset($_POST["submit"])){
 
         
         $insert = mysqli_query($db_connection,"INSERT INTO `assignment` (`Assignment_title`, `Assignment_desc_dir`,
-        `Full_grade`, `Compilation_grade`, `Style_grade`, `Dynamic_test_grade`, `Feature_test_grade`, `Assignment_date`,
+        `Full_grade`, `Compilation_grade`, `Style_grade`, `Dynamic_test_grade`, `Feature_test_grade`,
          `Assignment_deadline`, `Assignment_model_ans`, `Assignment_ma_main`, `Attachments_dir`)
-         VALUES ('$title' , '$desc' , $total_grade, $compile , $style , $deg_Dynamic ,
-          $deg_Feature,NOW(), '$deadline' , NULL, NULL, NULL);");
+         VALUES ('$title' , '$newName' , $total_grade, $compile , $style , $deg_Dynamic ,
+          $deg_Feature, '$deadline' , NULL, NULL, NULL);");
           $row=$db_connection->insert_id;
 
 
