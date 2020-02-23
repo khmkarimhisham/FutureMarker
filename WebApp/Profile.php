@@ -2,32 +2,39 @@
 
 session_start();
 require 'DB/db.php';
-$firstN;
-$lastN;
+$firstN='';
+$lastN='';
 if (!isset($_SESSION['User_ID'])) {
     header("Location: login.php");
 }
-$email=$_SESSION['Email'];
+$email=$_SESSION['User_email'];
 
 $User_ID = $_SESSION['User_ID'];
 $error_message = "";
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
    if($_SESSION['User_type']=="instructor"){
-    $sql="SELECT * FROM `instructor` WHERE `Instructor_ID`= 1";
-    $res=mysqli_query($);
-       
-       $row=mysqli_fetch_assoc($res);
-       echo $row;
+    $sql="SELECT * FROM `instructor` WHERE `Instructor_ID`= $User_ID";
+    $res=mysqli_query($db_connection,$sql);
+    $row=mysqli_fetch_assoc($res);
+   // print_r($row);
     if($res){
         $bio=$row['Instructor_bio'];
         $Phone=$row['Instructor_phone'];
         $firstN=$row['Instructor_firstname'];
         $lastN=$row['Instructor_lastname'];
     }
+   }else{
+    $sql="SELECT * FROM `student` WHERE `Student_ID`= $User_ID";
+    $res=mysqli_query($db_connection,$sql);
+    $row=mysqli_fetch_assoc($res);
+    print_r($row);
+    if($res){
+        $bio=$row['Student_bio'];
+        $Phone=$row['Student_phone'];
+        $firstN=$row['Student_firstname'];
+        $lastN=$row['Student_lastname'];
+    }
    }
-        } else {
-            $error_message = "Invalid Access Code";
-        }
+ 
     
 
 
@@ -166,15 +173,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                      <hr >
                     <label class="profilelebal">About Me</label>
                     <hr class="my-1">
-                    <div><span>Name:</span><label  class="profilelebal"><?php echo $firstN ."". $lastN; ?> </label></div>
+                    <div><span>Name:</span><label  class="profilelebal"><?php echo $firstN." ".$lastN; ?> </label></div>
                     <hr class="my-1">
-                   <div><span>Bio:</span><label class="profilelebal" >i love my team</label></div>
+                   <div><span>Bio:</span><label class="profilelebal" ><?php echo $bio; ?></label></div>
                     <hr class="my-4">
                <label class="profilelebal">Contact Information</label>
                     <hr class="my-1">
-                    <div><span >Email:</span><a href="#"><label  class="profilelebal">anashassan299@outlook.com</label></a></div>
+                    <div><span >Email:</span><a href="#"><label  class="profilelebal"><?php echo $email; ?></label></a></div>
                     <hr class="my-1">
-                    <div><span >Phone:</span><a href="#"><label  class="profilelebal">01023515929</label></a></div>
+                    <div><span >Phone:</span><a href="#"><label  class="profilelebal"><?php echo $Phone; ?></label></a></div>
                     
                 </div>
 
