@@ -1,3 +1,37 @@
+<?php
+
+session_start();
+require 'DB/db.php';
+$firstN;
+$lastN;
+if (!isset($_SESSION['User_ID'])) {
+    header("Location: login.php");
+}
+$email=$_SESSION['Email'];
+
+$User_ID = $_SESSION['User_ID'];
+$error_message = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+   if($_SESSION['User_type']=="instructor"){
+    $sql="SELECT * FROM `instructor` WHERE `Instructor_ID`= 1";
+    $res=mysqli_query($);
+       
+       $row=mysqli_fetch_assoc($res);
+       echo $row;
+    if($res){
+        $bio=$row['Instructor_bio'];
+        $Phone=$row['Instructor_phone'];
+        $firstN=$row['Instructor_firstname'];
+        $lastN=$row['Instructor_lastname'];
+    }
+   }
+        } else {
+            $error_message = "Invalid Access Code";
+        }
+    
+
+
+?>
 <html>
 
 <head>
@@ -101,7 +135,7 @@
                 <div class="card-body">
                     
                     <div class="container">
-                        <img src="images/IMG_2196.JPG" class="rounded mx-auto d-block" alt="..." width="250" height="150" >
+                        <img src="images/avatar.jpg" class="rounded mx-auto d-block" alt="..." width="250" height="150" >
 
                     </div>
                     <hr class="my-1">
@@ -127,26 +161,21 @@
         <div class="col-12 col-md-6">
             <div class="card -row ">
                 <div class="card-body">
-                     <div> <label style="font-size: 18">AnasHassan220160056 </label></div>
+                     <div> <label style="font-size: 18"> </label></div>
                      <div><span>my school :</span><label style="font-size: 18">Future Academy</label></div>
                      <hr >
                     <label class="profilelebal">About Me</label>
                     <hr class="my-1">
-                    <div><span>username:</span><label  class="profilelebal">anashassan299</label></div>
+                    <div><span>Name:</span><label  class="profilelebal"><?php echo $firstN ."". $lastN; ?> </label></div>
                     <hr class="my-1">
                    <div><span>Bio:</span><label class="profilelebal" >i love my team</label></div>
-                     <hr class="my-1">
-                   <div><span>Birthday:</span><label  class="profilelebal">29 september</label></div>
                     <hr class="my-4">
                <label class="profilelebal">Contact Information</label>
                     <hr class="my-1">
                     <div><span >Email:</span><a href="#"><label  class="profilelebal">anashassan299@outlook.com</label></a></div>
                     <hr class="my-1">
                     <div><span >Phone:</span><a href="#"><label  class="profilelebal">01023515929</label></a></div>
-                    <hr class="my-1">
-                    <div><span >Github:</span><a href="#"><label  class="profilelebal">anashassan299@outlook.com</label></a></div>
-                    <hr class="my-1">
-                    <div><span >Linkedin:</span><a href="#"><label  class="profilelebal">anashassan299@outlook.com</label></a></div>
+                    
                 </div>
 
                
