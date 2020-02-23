@@ -21,15 +21,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error_message = $error_message . "• Email is already exist.<br>";
     }
     if (empty($error_message)) {
-        $query = mysqli_query($db_connection, "INSERT INTO `user`(`Email`, `Password`, `User_ID`) VALUES ('$email','$password', '$user_type');");
+        $query = mysqli_query($db_connection, "INSERT INTO `user`(`Email`, `Password`, `User_type`) VALUES ('$email','$password', '$user_type');");
         if ($query) {
             $result = mysqli_query($db_connection, "SELECT `User_ID` FROM `user` WHERE `Email` = '$email'");
             if ($result->num_rows > 0) {
                 $id = ($result->fetch_assoc())["User_ID"];
                 if ($user_type == "instructor") {
-                    $query2 = mysqli_query($db_connection, "INSERT INTO `instructor`(`Instructor_ID`, `Instructor_firstname`, `Instructor_lastname`, `Instructor_email`) VALUES ('$id','$firstname','$lastname','$email');");
+                    $query2 = mysqli_query($db_connection, "INSERT INTO `instructor`(`Instructor_ID`, `Instructor_firstname`, `Instructor_lastname`, `Instructor_email`, `Instructor_image`) VALUES ('$id','$firstname','$lastname','$email', 'images/user.png');");
                 } else if ($user_type == "student") {
-                    $query2 = mysqli_query($db_connection, "INSERT INTO `student`(`Student_ID`, `Student_firstname`, `Student_lastname`, `Student_email`) VALUES ('$id','$firstname','$lastname','$email');");
+                    $query2 = mysqli_query($db_connection, "INSERT INTO `student`(`Student_ID`, `Student_firstname`, `Student_lastname`, `Student_email`, `Student_image`) VALUES ('$id','$firstname','$lastname','$email', 'images/user.png');");
                 }
                 if (!$query2) {
                     $error_message = $error_message . "• There is a problem, Please try again later.<br>";
@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="signupheader ">
         <nav class="navbar navbar-expand-sm navbar-custom">
             <div class="container">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="index.php">
                     <img class="navbar-brand" src="images/logo.png">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">

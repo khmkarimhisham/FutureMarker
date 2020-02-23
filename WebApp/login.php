@@ -6,15 +6,26 @@ $error_message = "";
 if (isset($_SESSION["User_ID"])) {
     header("location: Home.php");
 }
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['inputEmail'];
     $password = $_POST['inputPassword'];
     $query = mysqli_query($db_connection, "SELECT * FROM `user` WHERE `Email`='$email' AND `Password` = '$password';");
     $row = mysqli_fetch_assoc($query);
     if (isset($row)) {
+        $User_ID = $row['User_ID'];
+        if ($row['User_type'] == "instructor") {
+            $row2 = mysqli_fetch_assoc(mysqli_query($db_connection, "SELECT * FROM `instructor` WHERE `Instructor_ID`= $User_ID"));
+            if (isset($row2)) {
+                $_SESSION['User_image'] = $row2['Instructor_image'];
+            }
+        } else if ($row['User_type'] == "student") {
+            $row2 = mysqli_fetch_assoc(mysqli_query($db_connection, "SELECT * FROM `instructor` WHERE `Instructor_ID`= $User_ID"));
+            if (isset($row2)) {
+                $_SESSION['User_image'] = $row2['Student_image'];
+            }
+        }
         $_SESSION['User_ID'] = $row['User_ID'];
-        $_SESSION['User_type'] = $row['User_type'];;
+        $_SESSION['User_type'] = $row['User_type'];
         $_SESSION['User_email'] = $email;
         header('Location: Home.php');
     } else {
