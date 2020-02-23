@@ -91,7 +91,7 @@ $usertype=$_SESSION['User_type'];
                             <a class="dropdown-item" href="Profile.php">Your Profile</a>
                             <a class="dropdown-item" href="#">Future Academy</a>
                             <a class="dropdown-item" href="#">Settings</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-sign-out"></i>Log out</a>
+                            <a class="dropdown-item" href="logout.php"><i class="fa fa-sign-out"></i>Log out</a>
                         </div>
                     </div>
                 </li>

@@ -5,6 +5,10 @@ require 'DB/db.php';
 if (!isset($_SESSION['User_ID'])) {
     header("Location: login.php");
 }
+if ($_SESSION['User_type'] == "student") {
+    header("Location: courses_student.php");
+}
+
 $User_ID = $_SESSION['User_ID'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -18,14 +22,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $target_file = $target_dir . $newName;
     } while (file_exists($target_file));
 
-    $sql_stat = "INSERT INTO `course`( `Course_name`, `Course_desc`, `Course_image`) VALUES ('$Course_name','$Course_desc','$target_file');";
+    do {
+        $newName = rand() . '.' . $ext;
+        $target_file = $target_dir . $newName;
+    } while (file_exists($target_file));
+    $charstr = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+
+    do {
+        $Course_accsess_code = substr(str_shuffle($charstr), 0, 4) . '-' . substr(str_shuffle($charstr), 0, 4) . '-' . substr(str_shuffle($charstr), 0, 4);
+        $query3 = mysqli_query($db_connection, "SELECT `Course_access_code` FROM `course` WHERE `Course_access_code` = '$Course_accsess_code'");
+    } while ($query3->num_rows > 0);
+
+    $sql_stat = "INSERT INTO `course`( `Course_name`, `Course_desc`, `Course_image`, `Course_access_code`) VALUES ('$Course_name','$Course_desc','$target_file', '$Course_accsess_code');";
 
     if (move_uploaded_file($_FILES["CourseImg"]["tmp_name"], $target_file)) {
         if (mysqli_query($db_connection, $sql_stat)) {
             $Course_ID = mysqli_insert_id($db_connection);
+            mkdir("uploads/courses/$Course_ID", 0700);
             $query2 = mysqli_query($db_connection, "INSERT INTO `teaches`(`Instructor_ID`, `Course_ID`) VALUES ($User_ID,$Course_ID)");
             if ($query2) {
-                header("Location: couresbody.php?course_id=" . $Course_ID);
+                header("Location: course_content.php?course_id=" . $Course_ID);
             }
         } else {
             $error_message = "There is a problem, Please try again later.";
@@ -50,15 +66,79 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body style="background-color: f0f0f0">
-    <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark homeheader ">
-        <a class="navbar-brand" href="#">
+    <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark homeheader">
+        <a class="navbar-brand" href="index.php">
             <img class="navbar-brand" src="images/logo.png">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-    </nav>
 
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="<?php echo $usertype == "instructor" ?  "courses_instructor.php" : "courses_student.php"; ?>">
+                        Courses
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">
+
+                        Groups
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link " href="#">
+
+                        Grades
+                    </a>
+                </li>
+
+
+            </ul>
+            <ul class="navbar-nav navedit ">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fa fa-bell">
+                            <span class="badge badge-info">11</span>
+                        </i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fa fa-search">
+                            <span class="badge badge-success"></span>
+                        </i>
+
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fa fa-envelope">
+                            <span class="badge badge-info">2</span>
+                        </i>
+                    </a>
+                </li>
+                <li>
+                    <div class="dropdown mydrop">
+                        <button type="button" class="btn btn-primary dropdown-toggle mydropbutton" data-toggle="dropdown">
+                            <img src="<?php echo $_SESSION['User_image']; ?>" width="30" height="30">
+
+                            <?php echo $_SESSION['User_email'];
+                            ?>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="Profile.php">Your Profile</a>
+                            <a class="dropdown-item" href="#">Future Academy</a>
+                            <a class="dropdown-item" href="#">Settings</a>
+                            <a class="dropdown-item" href="logout.php"><i class="fa fa-sign-out"></i>Log out</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div class="box">
         <div class="container">
 
@@ -72,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <?php
                 $result = mysqli_query($db_connection, "SELECT `Course_ID`, `Course_name`, `Course_image` FROM `course` WHERE `Course_ID` IN (SELECT `Course_ID` FROM `teaches` WHERE `Instructor_ID` = $User_ID);");
-          
+
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo '

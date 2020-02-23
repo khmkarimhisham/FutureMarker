@@ -5,6 +5,10 @@ require('DB/db.php');
 if (!isset($_SESSION['User_ID'])) {
     header("Location: login.php");
 }
+
+if ($_SESSION['User_type'] == "instructor") {
+    header("Location: courses_instructor.php");
+}
 $User_ID = $_SESSION['User_ID'];
 $error_message = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -15,14 +19,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $Course_ID = $result['Course_ID'];
             $query = mysqli_query($db_connection, "INSERT INTO `enrollment`(`Student_ID`, `Course_ID`) VALUES ($User_ID , $Course_ID);");
             header("Location: couresbody.php?course_id=" . $Course_ID);
-
         } else {
             $error_message = "Invalid Access Code";
         }
     }
 }
-
-
 
 
 ?>
@@ -42,15 +43,80 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body style="background-color: f0f0f0">
-    <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark homeheader ">
-        <a class="navbar-brand" href="#">
+    <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark homeheader">
+        <a class="navbar-brand" href="index.php">
             <img class="navbar-brand" src="images/logo.png">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-    </nav>
 
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="<?php echo $usertype == "instructor" ?  "courses_instructor.php" : "courses_student.php"; ?>">
+                        Courses
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">
+
+                        Groups
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link " href="#">
+
+                        Grades
+                    </a>
+                </li>
+
+
+            </ul>
+            <ul class="navbar-nav navedit ">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fa fa-bell">
+                            <span class="badge badge-info">11</span>
+                        </i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fa fa-search">
+                            <span class="badge badge-success"></span>
+                        </i>
+
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fa fa-envelope">
+                            <span class="badge badge-info">2</span>
+                        </i>
+                    </a>
+                </li>
+                <li>
+
+                    <div class="dropdown mydrop">
+                        <button type="button" class="btn btn-primary dropdown-toggle mydropbutton" data-toggle="dropdown">
+                            <img src="<?php echo $_SESSION['User_image']; ?>" width="30" height="30">
+
+                            <?php echo $_SESSION['User_email'];
+                            ?>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="Profile.php">Your Profile</a>
+                            <a class="dropdown-item" href="#">Future Academy</a>
+                            <a class="dropdown-item" href="#">Settings</a>
+                            <a class="dropdown-item" href="logout.php"><i class="fa fa-sign-out"></i>Log out</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div class="box">
         <div class="container">
             <?php
