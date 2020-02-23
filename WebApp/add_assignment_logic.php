@@ -10,7 +10,7 @@ $style=NULL;
 $deg_Feature=NULL;
 $deg_Dynamic=NULL;
 $total_grade=NULL;
-
+$row=NULL;
 
 // File upload path
 $targetDir = "uploads/assignments/attachments"; 
@@ -40,38 +40,36 @@ if(isset($_POST["submit"])){
           `Assignment_deadline`, `Assignment_model_ans`, `Assignment_ma_main`, `Attachments_dir`)
           VALUES ('$title' , '$desc' , $total_grade, $compile , $style , $deg_Dynamic ,
            $deg_Feature,NOW(), '$deadline' ,'$fileName2', NULL  , '$fileName');");
+           $row=$db_connection->insert_id;
         if($insert){
             $statusMsg = "The file ".$fileName. " has been uploaded successfully.";
+            print_r($_POST);
         }else{
             $statusMsg = "File upload failed, please try again.";
         
         } 
     }else{
+        if(isset($_POST['input1'])){
+
+        
         $insert = mysqli_query($db_connection,"INSERT INTO `assignment` (`Assignment_title`, `Assignment_desc_dir`,
         `Full_grade`, `Compilation_grade`, `Style_grade`, `Dynamic_test_grade`, `Feature_test_grade`, `Assignment_date`,
          `Assignment_deadline`, `Assignment_model_ans`, `Assignment_ma_main`, `Attachments_dir`)
          VALUES ('$title' , '$desc' , $total_grade, $compile , $style , $deg_Dynamic ,
           $deg_Feature,NOW(), '$deadline' , NULL, NULL, NULL);");
+          $row=$db_connection->insert_id;
+
+
            if($insert){
-               $statusMsg="upload without file  s";
+               $statusMsg="upload without files";
            }else{
         $statusMsg = "Sorry, there was an error uploading your file.";
            }
-    }
-    // if(move_uploaded_file($_FILES["file2"]["tmp_name"], $targetFilePath_model)){
-    //     // Insert image file name into database
-    //     $query="";
-    //     $insert = mysqli_query($db_connection,$query);
-    //     if($insert){
-    //         $statusMsg = "The file ".$fileName2. " has been uploaded successfully.";
-    //     }else{
-    //         $statusMsg = "File upload failed, please try again.";
-    //     } 
-    // }else{
-    //     $statusMsg = "Sorry, there was an error uploading your file.";
-    // }
-    
 
+           
+        }
+    }
+ 
 }else{
     $statusMsg = 'Please select a file to upload.';
 }
