@@ -12,25 +12,30 @@ include "php_file_tree.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $Course_ID = $_GET['course_id'];
-    $assignment_ID = $_GET['assignment_id'];
 
-    $result1 = mysqli_query($db_connection, "SELECT * FROM `assignment` JOIN `course` ON assignment.Course_ID = course.Course_ID WHERE assignment.Assignment_ID = $assignment_ID");
+    $result1 = mysqli_query($db_connection, "SELECT * FROM `course` WHERE `Course_ID` = $Course_ID");
     if (mysqli_num_rows($result1) > 0) {
         $row = mysqli_fetch_assoc($result1);
         $Course_name = $row['Course_name'];
         $Course_des =  $row['Course_desc'];
         $Course_image =  $row['Course_image'];
-        $Assignment_tit = $row['Assignment_title'];
-        $Assignment_due = date("F j, Y, g:i a", strtotime($row['Assignment_deadline']));
-        $Assignment_date = date("F j, Y, g:i a", strtotime($row['Assignment_date']));
-        $Assignment_desc = $row['Assignment_desc_dir'];
+        $Course_dir =  $row['Course_material_dir'];
+        $Course_AC =  $row['Course_access_code'];
     } else {
         header("Location: Home.php");
     }
 } else {
     header("Location: Home.php");
 }
+
+
+
+// if ($_SESSION['User_type'] == "Instructor") {
+//     header("Location: courses_content_i.php");
+// }
+
 ?>
+
 <html>
 
 <head>
@@ -43,6 +48,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="CSS/content.css">
     <link rel="stylesheet" href="CSS/couresbody.css">
+    <link href="CSS/default.css" rel="stylesheet" type="text/css" media="screen" />
+
+    <!-- Makes the file tree(s) expand/collapsae dynamically -->
+    <script src="JS/php_file_tree.js" type="text/javascript"></script>
 
     <script type="text/javascript" src="JS/index.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -69,6 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="#">
+
                         Groups
                     </a>
                 </li>
@@ -92,6 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         <i class="fa fa-search">
                             <span class="badge badge-success"></span>
                         </i>
+
                     </a>
                 </li>
                 <li class="nav-item">
@@ -102,7 +113,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     </a>
                 </li>
                 <li>
-
                     <div class="dropdown mydrop">
                         <button type="button" class="btn btn-primary dropdown-toggle mydropbutton" data-toggle="dropdown">
                             <img src="<?php echo $_SESSION['User_image']; ?>" width="30" height="30">
@@ -121,96 +131,79 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             </ul>
         </div>
     </nav>
-
-    <div class="row">
-        <div class="col">
-            <div class="card -row my-5">
-                <div class="card-body">
-                    <div>
-                        <img src="<?php echo $Course_image; ?>" class="rounded mx-auto d-block" style="width: 260px;" alt="...">
-
-                    </div>
-                    <div>
-                        <hr class="my-2">
-                        <div> <a class="aedit active" href="#"> <label>Matiral</label></a></div>
-                        <hr class="my-3">
-                        <div> <a class="aedit" href="#"> <label>Update</label></a></div>
-                        <hr class="my-3">
-                        <div> <a class="aedit" href="#"> <label>Grades</label></a></div>
-                        <hr class="my-3">
-                        <div> <a class="aedit" href="#"> <label>Members</label></a></div>
-                        <hr class="my-3">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="card -row my-5">
-                <div class="card-body">
-                    <div>
-                        <a href="course_content.php?course_id=<?php echo $Course_ID; ?>"><strong><?php echo $Course_name ?></strong></a>
-                        <hr class="my-3">
-                    </div>
-                    <div> <h4><strong><?php echo $Assignment_tit; ?></strong></h4></div>
-
-                    <hr class="my-1 ">
-                    <div class="raw">
-                        <label>Due : <?php echo $Assignment_due;
-                                        ?>
-                        </label>
-                        <hr class="my-1">
-
-
-                        <div class="diveditfirst">
-                            <?php
-                            echo file_get_contents("uploads/assignments/description/" . $Assignment_desc);
-                            ?>
-                            <hr class="my-1">
-                            <small>Posted <?php echo $Assignment_date; ?></small>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card -row my-5">
+                    <div class="card-body">
+                        <div>
+                            <img src="<?php echo $Course_image; ?>" style="width: 260px;" class="rounded mx-auto d-block" alt="Course Image">
+                        </div>
+                        <div>
+                            <hr class="my-2">
+                            <div> <a class="aedit active" href="#"> <label>Matiral</label></a></div>
+                            <hr class="my-3">
+                            <div> <a class="aedit" href="#"> <label>Update</label></a></div>
+                            <hr class="my-3">
+                            <div> <a class="aedit" href="#"> <label>Grades</label></a></div>
+                            <hr class="my-3">
+                            <div> <a class="aedit" href="#"> <label>Members</label></a></div>
+                            <hr class="my-3">
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col">
-            <div class="card -row my-5">
-                <div class="card-body">
-                    <h>Assignments</h>
-                    <hr class="my-2">
-                    <div class="raw">
-                        <div class="diveditsecond text-center">
-                            <a href="#"></a><br><br>
-                            <button type="submit" class="btn btn-outline-secondary " data-toggle="modal" data-target="#Submitform">Submit Assignmnet</button>
+            <div class="col-5">
+                <div class="card -row my-5">
+                    <div class="card-body">
+                        <div><h4><strong><?php echo $Course_name; ?></strong></h4></div>
+                        <div><label><?php echo $Course_des; ?></label></div>
+                        <div><label><?php echo "Access Code : " . $Course_AC; ?></label></div>
+                        <hr class="my-2 ">
+                        <div class="container">
+                            <table class="table table-sm table-light ">
+                                <?php
+                                echo php_file_tree("uploads", "[link]");
+                                ?>
+                            </table>
                         </div>
-                        <div class="modal fade" id="Submitform" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header border-bottom-0">
-                                        <h5 class="modal-title" id="exampleModalLabel">Upload Assignment File</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <form method="post" enctype="multipart/form-data">
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <label for="assignmentfile">Assignment File</label>
-                                                <input type="file" class="form-control" name="assignmentfile" id="assignmentfile" placeholder="Image" accept="image/*" required>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer border-top-0 d-flex justify-content-center">
-                                            <button type="submit" class="btn btn-success">Submit</button>
-                                        </div>
-                                    </form>
-                                </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card -row my-5">
+                    <div class="card-body">
+                        <div class="raw">
+                            <h4><strong>Assignment</strong></h4>
+                            <hr class="my-2">
+                            <div class="diveditsecond">
+                                <?php
+
+                                $result = mysqli_query($db_connection, "SELECT * FROM `assignment` WHERE `Course_ID` = $Course_ID;");
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        $assignment_date = $row['Assignment_date'];
+                                        $assignment_title = $row['Assignment_title'];
+                                        $assignment_id = $row['Assignment_ID'];
+                                       
+                                        $assignment_due = date("F j, Y, g:i a", strtotime($row['Assignment_deadline']));
+                                        echo $assignment_due . '
+                                            <hr class="my-1">
+                                            <img src="images/assignment_image.png" width="20" height="20">
+                                            <a href="Assignment_body.php?course_id=' . $Course_ID . '&assignment_id=' . $assignment_id . '">' . $assignment_title . '</a>';
+                                    }
+                                }
+                                ?>
                             </div>
                         </div>
+                        <div class="text-center">
+                        <button type="submit" class="btn btn-outline-secondary " onclick="window.location.href='addassignment.php'" >Add Assignmnet</button></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 
 
 

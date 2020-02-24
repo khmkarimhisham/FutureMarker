@@ -156,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             <div class="col-5">
                 <div class="card -row my-5">
                     <div class="card-body">
-                        <div><label><strong><?php echo $Course_name; ?></strong></label></div>
+                    <div><h4><strong><?php echo $Course_name; ?></strong></h4></div>
                         <div><label><?php echo $Course_des; ?></label></div>
                         <div><label><?php echo "Access Code : " . $Course_AC; ?></label></div>
                         <hr class="my-2 ">
