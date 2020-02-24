@@ -173,31 +173,29 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             <div class="col">
                 <div class="card -row my-5">
                     <div class="card-body">
-                        <h>overdue</h>
-                        <hr class="my-2">
                         <div class="raw">
+                            <h>upcoming</h>
+                            <hr class="my-2">
                             <div class="diveditsecond">
-                                sunday.1 dec 2019
-                                <hr class="my-1">
-                                <img src="http://www.bobmazzo.com/wp-content/uploads/2009/07/bobmazzoCD.jpg" width="20" height="20">
-                                <a href="#">Assignment 1</a>
-                                11:59pm
+                                <?php
+
+                                $result = mysqli_query($db_connection, "SELECT * FROM `assignment` WHERE `Course_ID` = $Course_ID;");
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        $assignment_date = $row['Assignment_date'];
+                                        $assignment_title = $row['Assignment_title'];
+                                        $assignment_id = $row['Assignment_ID'];
+                                       
+                                        $assignment_due = date("F j, Y, g:i a", strtotime($row['Assignment_deadline']));
+                                        echo $assignment_due . '
+                                            <hr class="my-1">
+                                            <img src="http://www.bobmazzo.com/wp-content/uploads/2009/07/bobmazzoCD.jpg" width="20" height="20">
+                                            <a href="Assignment_body.php?course_id=' . $Course_ID . '&assignment_id=' . $assignment_id . '">' . $assignment_title . '</a>';
+                                    }
+                                }
+                                ?>
                             </div>
-                        </div>
-                        <hr class="my-2">
-                        <h>Upcoming</h>
-                        <hr class="my-2">
-                        <div class="raw">
-                            <div class="diveditsecond">
-                                sunday.1 dec 2019
-                                <hr class="my-1">
-                                <img src="http://www.bobmazzo.com/wp-content/uploads/2009/07/bobmazzoCD.jpg" width="20" height="20">
-                                <a href="#">Assignment 1</a>
-                                11:59pm
-
-
-                            </div>
-
                         </div>
                     </div>
                 </div>

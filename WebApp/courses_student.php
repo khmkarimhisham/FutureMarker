@@ -137,7 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="box-part text-center">
                                         <img src="' . $row['Course_image'] . '" width="160" height="160">
                                         <div class="title">
-                                            <a href="couresbody.php?course_id=' . $row['Course_ID'] . '">
+                                            <a href="course_content.php?course_id=' . $row['Course_ID'] . '">
                                                 <h4>' . $row['Course_name'] . '</h4>
                                             </a>
                                         </div>
