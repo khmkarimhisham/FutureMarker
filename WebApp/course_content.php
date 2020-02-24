@@ -1,5 +1,38 @@
 <?php
+
+session_start();
+
+if (!isset($_SESSION['User_ID'])) {
+    header("Location: login.php");
+}
+$usertype = $_SESSION['User_type'];
+
+require 'DB/db.php';
 include "php_file_tree.php";
+
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    $Course_ID = $_GET['course_id'];
+
+    $result1 = mysqli_query($db_connection, "SELECT * FROM `course` WHERE `Course_ID` = $Course_ID");
+    if (mysqli_num_rows($result1) > 0) {
+        $row = mysqli_fetch_assoc($result1);
+        $Course_name = $row['Course_name'];
+        $Course_des =  $row['Course_desc'];
+        $Course_image =  $row['Course_image'];
+        $Course_dir =  $row['Course_material_dir'];
+    } else {
+        header("Location: Home.php");
+    }
+} else {
+    header("Location: Home.php");
+}
+
+
+
+// if ($_SESSION['User_type'] == "Instructor") {
+//     header("Location: courses_content_i.php");
+// }
+
 ?>
 
 <html>
@@ -15,9 +48,9 @@ include "php_file_tree.php";
     <link rel="stylesheet" href="CSS/content.css">
     <link rel="stylesheet" href="CSS/couresbody.css">
     <link href="CSS/default.css" rel="stylesheet" type="text/css" media="screen" />
-		
-		<!-- Makes the file tree(s) expand/collapsae dynamically -->
-		<script src="JS/php_file_tree.js" type="text/javascript"></script>
+
+    <!-- Makes the file tree(s) expand/collapsae dynamically -->
+    <script src="JS/php_file_tree.js" type="text/javascript"></script>
 
     <script type="text/javascript" src="JS/index.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -27,7 +60,7 @@ include "php_file_tree.php";
 
 <body style="background-color: f0f0f0">
     <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark homeheader">
-        <a class="navbar-brand" href="Home.php">
+        <a class="navbar-brand" href="index.php">
             <img class="navbar-brand" src="images/logo.png">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +70,7 @@ include "php_file_tree.php";
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="coures.html" >
+                    <a class="nav-link" href="<?php echo $usertype == "instructor" ?  "courses_instructor.php" : "courses_student.php"; ?>">
                         Courses
                         <span class="sr-only">(current)</span>
                     </a>
@@ -55,7 +88,7 @@ include "php_file_tree.php";
                     </a>
                 </li>
             </ul>
-            <ul class="navbar-nav ">
+            <ul class="navbar-nav navedit ">
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="fa fa-bell">
@@ -68,6 +101,7 @@ include "php_file_tree.php";
                         <i class="fa fa-search">
                             <span class="badge badge-success"></span>
                         </i>
+
                     </a>
                 </li>
                 <li class="nav-item">
@@ -80,21 +114,20 @@ include "php_file_tree.php";
                 <li>
                     <div class="dropdown mydrop">
                         <button type="button" class="btn btn-primary dropdown-toggle mydropbutton" data-toggle="dropdown">
-                            <img src="http://www.bobmazzo.com/wp-content/uploads/2009/07/bobmazzoCD.jpg" width="30" height="30">
-                            anashassan299@outlook.com
+                            <img src="<?php echo $_SESSION['User_image']; ?>" width="30" height="30">
+
+                            <?php echo $_SESSION['User_email'];
+                            ?>
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="Profile.html">Your Profile</a>
+                            <a class="dropdown-item" href="Profile.php">Your Profile</a>
                             <a class="dropdown-item" href="#">Future Academy</a>
                             <a class="dropdown-item" href="#">Settings</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-sign-out"></i>Log out</a>
+                            <a class="dropdown-item" href="logout.php"><i class="fa fa-sign-out"></i>Log out</a>
                         </div>
                     </div>
                 </li>
-
             </ul>
-
-
         </div>
     </nav>
     <div class="container">
@@ -103,8 +136,7 @@ include "php_file_tree.php";
                 <div class="card -row my-5">
                     <div class="card-body">
                         <div>
-                            <img src="images/logo-2249282902_5d8718c251f32.png" class="rounded mx-auto d-block" alt="...">
-
+                            <img src="<?php echo $Course_image; ?>" style="width: 260px;" class="rounded mx-auto d-block" alt="Course Image">
                         </div>
                         <div>
                             <hr class="my-2">
@@ -123,36 +155,15 @@ include "php_file_tree.php";
             <div class="col-5">
                 <div class="card -row my-5">
                     <div class="card-body">
-                        <div> <a href="#"><label> course name and section</label></a></div>
-                        <div> <a href="#"> <label>School name</label></a></div>
+                        <div><label><strong><?php echo $Course_name; ?></strong></label></div>
+                        <div><label><?php echo $Course_des; ?></label></div>
 
                         <hr class="my-2 ">
                         <div class="container">
                             <table class="table table-sm table-light ">
-                            <?php
-
-                            echo php_file_tree("C:/xampp/htdocs/WebApp/uploads", "javascript:alert('You clicked on [link]');");
-
-                            ?>
-
-                                <!-- <tr class="table-active "><i class="fa fa-folder fa-2x" aria-hidden="true"></i><a href="couresbodycontent.html" class="aedit">lecture</a> </tr>
-                                <hr class="my-2 ">
-                                <tr class="table-active "><i class="fa fa-folder fa-2x" aria-hidden="true"></i><a href="#" class="aedit">section</a> </tr>
-                                <hr class="my-2 ">
-                                <tr class="table-active "><i class="fa fa-folder fa-2x" aria-hidden="true"></i><a href="#" class="aedit">Assignment</a> </tr>
-                                <hr class="my-2 ">
-                                <tr class="table-active "><i class="fa fa-folder fa-2x" aria-hidden="true"></i><a href="#" class="aedit">labs</a> </tr>
-                                <hr class="my-2 ">
-                                <tr class="table-active "><i class="fa fa-folder fa-2x" aria-hidden="true"></i><a href="#" class="aedit">labs</a> </tr>
-                                <hr class="my-2 ">
-                                <tr class="table-active "><i class="fa fa-folder fa-2x" aria-hidden="true"></i><a href="#" class="aedit">labs</a> </tr>
-                                <hr class="my-2 ">
-                                <tr class="table-active "><i class="fa fa-folder fa-2x" aria-hidden="true"></i><a href="#" class="aedit">labs</a> </tr>
-                                <hr class="my-2 ">
-                                <tr class="table-active "><i class="fa fa-folder fa-2x" aria-hidden="true"></i><a href="#" class="aedit">labs</a> </tr>
-                                <hr class="my-2 "> -->
-
-
+                                <?php
+                                echo php_file_tree("uploads", "[link]");
+                                ?>
                             </table>
                         </div>
 
@@ -204,4 +215,6 @@ include "php_file_tree.php";
     <div class="footerstyle">
         <p>©Future Marker 2020 Copyright:s</p>
     </div>
-</body></html>
+</body>
+
+</html>

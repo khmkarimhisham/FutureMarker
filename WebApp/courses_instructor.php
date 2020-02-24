@@ -33,12 +33,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $query3 = mysqli_query($db_connection, "SELECT `Course_access_code` FROM `course` WHERE `Course_access_code` = '$Course_accsess_code'");
     } while ($query3->num_rows > 0);
 
-    $sql_stat = "INSERT INTO `course`( `Course_name`, `Course_desc`, `Course_image`, `Course_access_code`) VALUES ('$Course_name','$Course_desc','$target_file', '$Course_accsess_code');";
+    do {
+        $Course_dir = "uploads/courses/" . rand();
+    } while (file_exists($Course_dir));
+    mkdir($Course_dir, 0700);
+
+    $sql_stat = "INSERT INTO `course`( `Course_name`, `Course_desc`, `Course_image`, `Course_access_code`, `Course_material_dir`) VALUES ('$Course_name','$Course_desc','$target_file', '$Course_accsess_code', '$Course_dir');";
 
     if (move_uploaded_file($_FILES["CourseImg"]["tmp_name"], $target_file)) {
         if (mysqli_query($db_connection, $sql_stat)) {
             $Course_ID = mysqli_insert_id($db_connection);
-            mkdir("uploads/courses/$Course_ID", 0700);
             $query2 = mysqli_query($db_connection, "INSERT INTO `teaches`(`Instructor_ID`, `Course_ID`) VALUES ($User_ID,$Course_ID)");
             if ($query2) {
                 header("Location: course_content.php?course_id=" . $Course_ID);
@@ -160,7 +164,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="box-part text-center">
                                     <img src="' . $row['Course_image'] . '" width="160" height="160">
                                     <div class="title">
-                                        <a href="couresbody.php?course_id=' . $row['Course_ID'] . '">
+                                        <a href="course_content.php?course_id=' . $row['Course_ID'] . '">
                                             <h4>' . $row['Course_name'] . '</h4>
                                         </a>
                                     </div>
