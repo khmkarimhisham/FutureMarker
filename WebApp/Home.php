@@ -47,7 +47,6 @@ require('DB/db.php');
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="#">
-
                         Groups
                     </a>
                 </li>
@@ -57,8 +56,6 @@ require('DB/db.php');
                         Grades
                     </a>
                 </li>
-
-
             </ul>
             <ul class="navbar-nav navedit ">
                 <li class="nav-item">
@@ -73,7 +70,6 @@ require('DB/db.php');
                         <i class="fa fa-search">
                             <span class="badge badge-success"></span>
                         </i>
-
                     </a>
                 </li>
                 <li class="nav-item">
@@ -120,17 +116,13 @@ require('DB/db.php');
                             </div>
                             <div class="diveditfirst">
                                 Ghost Stories was a U.S. pulp magazine that published 64 issues between 1926 and 1932. It was one of the earliest competitors to Weird Tales, the first magazine to specialize in the fantasy and occult fiction genre. Ghost Stories was a companion magazine to True Story and True Detective Stories, and focused almost entirely on stories about ghosts, many of which were written by staff writers but presented under pseudonyms as true confessions. These were often accompanied by faked photographs to make the stories appear more believable. Ghost Stories also ran original and reprinted contributions, including works by Robert E. Howard, Carl Jacobi, and Frank Belknap Long. Among the reprints were Agatha Christie's "The Last Seance" (under the title "The Woman Who Stole a Ghost"), several stories by H. G. Wells, and Charles Dickens's "The Signal-Man". The magazine was initially successful, but had begun to lose readers by 1930, and ceased publication at the start of 1932.
-
-
                                 <hr class="my-2">
                                 <div class="row bootstrap snippets">
                                     <div class="col-12 col-md-8">
                                         <div class="comment-wrapper">
                                             <div class="panel panel-info">
-
                                                 <div class="panel-body">
                                                     <textarea class="form-control" placeholder="write a comment..." rows="3"></textarea>
-
                                                     <button type="button" class="btn btn-info pull-right">Post</button>
                                                     <div class="clearfix"></div>
                                                     <hr>
@@ -150,17 +142,13 @@ require('DB/db.php');
                                                                 </p>
                                                             </div>
                                                         </li>
-
-
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <hr class="my-2">
                         <div class="raw">
@@ -172,16 +160,13 @@ require('DB/db.php');
                             </div>
                             <div class="diveditfirst">
                                 Ghost Stories was a U.S. pulp magazine that published 64 issues between 1926 and 1932. It was one of the earliest competitors to Weird Tales, the first magazine to specialize in the fantasy and occult fiction genre. Ghost Stories was a companion magazine to True Story and True Detective Stories, and focused almost entirely on stories about ghosts, many of which were written by staff writers but presented under pseudonyms as true confessions. These were often accompanied by faked photographs to make the stories appear more believable. Ghost Stories also ran original and reprinted contributions, including works by Robert E. Howard, Carl Jacobi, and Frank Belknap Long. Among the reprints were Agatha Christie's "The Last Seance" (under the title "The Woman Who Stole a Ghost"), several stories by H. G. Wells, and Charles Dickens's "The Signal-Man". The magazine was initially successful, but had begun to lose readers by 1930, and ceased publication at the start of 1932.
-
                                 <hr class="my-2">
                                 <div class="row bootstrap snippets">
                                     <div class="col-12 col-md-8">
                                         <div class="comment-wrapper">
                                             <div class="panel panel-info">
-
                                                 <div class="panel-body">
                                                     <textarea class="form-control" placeholder="write a comment..." rows="3"></textarea>
-
                                                     <button type="button" class="btn btn-info pull-right">Post</button>
                                                     <div class="clearfix"></div>
                                                     <hr>
@@ -201,17 +186,13 @@ require('DB/db.php');
                                                                 </p>
                                                             </div>
                                                         </li>
-
-
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -220,19 +201,7 @@ require('DB/db.php');
             <div class="col-6 col-md-4">
                 <div class="card -row my-5">
                     <div class="card-body">
-                        <h>overdue</h>
-                        <hr class="my-2">
                         <div class="raw">
-                            <div class="diveditsecond">
-                                sunday.1 dec 2019
-                                <hr class="my-1">
-                                <img src="http://www.bobmazzo.com/wp-content/uploads/2009/07/bobmazzoCD.jpg" width="20" height="20">
-                                <a href="#">Assignment 1</a>
-                                11:59pm
-
-
-                            </div>
-                            <hr style="background-color: blue " class="my-3 ">
                             <h>upcoming</h>
                             <hr class="my-2">
                             <div class="diveditsecond">
@@ -244,40 +213,32 @@ require('DB/db.php');
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         $assignment_date = $row['Assignment_date'];
                                         $assignment_title = $row['Assignment_title'];
-
-                                        echo $assignment_date . '
+                                        $assignment_id = $row['Assignment_ID'];
+                                        $course_id = $row['Course_ID'];
+                                        $assignment_due = date("F j, Y, g:i a", strtotime($row['Assignment_deadline']));
+                                        echo $assignment_due . '
                                             <hr class="my-1">
                                             <img src="http://www.bobmazzo.com/wp-content/uploads/2009/07/bobmazzoCD.jpg" width="20" height="20">
-                                            <a href="#">' . $assignment_title . '</a>
-                                            11:59pm
-                                        ';
+                                            <a href="Assignment_body.php?course_id=' . $course_id . '&assignment_id=' . $assignment_id . '">' . $assignment_title . '</a>';
                                     }
                                 }
-
-
                                 ?>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
-
-
     </div>
     <!-- Footer -->
     <footer class="page-footer font-small footerstyle">
         <hr>
         <!-- Copyright -->
         <div class="footer-copyright text-center py-3">©Future Marker 2020 Copyright:
-
         </div>
         <!-- Copyright -->
     </footer>
     <!-- Footer -->
-
 </body>
 
 </html>
