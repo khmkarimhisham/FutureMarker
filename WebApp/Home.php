@@ -1,11 +1,16 @@
-    <?php
+<?php
 
 session_start();
 
 if (!isset($_SESSION['User_ID'])) {
     header("Location: login.php");
 }
-$usertype=$_SESSION['User_type'];
+$usertype = $_SESSION['User_type'];
+$userID = $_SESSION['User_ID'];
+
+require('DB/db.php');
+
+
 
 ?>
 <html>
@@ -35,7 +40,7 @@ $usertype=$_SESSION['User_type'];
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo $usertype=="instructor" ?  "courses_instructor.php" : "courses_student.php"; ?>">
+                    <a class="nav-link" href="<?php echo $usertype == "instructor" ?  "courses_instructor.php" : "courses_student.php"; ?>">
                         Courses
                         <span class="sr-only">(current)</span>
                     </a>
@@ -82,11 +87,11 @@ $usertype=$_SESSION['User_type'];
 
                     <div class="dropdown mydrop">
                         <button type="button" class="btn btn-primary dropdown-toggle mydropbutton" data-toggle="dropdown">
-                            <img src="<?php echo $_SESSION['User_image'];?>" width="30" height="30">
+                            <img src="<?php echo $_SESSION['User_image']; ?>" width="30" height="30">
 
-                        <?php echo $_SESSION['User_email'];
-                        ?>   
-                     </button>
+                            <?php echo $_SESSION['User_email'];
+                            ?>
+                        </button>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="Profile.php">Your Profile</a>
                             <a class="dropdown-item" href="#">Future Academy</a>
@@ -231,9 +236,26 @@ $usertype=$_SESSION['User_type'];
                             <h>upcoming</h>
                             <hr class="my-2">
                             <div class="diveditsecond">
-                                No upcoming assignments or events
+                                <?php
+
+                                $result = mysqli_query($db_connection, "SELECT * FROM `assignment` JOIN `enrollment` ON assignment.Course_ID = enrollment.Course_ID WHERE enrollment.Student_ID = $userID;");
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        $assignment_date = $row['Assignment_date'];
+                                        $assignment_title = $row['Assignment_title'];
+
+                                        echo $assignment_date . '
+                                            <hr class="my-1">
+                                            <img src="http://www.bobmazzo.com/wp-content/uploads/2009/07/bobmazzoCD.jpg" width="20" height="20">
+                                            <a href="#">' . $assignment_title . '</a>
+                                            11:59pm
+                                        ';
+                                    }
+                                }
 
 
+                                ?>
                             </div>
                         </div>
                     </div>

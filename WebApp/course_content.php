@@ -20,6 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $Course_des =  $row['Course_desc'];
         $Course_image =  $row['Course_image'];
         $Course_dir =  $row['Course_material_dir'];
+        $Course_AC =  $row['Course_access_code'];
     } else {
         header("Location: Home.php");
     }
@@ -157,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     <div class="card-body">
                         <div><label><strong><?php echo $Course_name; ?></strong></label></div>
                         <div><label><?php echo $Course_des; ?></label></div>
-
+                        <div><label><?php echo "Access Code : " . $Course_AC; ?></label></div>
                         <hr class="my-2 ">
                         <div class="container">
                             <table class="table table-sm table-light ">
@@ -166,7 +167,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 ?>
                             </table>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -182,10 +182,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 <img src="http://www.bobmazzo.com/wp-content/uploads/2009/07/bobmazzoCD.jpg" width="20" height="20">
                                 <a href="#">Assignment 1</a>
                                 11:59pm
-
-
                             </div>
-
                         </div>
                         <hr class="my-2">
                         <h>Upcoming</h>
