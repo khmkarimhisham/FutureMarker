@@ -1,3 +1,36 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION['User_ID'])) {
+    header("Location: login.php");
+}
+$usertype = $_SESSION['User_type'];
+
+require 'DB/db.php';
+include "php_file_tree.php";
+
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    $Course_ID = $_GET['course_id'];
+    $assignment_ID = $_GET['assignment_id'];
+
+    $result1 = mysqli_query($db_connection, "SELECT * FROM `assignment` JOIN `course` ON assignment.Course_ID = course.Course_ID WHERE assignment.Assignment_ID = $assignment_ID");
+    if (mysqli_num_rows($result1) > 0) {
+        $row = mysqli_fetch_assoc($result1);
+        $Course_name = $row['Course_name'];
+        $Course_des =  $row['Course_desc'];
+        $Course_image =  $row['Course_image'];
+        $Assignment_tit = $row['Assignment_title'];
+        $Assignment_due = date("F j, Y, g:i a", strtotime($row['Assignment_deadline']));
+        $Assignment_date = date("F j, Y, g:i a", strtotime($row['Assignment_date']));
+        $Assignment_desc = $row['Assignment_desc_dir'];
+    } else {
+        header("Location: Home.php");
+    }
+} else {
+    header("Location: Home.php");
+}
+?>
 <html>
 
 <head>
@@ -7,8 +40,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="CSS/content.css">
     <link rel="stylesheet" href="CSS/couresbody.css">
 
@@ -20,25 +52,23 @@
 
 <body style="background-color: f0f0f0">
     <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark homeheader">
-        <a class="navbar-brand" href="Home.html">
+        <a class="navbar-brand" href="index.php">
             <img class="navbar-brand" src="images/logo.png">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="coures.html">
+                    <a class="nav-link" href="<?php echo $usertype == "instructor" ?  "courses_instructor.php" : "courses_student.php"; ?>">
                         Courses
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="#">
-
                         Groups
                     </a>
                 </li>
@@ -48,10 +78,8 @@
                         Grades
                     </a>
                 </li>
-
-
             </ul>
-            <ul class="navbar-nav ">
+            <ul class="navbar-nav navedit ">
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="fa fa-bell">
@@ -64,7 +92,6 @@
                         <i class="fa fa-search">
                             <span class="badge badge-success"></span>
                         </i>
-
                     </a>
                 </li>
                 <li class="nav-item">
@@ -75,26 +102,23 @@
                     </a>
                 </li>
                 <li>
-                    <div class="dropdown mydrop">
-                        <button type="button" class="btn btn-primary dropdown-toggle mydropbutton"
-                            data-toggle="dropdown">
-                            <img src="http://www.bobmazzo.com/wp-content/uploads/2009/07/bobmazzoCD.jpg" width="30"
-                                height="30">
 
-                            anashassan299@outlook.com
+                    <div class="dropdown mydrop">
+                        <button type="button" class="btn btn-primary dropdown-toggle mydropbutton" data-toggle="dropdown">
+                            <img src="<?php echo $_SESSION['User_image']; ?>" width="30" height="30">
+
+                            <?php echo $_SESSION['User_email'];
+                            ?>
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="Profile.html">Your Profile</a>
+                            <a class="dropdown-item" href="Profile.php">Your Profile</a>
                             <a class="dropdown-item" href="#">Future Academy</a>
                             <a class="dropdown-item" href="#">Settings</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-sign-out"></i>Log out</a>
+                            <a class="dropdown-item" href="logout.php"><i class="fa fa-sign-out"></i>Log out</a>
                         </div>
                     </div>
                 </li>
-
             </ul>
-
-
         </div>
     </nav>
 
@@ -103,7 +127,7 @@
             <div class="card -row my-5">
                 <div class="card-body">
                     <div>
-                        <img src="images/logo-2249282902_5d8718c251f32.png" class="rounded mx-auto d-block" alt="...">
+                        <img src="<?php echo $Course_image; ?>" class="rounded mx-auto d-block" style="width: 260px;" alt="...">
 
                     </div>
                     <div>
@@ -124,29 +148,25 @@
             <div class="card -row my-5">
                 <div class="card-body">
                     <div>
-                        <a href="#">Mobile Programming</a>
-                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                        <a href="#">Assignments</a>
+                        <a href="course_content.php?course_id=<?php echo $Course_ID; ?>"><strong><?php echo $Course_name ?></strong></a>
+                        <hr class="my-3">
                     </div>
-                    <div> <a href="#"> <label>Assignment 1</label></a></div>
+                    <div> <label><strong><?php echo $Assignment_tit; ?></strong></label></div>
 
                     <hr class="my-1 ">
                     <div class="raw">
-                        <label>Duo : 25/2/2020 at 12:00 PM </label>
+                        <label>Due : <?php echo $Assignment_due;
+                                        ?>
+                        </label>
                         <hr class="my-1">
 
 
                         <div class="diveditfirst">
-                            Ghost Stories was a U.S. pulp magazine that published 64 issues between 1926 and 1932. It
-                            was one of the earliest competitors to Weird Tales, the first magazine to specialize in the
-                            fantasy and occult fiction genre. Ghost Stories was a companion magazine to True Story and
-                            True Detective Stories, and focused almost entirely on stories about ghosts, many of which
-                            were written by staff writers but presented under pseudonyms as true confessions. These were
-                            often accompanied by faked photographs to make the stories appear more believable. Ghost
-                            Stories also ran original and reprinted contributions, including works by Robert E. Howard,
-                            Carl Jacobi, and Frank Belknap Long.
+                            <?php
+                            echo file_get_contents("uploads/assignments/description/" . $Assignment_desc);
+                            ?>
                             <hr class="my-1">
-                            <small>Posted 23/2/2020 at 3:00 AM</small>
+                            <small>Posted <?php echo $Assignment_date; ?></small>
                         </div>
                     </div>
                 </div>
@@ -160,11 +180,9 @@
                     <div class="raw">
                         <div class="diveditsecond text-center">
                             <a href="#"></a><br><br>
-                            <button type="submit" class="btn btn-outline-secondary " data-toggle="modal"
-                                data-target="#Submitform">Submit Assignmnet</button>
+                            <button type="submit" class="btn btn-outline-secondary " data-toggle="modal" data-target="#Submitform">Submit Assignmnet</button>
                         </div>
-                        <div class="modal fade" id="Submitform" tabindex="-1" role="dialog"
-                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="Submitform" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header border-bottom-0">

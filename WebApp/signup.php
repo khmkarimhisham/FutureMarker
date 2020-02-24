@@ -126,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             }
                             ?>
                             <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Register</button>
-                            <a class="d-block text-center mt-2 small" href="login.html">Have an account? Login</a>
+                            <a class="d-block text-center mt-2 small" href="login.php">Have an account? Login</a>
                             <hr class="my-4">
                         </form>
                     </div>

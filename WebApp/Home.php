@@ -218,7 +218,7 @@ require('DB/db.php');
                                         $assignment_due = date("F j, Y, g:i a", strtotime($row['Assignment_deadline']));
                                         echo $assignment_due . '
                                             <hr class="my-1">
-                                            <img src="http://www.bobmazzo.com/wp-content/uploads/2009/07/bobmazzoCD.jpg" width="20" height="20">
+                                            <img src="images/assignment_image.png" width="20" height="20">
                                             <a href="Assignment_body.php?course_id=' . $course_id . '&assignment_id=' . $assignment_id . '">' . $assignment_title . '</a>';
                                     }
                                 }
