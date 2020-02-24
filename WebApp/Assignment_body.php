@@ -205,6 +205,132 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 </div>
                             </div>
                         </div>
+                        <!-- feedback form-->
+                        <div class="modal fade bd-example-modal-lg " id="feedbackform" tabindex="-1" role="dialog"
+                            aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+
+                                    <div class="card -row "style="padding:25px">
+                                        <div class="modal-header border-bottom-0">
+
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title text-center">Feedback</h5>
+                                            <form class="form-signin ">
+                                                <ul class="treeview-animated-list mb-3">
+                                                    <li class="treeview-animated-items">
+                                                        <a class="closed">
+                                                            <i class="fas fa-angle-right"></i>
+                                                            <span><i></i>Compiled</span>
+                                                        </a>
+                                                        <ul class="nested">
+
+                                                            <li class="treeview-animated-items">
+                                                                <a class="closed"><i class="fas fa-angle-right"></i>
+                                                                    <span><i></i><label>Grade Of Compilation is
+                                                                            9%10</label></span></a>
+                                                                <ul class="nested">
+                                                                    <li>
+                                                                        <div class="treeview-animated-element">
+                                                                            <i></i><label>Feedback for this section :
+                                                                            </label><small>befbuwefwefhweuhfiuwehowheiughweiughweiuwghwiugiuweiugweiuhgihweguwewhguhwegkhwekgnsbgjsbgj
+                                                                                sbjhgbsgbsbgsbgbguiuhegiuheshgiusehegiuheiughieuhgiuegeiuhiushsndkjngsjbjgbugusi</small>
+
+                                                                    </li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="treeview-animated-items">
+                                                        <a class="closed">
+                                                            <i class="fas fa-angle-right"></i>
+                                                            <span><i></i>Style</span>
+                                                        </a>
+                                                        <ul class="nested">
+
+                                                            <li class="treeview-animated-items">
+                                                                <a class="closed"><i class="fas fa-angle-right"></i>
+                                                                    <span><i></i><label>Grade Of Style is
+                                                                            9%10</label></span></a>
+                                                                <ul class="nested">
+                                                                    <li>
+                                                                        <div class="treeview-animated-element">
+                                                                            <i></i><label>Feedback for this section :
+                                                                            </label><small>befbuwefwefhweuhfiuwehowheiughweiughweiuwghwiugiuweiugweiuhgihweguwewhguhwegkhwekgnsbgjsbgj
+                                                                                sbjhgbsgbsbgsbgbguiuhegiuheshgiusehegiuheiughieuhgiuegeiuhiushsndkjngsjbjgbugusi</small>
+
+                                                                    </li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                
+                                                <li class="treeview-animated-items">
+                                                    <a class="closed">
+                                                        <i class="fas fa-angle-right"></i>
+                                                        <span><i></i>Features Testing</span>
+                                                    </a>
+                                                    <ul class="nested">
+
+                                                        <li class="treeview-animated-items">
+                                                            <a class="closed"><i class="fas fa-angle-right"></i>
+                                                                <span><i></i><label>Grade Of Features Testing is
+                                                                        9%10</label></span></a>
+                                                            <ul class="nested">
+                                                                <li>
+                                                                    <div class="treeview-animated-element">
+                                                                        <i></i><label>Feedback for this section :
+                                                                        </label><small>befbuwefwefhweuhfiuwehowheiughweiughweiuwghwiugiuweiugweiuhgihweguwewhguhwegkhwekgnsbgjsbgj
+                                                                            sbjhgbsgbsbgsbgbguiuhegiuheshgiusehegiuheiughieuhgiuegeiuhiushsndkjngsjbjgbugusi</small>
+
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li class="treeview-animated-items">
+                                                    <a class="closed">
+                                                        <i class="fas fa-angle-right"></i>
+                                                        <span><i></i>Dynamic Testing</span>
+                                                    </a>
+                                                    <ul class="nested">
+
+                                                        <li class="treeview-animated-items">
+                                                            <a class="closed"><i class="fas fa-angle-right"></i>
+                                                                <span><i></i><label>Grade Of Dynamic Testing is
+                                                                        9%10</label></span></a>
+                                                            <ul class="nested">
+                                                                <li>
+                                                                    <div class="treeview-animated-element">
+                                                                        <i></i><label>Feedback for this section :
+                                                                        </label><small>befbuwefwefhweuhfiuwehowheiughweiughweiuwghwiugiuweiugweiuhgihweguwewhguhwegkhwekgnsbgjsbgj
+                                                                            sbjhgbsgbsbgsbgbguiuhegiuheshgiusehegiuheiughieuhgiuegeiuhiushsndkjngsjbjgbugusi</small>
+
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                </ul>
+                                                <div class="row text-center ">
+                                                    <div class="col">
+                                                        <label>Total Grade</label>
+                                                    </div>
+                                                    <div class="col">
+                                                        <label>8%10</label>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
