@@ -6,6 +6,8 @@ $error_message = "";
 if (isset($_SESSION["User_ID"])) {
     header("location: Home.php");
 }
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['inputEmail'];
     $password = $_POST['inputPassword'];
@@ -13,15 +15,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $row = mysqli_fetch_assoc($query);
     if (isset($row)) {
         $User_ID = $row['User_ID'];
-        if ($row['User_type'] == "instructor") {
-            $row2 = mysqli_fetch_assoc(mysqli_query($db_connection, "SELECT * FROM `instructor` WHERE `Instructor_ID`= $User_ID"));
-            if (isset($row2)) {
-                $_SESSION['User_image'] = $row2['Instructor_image'];
-            }
-        } else if ($row['User_type'] == "student") {
-            $row2 = mysqli_fetch_assoc(mysqli_query($db_connection, "SELECT * FROM `instructor` WHERE `Instructor_ID`= $User_ID"));
-            if (isset($row2)) {
+        if ($row['User_type'] == "student") {
+            $result = $db_connection->query("SELECT `Student_image` FROM `student` WHERE `Student_ID`= $User_ID");
+            if ($result->num_rows > 0) {
+                $row2 = $result->fetch_assoc();
                 $_SESSION['User_image'] = $row2['Student_image'];
+            }
+        } else if ($row['User_type'] == "instructor") {
+            $result = $db_connection->query("SELECT `Instructor_image` FROM `instructor` WHERE `Instructor_ID`= $User_ID");
+            if ($result->num_rows > 0) {
+                $row2 = $result->fetch_assoc();
+                $_SESSION['User_image'] = $row2['Instructor_image'];
             }
         }
         $_SESSION['User_ID'] = $row['User_ID'];
