@@ -163,7 +163,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
                         <div class="diveditfirst">
                             <?php
-                            echo file_get_contents("uploads/assignments/description/" . $Assignment_desc);
+                            echo file_get_contents($Assignment_desc);
                             ?>
                             <hr class="my-1">
                             <small>Posted <?php echo $Assignment_date; ?></small>

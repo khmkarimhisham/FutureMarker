@@ -10,6 +10,11 @@ $usertype = $_SESSION['User_type'];
 require 'DB/db.php';
 include "php_file_tree.php";
 
+if (isset($_GET['assignment'])) {
+    $assignment_msg = 'Assignment Uploaded Successfully';
+}
+
+
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $Course_ID = $_GET['course_id'];
 
@@ -29,10 +34,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 }
 
 
-
-// if ($_SESSION['User_type'] == "Instructor") {
-//     header("Location: courses_content_i.php");
-// }
+if ($_SESSION['User_type'] == "student") {
+    header("Location: courses_content.php");
+}
 
 ?>
 
@@ -131,10 +135,25 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             </ul>
         </div>
     </nav>
+
+
+
     <div class="container">
+        <div class="my-2">
+            <?php
+            if (!empty($assignment_msg)) {
+                echo '<div class="alert alert-success alert-dismissible fade show" role="alert">'
+                    .  $assignment_msg .
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>';
+            }
+            ?>
+        </div>
         <div class="row">
             <div class="col">
-                <div class="card -row my-5">
+                <div class="card -row my-2">
                     <div class="card-body">
                         <div>
                             <img src="<?php echo $Course_image; ?>" style="width: 260px;" class="rounded mx-auto d-block" alt="Course Image">
@@ -154,9 +173,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 </div>
             </div>
             <div class="col-5">
-                <div class="card -row my-5">
+                <div class="card -row my-2">
                     <div class="card-body">
-                        <div><h4><strong><?php echo $Course_name; ?></strong></h4></div>
+                        <div>
+                            <h4><strong><?php echo $Course_name; ?></strong></h4>
+                        </div>
                         <div><label><?php echo $Course_des; ?></label></div>
                         <div><label><?php echo "Access Code : " . $Course_AC; ?></label></div>
                         <hr class="my-2 ">
@@ -171,7 +192,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 </div>
             </div>
             <div class="col">
-                <div class="card -row my-5">
+                <div class="card -row my-2">
                     <div class="card-body">
                         <div class="raw">
                             <h4><strong>Assignment</strong></h4>
@@ -186,7 +207,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                         $assignment_date = $row['Assignment_date'];
                                         $assignment_title = $row['Assignment_title'];
                                         $assignment_id = $row['Assignment_ID'];
-                                       
+
                                         $assignment_due = date("F j, Y, g:i a", strtotime($row['Assignment_deadline']));
                                         echo $assignment_due . '
                                             <hr class="my-1">
@@ -198,7 +219,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                             </div>
                         </div>
                         <div class="text-center">
-                        <button type="submit" class="btn btn-outline-secondary " onclick="window.location.href='addassignment.php'" >Add Assignmnet</button></div>
+                            <button type="submit" class="btn btn-outline-secondary " onclick="window.location.href='addassignment.php'">Add Assignmnet</button></div>
                     </div>
                 </div>
             </div>

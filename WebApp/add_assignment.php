@@ -1,17 +1,115 @@
 <?php
-
+require 'DB/db.php';
 session_start();
 
 if (!isset($_SESSION['User_ID'])) {
     header("Location: login.php");
 }
 
-require 'DB/db.php';
-
 if ($_SESSION['User_type'] == "student") {
     header("Location: Home.php");
 }
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
+
+if (isset($_GET['submit']) && isset($_GET['course_id'])) {
+
+    $Course_ID = $_GET['course_id'];
+
+    $result1 = mysqli_query($db_connection, "SELECT `Course_name` FROM `course` WHERE `Course_ID` = $Course_ID");
+    if (mysqli_num_rows($result1) > 0) {
+        $row = mysqli_fetch_assoc($result1);
+        $Course_name = $row['Course_name'];
+    } else {
+        header("Location: course_content.php?course_id=$Course_ID");
+    }
+
+    $title = $_GET['inputtitle'];
+    $deadline = date('Y-m-d H:i:s', strtotime($_GET['deadline']));
+    $desc = $_GET['summernote'];
+    $compile_degree = $_GET['compile'];
+    $style_degree = $_GET['Styleofcode'];
+    $Feature_degree = $_GET['featureinput'];
+    $Dynamic_degree = $_GET['dynamicinput'];
+    $total_grade = $_GET['totalgrade'];
+
+    $targetFilePath = null;
+    $targetFilePath2 = null;
+    $error_message = '';
+    $status_message = '';
+
+
+    $assignment_attachment_check = true;
+    $model_answer_check = true;
+
+
+    if (!empty($_FILES["file1"]["name"])) {
+        $assignment_attachment = basename($_FILES["file1"]["name"]);
+        $attachment_dir = "uploads/assignments/attachments/";
+        $fileType = pathinfo($assignment_attachment, PATHINFO_EXTENSION);
+        do {
+            $assignment_attachment = rand() . '.' . $fileType;
+            $targetFilePath = $attachment_dir . $assignment_attachment;
+        } while (file_exists($targetFilePath));
+        $assignment_attachment_check = move_uploaded_file($_FILES["file1"]["tmp_name"], $targetFilePath);
+    }
+
+    if (!empty($_FILES["file2"]["name"])) {
+        $model_answer = basename($_FILES["file2"]["name"]);
+        $modelAnswer_dir = "uploads/assignments/model_answer/";
+        $fileType2 = pathinfo($model_answer, PATHINFO_EXTENSION);
+        do {
+            $model_answer = rand() . '.' . $fileType2;
+            $targetFilePath2 = $modelAnswer_dir . $model_answer;
+        } while (file_exists($targetFilePath2));
+        $model_answer_check = move_uploaded_file($_FILES["file2"]["tmp_name"], $targetFilePath2);
+    }
+
+    do {
+        $doc_name = rand() . '.doc';
+        $doc_dir = "uploads/assignments/description/$doc_name";
+    } while (file_exists($doc_dir));
+    file_put_contents($doc_dir, $desc);
+
+
+    if ($assignment_attachment_check && $model_answer_check) {
+
+        $insert = mysqli_query($db_connection, "INSERT INTO `assidsdsdgnment` (`Assgnment_title`, `Course_ID`, `Assignment_desc_dir`,
+         `Full_grade`, `Compilation_grade`, `Style_grade`, `Dynamic_test_grade`, `Feature_test_grade`,
+          `Assignment_deadline`, `Assignment_model_ans`, `Assignment_ma_main`, `Attachments_dir`)
+          VALUES ('$title','$Course_ID', '$doc_dir' , $total_grade, $compile_degree , $style_degree , $Dynamic_degree ,
+           $Feature_degree, '$deadline' ,'$targetFilePath2', NULL  , '$targetFilePath');");
+        if ($insert) {
+
+            $assignment_ID = $db_connection->insert_id;
+
+            if ($_GET['dynamic_number'] > 0) {
+                for ($i = 1; $i <= (int) $_GET['dynamic_number']; $i++) {
+                    $q = "INSERT INTO `dynamic_test` (`Assignment_ID`,`Input`, `output`, `Hidden`) VALUES ($assignment_ID,'" . $_GET["input$i"] . "', '" . $_GET["output$i"] . "'," . (isset($_GET["switch$i"]) ? '1' : '0') . ")";
+                    $sql = mysqli_query($db_connection, $q);
+                    if (!$sql) {
+                        $error_message .= "Failed to upload dynamic test";
+                    }
+                }
+            }
+
+            if ($_GET['feature_number'] > 0) {
+                for ($i = 1; $i <= (int) $_GET['feature_number']; $i++) {
+                    $sql2 = mysqli_query($db_connection, "INSERT INTO `feature_test`(`Assignment_ID`, `Test_name`, `regex`)
+                     VALUES ($assignment_ID ,'" . $_GET["input-select$i"] . "',' " . $_GET["textarea$i"] . "')");
+                    if (!$sql2) {
+                        $error_message .= "Failed to upload feature test";
+                    }
+                }
+            }
+            $status_message = "Assignment has been uploaded successfully.";
+        } else {
+            $error_message = "Assignment upload failed, please try again.";
+        }
+    }
+    if (empty($error_message)) {
+        header("Location: course_content_i.php?course_id=$Course_ID&assignment=done");
+    }
+} else if (isset($_GET['course_id'])) {
+
     $Course_ID = $_GET['course_id'];
 
     $result1 = mysqli_query($db_connection, "SELECT `Course_name` FROM `course` WHERE `Course_ID` = $Course_ID");
@@ -24,7 +122,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 } else {
     header("Location: courses_instructor.php");
 }
+
+
+
+
+
 ?>
+
 <html>
 
 <head>
@@ -62,9 +166,19 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 <div class="card -row my-5">
                     <div class="card-body">
                         <h5 class="card-title text-center">Add Assignment</h5>
-                        <form class="form-signin" method="post" enctype="multipart/form-data" action="add_assignment_logic.php">
+                        <?php
+                        if (!empty($error_message)) {
+                            echo '<div class="alert alert alert-danger alert-dismissible fade show" role="alert">'
+                                .  $error_message .
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>';
+                        }
+                        ?>
+                        <form class="form-signin" method="GET" enctype="multipart/form-data">
 
-                            <input id="Course_ID" name="Course_ID" value=<?php echo $Course_ID; ?> hidden>
+                            <input type="text" id="course_id" name="course_id" class="form-control" value="<?php echo $Course_ID; ?>" hidden>
 
                             <div class="container my-3">
                                 <label for="deadline">Deadline</label>
@@ -151,7 +265,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                             <hr class="my-4">
                             <div class="container">
                                 <h5 class="card-title text-left">Dynamic Testing</h5>
-                                <input type="number" id="dynamic_number"  name="dynamic_number" value="0" hidden>
+                                <input type="number" id="dynamic_number" name="dynamic_number" value="0" hidden>
 
                                 <div id="mylocation">
                                 </div>
