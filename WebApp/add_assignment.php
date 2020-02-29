@@ -72,7 +72,7 @@ if (isset($_GET['submit']) && isset($_GET['course_id'])) {
 
     if ($assignment_attachment_check && $model_answer_check) {
 
-        $insert = mysqli_query($db_connection, "INSERT INTO `assidsdsdgnment` (`Assgnment_title`, `Course_ID`, `Assignment_desc_dir`,
+        $insert = mysqli_query($db_connection, "INSERT INTO `assignment` (`Assignment_title`, `Course_ID`, `Assignment_desc_dir`,
          `Full_grade`, `Compilation_grade`, `Style_grade`, `Dynamic_test_grade`, `Feature_test_grade`,
           `Assignment_deadline`, `Assignment_model_ans`, `Assignment_ma_main`, `Attachments_dir`)
           VALUES ('$title','$Course_ID', '$doc_dir' , $total_grade, $compile_degree , $style_degree , $Dynamic_degree ,
@@ -122,9 +122,6 @@ if (isset($_GET['submit']) && isset($_GET['course_id'])) {
 } else {
     header("Location: courses_instructor.php");
 }
-
-
-
 
 
 ?>
