@@ -219,7 +219,7 @@ if ($_SESSION['User_type'] == "student") {
                             </div>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-outline-secondary " onclick="window.location.href='addassignment.php'">Add Assignmnet</button></div>
+                            <button type="submit" class="btn btn-outline-secondary " onclick="window.location.href='add_assignment.php?course_id=<?php echo $Course_ID;?>'">Add Assignmnet</button></div>
                     </div>
                 </div>
             </div>
