@@ -30,9 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 
 
-// if ($_SESSION['User_type'] == "Instructor") {
-//     header("Location: courses_content_i.php");
-// }
+if ($_SESSION['User_type'] == "Instructor") {
+    header("Location: courses_content_i.php");
+}
 
 ?>
 
@@ -141,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         </div>
                         <div>
                             <hr class="my-2">
-                            <div> <a class="aedit active" href="#"> <label>Matiral</label></a></div>
+                            <div> <a class="aedit active" href="#"> <label>Material</label></a></div>
                             <hr class="my-3">
                             <div> <a class="aedit" href="#"> <label>Update</label></a></div>
                             <hr class="my-3">
@@ -156,14 +156,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             <div class="col-5">
                 <div class="card -row my-5">
                     <div class="card-body">
-                    <div><h4><strong><?php echo $Course_name; ?></strong></h4></div>
+                        <div>
+                            <h4><strong><?php echo $Course_name; ?></strong></h4>
+                        </div>
                         <div><label><?php echo $Course_des; ?></label></div>
                         <div><label><?php echo "Access Code : " . $Course_AC; ?></label></div>
                         <hr class="my-2 ">
                         <div class="container">
                             <table class="table table-sm table-light ">
                                 <?php
-                                echo php_file_tree("uploads", "[link]");
+                                echo php_file_tree($Course_dir, "[link]");
                                 ?>
                             </table>
                         </div>
@@ -186,7 +188,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                         $assignment_date = $row['Assignment_date'];
                                         $assignment_title = $row['Assignment_title'];
                                         $assignment_id = $row['Assignment_ID'];
-                                       
+
                                         $assignment_due = date("F j, Y, g:i a", strtotime($row['Assignment_deadline']));
                                         echo $assignment_due . '
                                             <hr class="my-1">

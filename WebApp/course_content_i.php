@@ -160,7 +160,7 @@ if ($_SESSION['User_type'] == "student") {
                         </div>
                         <div>
                             <hr class="my-2">
-                            <div> <a class="aedit active" href="#"> <label>Matiral</label></a></div>
+                            <div> <a class="aedit active" href="#"> <label>Material</label></a></div>
                             <hr class="my-3">
                             <div> <a class="aedit" href="#"> <label>Update</label></a></div>
                             <hr class="my-3">
@@ -184,7 +184,7 @@ if ($_SESSION['User_type'] == "student") {
                         <div class="container">
                             <table class="table table-sm table-light ">
                                 <?php
-                                echo php_file_tree("uploads", "[link]");
+                                echo php_file_tree($Course_dir, "[link]");
                                 ?>
                             </table>
                         </div>

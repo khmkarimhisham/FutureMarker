@@ -9,7 +9,16 @@ $usertype = $_SESSION['User_type'];
 $userID = $_SESSION['User_ID'];
 
 require('DB/db.php');
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    // print_r($_POST);
+    // for($x=0;$x<$count_posts;$x++){
+    //     if(isset($_POST['textarea'.$x])){
+    //         $content=$_POST['textarea'.$x];
+    //     // $sql=mysqli_query($db_connection,"INSERT INTO `comment` (`Comment_ID`, `User_ID`, `Comment_time`, `Comment_content`, `Post_ID`) VALUES (NULL, '1', NOW(),'$content', $row['Post_ID'])");
+    //     }
+    // }
+}
 
 
 ?>
@@ -108,92 +117,104 @@ require('DB/db.php');
                         <h>Posts</h>
                         <hr class="my-2">
                         <div class="raw">
-                            <div>
-                                <a href="#"><img src="http://www.bobmazzo.com/wp-content/uploads/2009/07/bobmazzoCD.jpg" width="30" height="30"> </a>
-                                <a href="#">anas Hassan</a>
-                                <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                                <a href="#">csc413 mobil programming fall:2019</a>
-                            </div>
-                            <div class="diveditfirst">
-                                Ghost Stories was a U.S. pulp magazine that published 64 issues between 1926 and 1932. It was one of the earliest competitors to Weird Tales, the first magazine to specialize in the fantasy and occult fiction genre. Ghost Stories was a companion magazine to True Story and True Detective Stories, and focused almost entirely on stories about ghosts, many of which were written by staff writers but presented under pseudonyms as true confessions. These were often accompanied by faked photographs to make the stories appear more believable. Ghost Stories also ran original and reprinted contributions, including works by Robert E. Howard, Carl Jacobi, and Frank Belknap Long. Among the reprints were Agatha Christie's "The Last Seance" (under the title "The Woman Who Stole a Ghost"), several stories by H. G. Wells, and Charles Dickens's "The Signal-Man". The magazine was initially successful, but had begun to lose readers by 1930, and ceased publication at the start of 1932.
-                                <hr class="my-2">
-                                <div class="row bootstrap snippets">
-                                    <div class="col-12 col-md-8">
-                                        <div class="comment-wrapper">
-                                            <div class="panel panel-info">
-                                                <div class="panel-body">
-                                                    <textarea class="form-control" placeholder="write a comment..." rows="3"></textarea>
-                                                    <button type="button" class="btn btn-info pull-right">Post</button>
-                                                    <div class="clearfix"></div>
-                                                    <hr>
-                                                    <ul class="media-list">
-                                                        <li class="media">
-                                                            <a href="#" class="pull-left">
-                                                                <img src="http://www.bobmazzo.com/wp-content/uploads/2009/07/bobmazzoCD.jpg" width="30" height="30">
-                                                            </a>
-                                                            <div class="media-body">
-                                                                <span class="text-muted pull-right">
-                                                                    <small class="text-muted">30 min ago</small>
-                                                                </span>
-                                                                <strong class="text-success">@anshassan</strong>
-                                                                <p>
-                                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                                    Lorem ipsum dolor sit amet, <a href="#">#consecteturadipiscing </a>.
-                                                                </p>
+                            <?php
+                            $user_comment = '';
+                            $count_posts = 0;
+                            $result = mysqli_query($db_connection, "SELECT * FROM `post` JOIN `enrollment` ON post.Course_ID = enrollment.Course_ID WHERE enrollment.Student_ID = $userID");
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    $comments = '';
+                                    $count_posts += 1;
+
+                                    $data_instructor = mysqli_query($db_connection, "SELECT `Instructor_firstname`,`Instructor_lastname`,`Instructor_image` FROM `instructor` WHERE `Instructor_ID`=" . $row['Instructor_ID']);
+                                    if ($data_instructor->num_rows > 0) {
+                                        $fetch_instructor = $data_instructor->fetch_assoc();
+                                        $data_course = mysqli_query($db_connection, "SELECT `Course_name` FROM `course` WHERE `Course_ID`=" . $row['Course_ID']);
+
+
+                                        $post_date = date("F j, Y, g:i a", strtotime($row['Post_time']));
+
+
+
+                                        $data_comment = mysqli_query($db_connection, "SELECT * FROM comment JOIN user ON comment.User_ID = user.User_ID WHERE Post_ID =" . $row['Post_ID']);
+                                        if ($data_comment->num_rows > 0) {
+                                            while ($fetch_comment = $data_comment->fetch_assoc()) {
+
+                                                $comment_date =  date("F j, Y, g:i a", strtotime($fetch_comment['Comment_time']));
+                                                if ($fetch_comment['User_type'] == "instructor") {
+                                                    $user_comment = mysqli_query($db_connection, "SELECT * FROM instructor WHERE instructor.Instructor_ID=" . $fetch_comment['User_ID']);
+                                                } else {
+                                                    $user_comment = mysqli_query($db_connection, "SELECT * FROM student WHERE Student_ID=" . $fetch_comment['User_ID']);
+                                                }
+                                                $fetch_user_comment = $user_comment->fetch_assoc();
+
+                                                $comments = ' 
+                                            <a href="#" >
+                                                <img src="' . ($fetch_comment['User_type'] == "instructor" ? $fetch_user_comment['Instructor_image'] : $fetch_user_comment['Student_image']) . '" width="30" height="30">
+                                            </a>
+                                            <div class="media-body">
+                                                <span class="text-muted pull-right">
+                                                    <small class="text-muted">' . $comment_date . '</small>
+                                                </span>
+                                                <strong class="text-success">' . ($fetch_comment['User_type'] == "instructor" ? $fetch_user_comment['Instructor_firstname'] . ' ' . $fetch_user_comment['Instructor_lastname'] : $fetch_user_comment['Student_firstname'] . ' ' . $fetch_user_comment['Student_lastname']) . ' </strong>
+                                                <p>
+                                                    ' . $fetch_comment['Comment_content'] . '
+                                                </p>
+                                            </div>
+                                       ';
+                                            }
+                                        }
+                                        if ($data_course->num_rows > 0) {
+
+                                            $fetch_course = $data_course->fetch_assoc();
+
+                                            echo '
+                                                <div> 
+                                                <a href="#"><img src="' . $fetch_instructor['Instructor_image'] . '" width="30" height="30"> </a>
+                                                <a href="#">' . $fetch_instructor['Instructor_firstname'] . '    ' . $fetch_instructor['Instructor_lastname'] . '</a>
+                                                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                                <a href="#">' . $fetch_course['Course_name'] . '</a><br>
+                                                ' . $post_date . '
+                                                </div>
+                                                <div class="diveditfirst">
+                                                ' . $row['Post_content'] . '' . $row['Post_attachment'] . '
+                                                <hr class="my-2">
+                                                <div class="row bootstrap snippets">
+                                                    <div class="col-12 col-md-8">
+                                                        <div class="comment-wrapper">
+                                                            <div class="panel panel-info">
+                                                                <div class="panel-body">
+                                                                <form method="post" id="' . $count_posts . '" name="' . $count_posts . '" >
+                                                                    <textarea name="textarea' . $count_posts . '" id="textarea' . $count_posts . '" class="form-control" placeholder="write a comment..." rows="3"></textarea>
+                                                                    <button type="submit" class="btn btn-info pull-right" >comment</button>
+                                                                    </form>
+                                                                    <div class="clearfix"></div>
+                                                                    <hr>
+                                                                    <ul class="media-list">
+                                                                        <li class="media">
+                                                                   ' . $comments . '
+                                                                         </li>
+                                                                   </ul>
+                                                                </div>
                                                             </div>
-                                                        </li>
-                                                    </ul>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                            
+                                                ';
+                                            echo $count_posts;
+                                        }
+                                    }
+                                }
+                            }
+
+
+
+                            ?>
+
                         </div>
                         <hr class="my-2">
-                        <div class="raw">
-                            <div>
-                                <a href="#"><img src="http://www.bobmazzo.com/wp-content/uploads/2009/07/bobmazzoCD.jpg" width="30" height="30"> </a>
-                                <a href="#">anas Hassan</a>
-                                <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                                <a href="#">csc413 mobil programming fall:2019</a>
-                            </div>
-                            <div class="diveditfirst">
-                                Ghost Stories was a U.S. pulp magazine that published 64 issues between 1926 and 1932. It was one of the earliest competitors to Weird Tales, the first magazine to specialize in the fantasy and occult fiction genre. Ghost Stories was a companion magazine to True Story and True Detective Stories, and focused almost entirely on stories about ghosts, many of which were written by staff writers but presented under pseudonyms as true confessions. These were often accompanied by faked photographs to make the stories appear more believable. Ghost Stories also ran original and reprinted contributions, including works by Robert E. Howard, Carl Jacobi, and Frank Belknap Long. Among the reprints were Agatha Christie's "The Last Seance" (under the title "The Woman Who Stole a Ghost"), several stories by H. G. Wells, and Charles Dickens's "The Signal-Man". The magazine was initially successful, but had begun to lose readers by 1930, and ceased publication at the start of 1932.
-                                <hr class="my-2">
-                                <div class="row bootstrap snippets">
-                                    <div class="col-12 col-md-8">
-                                        <div class="comment-wrapper">
-                                            <div class="panel panel-info">
-                                                <div class="panel-body">
-                                                    <textarea class="form-control" placeholder="write a comment..." rows="3"></textarea>
-                                                    <button type="button" class="btn btn-info pull-right">Post</button>
-                                                    <div class="clearfix"></div>
-                                                    <hr>
-                                                    <ul class="media-list">
-                                                        <li class="media">
-                                                            <a href="#" class="pull-left">
-                                                                <img src="http://www.bobmazzo.com/wp-content/uploads/2009/07/bobmazzoCD.jpg" width="30" height="30">
-                                                            </a>
-                                                            <div class="media-body">
-                                                                <span class="text-muted pull-right">
-                                                                    <small class="text-muted">30 min ago</small>
-                                                                </span>
-                                                                <strong class="text-success">@anshassan</strong>
-                                                                <p>
-                                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                                    Lorem ipsum dolor sit amet, <a href="#">#consecteturadipiscing </a>.
-                                                                </p>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
