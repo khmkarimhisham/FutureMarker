@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2020 at 01:17 PM
+-- Generation Time: Mar 01, 2020 at 02:19 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `futuremarker`
+-- Database: `aaaa`
 --
 
 -- --------------------------------------------------------
@@ -53,8 +53,9 @@ CREATE TABLE `assignment` (
 
 CREATE TABLE `comment` (
   `Comment_ID` int(11) NOT NULL,
+  `Post_ID` int(11) DEFAULT NULL,
   `User_ID` int(11) DEFAULT NULL,
-  `Comment_time` datetime DEFAULT NULL,
+  `Comment_time` datetime DEFAULT current_timestamp(),
   `Comment_content` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -73,13 +74,6 @@ CREATE TABLE `course` (
   `Course_material_dir` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `course`
---
-
-INSERT INTO `course` (`Course_ID`, `Course_access_code`, `Course_name`, `Course_desc`, `Course_image`, `Course_material_dir`) VALUES
-(1, 'klklksalkdkla', 'datastr', 'mama 7lwa', NULL, 'firstsem');
-
 -- --------------------------------------------------------
 
 --
@@ -90,13 +84,20 @@ CREATE TABLE `doing_assignment` (
   `Doing_ID` int(11) NOT NULL,
   `Student_ID` int(11) DEFAULT NULL,
   `Assignment_ID` int(11) DEFAULT NULL,
+  `Doing_time` datetime DEFAULT current_timestamp(),
   `Assignment_dir` varchar(250) DEFAULT NULL,
   `Assignment_main` varchar(250) DEFAULT NULL,
   `Compilation_grade` int(11) DEFAULT NULL,
+  `Compilation_feedback` text DEFAULT NULL,
   `Style_grade` int(11) DEFAULT NULL,
+  `Comment_feedback` text DEFAULT NULL,
+  `Indentation_feedback` text DEFAULT NULL,
+  `Methods_feedback` text DEFAULT NULL,
+  `Identifiers_feedback` text DEFAULT NULL,
   `Dynamic_test_grade` int(11) DEFAULT NULL,
+  `Dynamic_test_feedback` text DEFAULT NULL,
   `Feature_test_grade` int(11) DEFAULT NULL,
-  `Assignment_feedback` text DEFAULT NULL,
+  `Feature_test_feedback` text DEFAULT NULL,
   `Assignment_alert` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -209,7 +210,7 @@ CREATE TABLE `post` (
   `Course_ID` int(11) DEFAULT NULL,
   `Post_content` text DEFAULT NULL,
   `Post_attachment` varchar(250) DEFAULT NULL,
-  `Post_time` datetime DEFAULT NULL
+  `Post_time` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -281,13 +282,15 @@ ALTER TABLE `assignment`
 --
 ALTER TABLE `comment`
   ADD PRIMARY KEY (`Comment_ID`),
-  ADD KEY `User_ID` (`User_ID`);
+  ADD KEY `User_ID` (`User_ID`),
+  ADD KEY `Post_ID` (`Post_ID`);
 
 --
 -- Indexes for table `course`
 --
 ALTER TABLE `course`
-  ADD PRIMARY KEY (`Course_ID`);
+  ADD PRIMARY KEY (`Course_ID`),
+  ADD UNIQUE KEY `Course_access_code` (`Course_access_code`);
 
 --
 -- Indexes for table `doing_assignment`
@@ -403,7 +406,7 @@ ALTER TABLE `comment`
 -- AUTO_INCREMENT for table `course`
 --
 ALTER TABLE `course`
-  MODIFY `Course_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Course_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `doing_assignment`
@@ -485,7 +488,8 @@ ALTER TABLE `assignment`
 -- Constraints for table `comment`
 --
 ALTER TABLE `comment`
-  ADD CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`User_ID`) REFERENCES `user` (`User_ID`);
+  ADD CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`User_ID`) REFERENCES `user` (`User_ID`),
+  ADD CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`Post_ID`) REFERENCES `post` (`Post_ID`);
 
 --
 -- Constraints for table `doing_assignment`
