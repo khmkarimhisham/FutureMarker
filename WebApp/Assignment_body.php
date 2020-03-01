@@ -6,15 +6,15 @@ if (!isset($_SESSION['User_ID'])) {
     header("Location: login.php");
 }
 $usertype = $_SESSION['User_type'];
-
+$Student_ID = $_SESSION['User_ID'];
 require 'DB/db.php';
 include "php_file_tree.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $Course_ID = $_GET['course_id'];
-    $assignment_ID = $_GET['assignment_id'];
+    $Assignment_ID = $_GET['assignment_id'];
 
-    $result1 = mysqli_query($db_connection, "SELECT * FROM `assignment` JOIN `course` ON assignment.Course_ID = course.Course_ID WHERE assignment.Assignment_ID = $assignment_ID");
+    $result1 = mysqli_query($db_connection, "SELECT * FROM `assignment` JOIN `course` ON assignment.Course_ID = course.Course_ID WHERE assignment.Assignment_ID = $Assignment_ID");
     if (mysqli_num_rows($result1) > 0) {
         $row = mysqli_fetch_assoc($result1);
         $Course_name = $row['Course_name'];
@@ -74,7 +74,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link " href="#">
-
                         Grades
                     </a>
                 </li>
@@ -102,7 +101,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     </a>
                 </li>
                 <li>
-
                     <div class="dropdown mydrop">
                         <button type="button" class="btn btn-primary dropdown-toggle mydropbutton" data-toggle="dropdown">
                             <img src="<?php echo $_SESSION['User_image']; ?>" width="30" height="30">
@@ -121,47 +119,47 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             </ul>
         </div>
     </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card -row my-3">
+                    <div class="card-body">
+                        <div>
+                            <img src="<?php echo $Course_image; ?>" class="rounded mx-auto d-block" style="width: 260px;" alt="...">
 
-    <div class="row">
-        <div class="col">
-            <div class="card -row my-5">
-                <div class="card-body">
-                    <div>
-                        <img src="<?php echo $Course_image; ?>" class="rounded mx-auto d-block" style="width: 260px;" alt="...">
-
-                    </div>
-                    <div>
-                        <hr class="my-2">
-                        <div> <a class="aedit active" href="#"> <label>Matiral</label></a></div>
-                        <hr class="my-3">
-                        <div> <a class="aedit" href="#"> <label>Update</label></a></div>
-                        <hr class="my-3">
-                        <div> <a class="aedit" href="#"> <label>Grades</label></a></div>
-                        <hr class="my-3">
-                        <div> <a class="aedit" href="#"> <label>Members</label></a></div>
-                        <hr class="my-3">
+                        </div>
+                        <div>
+                            <hr class="my-2">
+                            <div> <a class="aedit active" href="#"> <label>Matiral</label></a></div>
+                            <hr class="my-3">
+                            <div> <a class="aedit" href="#"> <label>Update</label></a></div>
+                            <hr class="my-3">
+                            <div> <a class="aedit" href="#"> <label>Grades</label></a></div>
+                            <hr class="my-3">
+                            <div> <a class="aedit" href="#"> <label>Members</label></a></div>
+                            <hr class="my-3">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-6">
-            <div class="card -row my-5">
-                <div class="card-body">
-                    <div>
-                        <a href="course_content.php?course_id=<?php echo $Course_ID; ?>"><strong><?php echo $Course_name ?></strong></a>
-                        <hr class="my-3">
-                    </div>
-                    <div> <h4><strong><?php echo $Assignment_tit; ?></strong></h4></div>
+            <div class="col-6">
+                <div class="card -row my-3">
+                    <div class="card-body">
+                        <div>
+                            <a href="course_content.php?course_id=<?php echo $Course_ID; ?>"><strong><?php echo $Course_name ?></strong></a>
+                            <hr class="my-3">
+                        </div>
+                        <div>
+                            <h4><strong><?php echo $Assignment_tit; ?></strong></h4>
+                        </div>
+                        <hr class="my-1 ">
+                        <div class="raw">
+                            <label>Due : <?php echo $Assignment_due;
+                                            ?>
+                            </label>
+                            <hr class="my-1">
 
-                    <hr class="my-1 ">
-                    <div class="raw">
-                        <label>Due : <?php echo $Assignment_due;
-                                        ?>
-                        </label>
-                        <hr class="my-1">
 
-
-                        <div class="diveditfirst">
                             <?php
                             echo file_get_contents($Assignment_desc);
                             ?>
@@ -171,162 +169,66 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col">
-            <div class="card -row my-5">
-                <div class="card-body">
-                    <h>Assignments</h>
-                    <hr class="my-2">
-                    <div class="raw">
-                        <div class="diveditsecond text-center">
-                            <a href="#"></a><br><br>
-                            <button type="submit" class="btn btn-outline-secondary " data-toggle="modal" data-target="#Submitform">Submit Assignmnet</button>
-                        </div>
-                        <div class="modal fade" id="Submitform" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header border-bottom-0">
-                                        <h5 class="modal-title" id="exampleModalLabel">Upload Assignment File</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <form method="post" enctype="multipart/form-data">
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <label for="assignmentfile">Assignment File</label>
-                                                <input type="file" class="form-control" name="assignmentfile" id="assignmentfile" placeholder="Image" accept="image/*" required>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer border-top-0 d-flex justify-content-center">
-                                            <button type="submit" class="btn btn-success">Submit</button>
-                                        </div>
-                                    </form>
-                                </div>
+            <div class="col">
+                <div class="card -row my-3">
+                    <div class="card-body">
+                        <div class="raw">
+                            <h>Assignments</h>
+                            <hr class="my-2">
+                            <div class="diveditsecond">
+
+
+                                <?php
+
+                                $result = mysqli_query($db_connection, "SELECT * FROM `doing_assignment` WHERE `Assignment_ID` = '$Assignment_ID' AND `Student_ID` = '$Student_ID'");
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    $count = 1;
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        $Doing_ID = $row['Doing_ID'];
+                                        $Doing_time = date("F j, Y, g:i a", strtotime($row['Doing_time']));
+                                        echo $Doing_time . '
+                                    
+                                            <hr class="my-1">
+                                            <img src="images/assignment_image.png" width="20" height="20">
+                                            <a href="submission.php?course_id=' . $Course_ID . '&assignment_id=' . $Assignment_ID . '&submission=' . $Doing_ID . '" > Submission ' . $count . '</a>
+                                      
+                                            ';
+                                        $count++;
+                                    }
+                                }
+                                ?>
+
                             </div>
                         </div>
-                        <!-- feedback form-->
-                        <div class="modal fade bd-example-modal-lg " id="feedbackform" tabindex="-1" role="dialog"
-                            aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
 
-                                    <div class="card -row "style="padding:25px">
+                        <div class="raw">
+                            <div class="diveditsecond text-center">
+                                <button type="submit" class="btn btn-outline-secondary " data-toggle="modal" data-target="#Submitform">Submit Assignmnet</button>
+                            </div>
+                            <div class="modal fade" id="Submitform" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
                                         <div class="modal-header border-bottom-0">
-
+                                            <h5 class="modal-title" id="exampleModalLabel">Upload Assignment File</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title text-center">Feedback</h5>
-                                            <form class="form-signin ">
-                                                <ul class="treeview-animated-list mb-3">
-                                                    <li class="treeview-animated-items">
-                                                        <a class="closed">
-                                                            <i class="fas fa-angle-right"></i>
-                                                            <span><i></i>Compiled</span>
-                                                        </a>
-                                                        <ul class="nested">
-
-                                                            <li class="treeview-animated-items">
-                                                                <a class="closed"><i class="fas fa-angle-right"></i>
-                                                                    <span><i></i><label>Grade Of Compilation is
-                                                                            9%10</label></span></a>
-                                                                <ul class="nested">
-                                                                    <li>
-                                                                        <div class="treeview-animated-element">
-                                                                            <i></i><label>Feedback for this section :
-                                                                            </label><small>befbuwefwefhweuhfiuwehowheiughweiughweiuwghwiugiuweiugweiuhgihweguwewhguhwegkhwekgnsbgjsbgj
-                                                                                sbjhgbsgbsbgsbgbguiuhegiuheshgiusehegiuheiughieuhgiuegeiuhiushsndkjngsjbjgbugusi</small>
-
-                                                                    </li>
-                                                                </ul>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li class="treeview-animated-items">
-                                                        <a class="closed">
-                                                            <i class="fas fa-angle-right"></i>
-                                                            <span><i></i>Style</span>
-                                                        </a>
-                                                        <ul class="nested">
-
-                                                            <li class="treeview-animated-items">
-                                                                <a class="closed"><i class="fas fa-angle-right"></i>
-                                                                    <span><i></i><label>Grade Of Style is
-                                                                            9%10</label></span></a>
-                                                                <ul class="nested">
-                                                                    <li>
-                                                                        <div class="treeview-animated-element">
-                                                                            <i></i><label>Feedback for this section :
-                                                                            </label><small>befbuwefwefhweuhfiuwehowheiughweiughweiuwghwiugiuweiugweiuhgihweguwewhguhwegkhwekgnsbgjsbgj
-                                                                                sbjhgbsgbsbgsbgbguiuhegiuheshgiusehegiuheiughieuhgiuegeiuhiushsndkjngsjbjgbugusi</small>
-
-                                                                    </li>
-                                                                </ul>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                
-                                                <li class="treeview-animated-items">
-                                                    <a class="closed">
-                                                        <i class="fas fa-angle-right"></i>
-                                                        <span><i></i>Features Testing</span>
-                                                    </a>
-                                                    <ul class="nested">
-
-                                                        <li class="treeview-animated-items">
-                                                            <a class="closed"><i class="fas fa-angle-right"></i>
-                                                                <span><i></i><label>Grade Of Features Testing is
-                                                                        9%10</label></span></a>
-                                                            <ul class="nested">
-                                                                <li>
-                                                                    <div class="treeview-animated-element">
-                                                                        <i></i><label>Feedback for this section :
-                                                                        </label><small>befbuwefwefhweuhfiuwehowheiughweiughweiuwghwiugiuweiugweiuhgihweguwewhguhwegkhwekgnsbgjsbgj
-                                                                            sbjhgbsgbsbgsbgbguiuhegiuheshgiusehegiuheiughieuhgiuegeiuhiushsndkjngsjbjgbugusi</small>
-
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="treeview-animated-items">
-                                                    <a class="closed">
-                                                        <i class="fas fa-angle-right"></i>
-                                                        <span><i></i>Dynamic Testing</span>
-                                                    </a>
-                                                    <ul class="nested">
-
-                                                        <li class="treeview-animated-items">
-                                                            <a class="closed"><i class="fas fa-angle-right"></i>
-                                                                <span><i></i><label>Grade Of Dynamic Testing is
-                                                                        9%10</label></span></a>
-                                                            <ul class="nested">
-                                                                <li>
-                                                                    <div class="treeview-animated-element">
-                                                                        <i></i><label>Feedback for this section :
-                                                                        </label><small>befbuwefwefhweuhfiuwehowheiughweiughweiuwghwiugiuweiugweiuhgihweguwewhguhwegkhwekgnsbgjsbgj
-                                                                            sbjhgbsgbsbgsbgbguiuhegiuheshgiusehegiuheiughieuhgiuegeiuhiushsndkjngsjbjgbugusi</small>
-
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                </ul>
-                                                <div class="row text-center ">
-                                                    <div class="col">
-                                                        <label>Total Grade</label>
-                                                    </div>
-                                                    <div class="col">
-                                                        <label>8%10</label>
-                                                    </div>
+                                        <form method="post" enctype="multipart/form-data" action="API\assess.php">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="assignmentfile">Assignment File</label>
+                                                    <input type="file" class="form-control" name="codeFile" id="codeFile" required>
+                                                    <input type="text" class="form-control" name="Assignment_ID" id="Assignment_ID" value="<?php echo $Assignment_ID; ?>" hidden>
+                                                    <input type="text" class="form-control" name="Student_ID" id="Student_ID" value="<?php echo $Student_ID; ?>" hidden>
+                                                    <input type="text" class="form-control" name="Course_ID" id="Course_ID" value="<?php echo $Course_ID; ?>" hidden>
                                                 </div>
-
-                                            </form>
-                                        </div>
+                                            </div>
+                                            <div class="modal-footer border-top-0 d-flex justify-content-center">
+                                                <button type="submit" class="btn btn-success">Submit</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -336,10 +238,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             </div>
         </div>
     </div>
-
-
-
-
 
     <!-- Footer -->
     <div class="footerstyle">
