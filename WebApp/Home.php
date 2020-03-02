@@ -240,7 +240,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         echo $assignment_due . '
                                             <hr class="my-1">
                                             <img src="images/assignment_image.png" width="20" height="20">
-                                            <a href="Assignment_body.php?course_id=' . $course_id . '&assignment_id=' . $assignment_id . '">' . $assignment_title . '</a>';
+                                            <a href="Assignment_body.php?course_id=' . $course_id . '&assignment_id=' . $assignment_id . '">' . $assignment_title . '</a><br><br>';
                                     }
                                 }
                                 ?>
