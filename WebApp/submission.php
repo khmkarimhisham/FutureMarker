@@ -113,13 +113,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             </ul>
         </div>
     </nav>
-    <div class="container">
-        <div class="card -row" style="padding:25px">
-            <div class="card-body">
-                <h4 class="card-title text-center"><strong><?php echo "\"", $row['Assignment_title'] . "\" "; ?>Feedback</strong></h4>
-                <form class="form-signin ">
-                    <ul class="treeview-animated-list mb-3">
-
+    <div class="container my-5">
+        <h4 class="card-title text-center"><strong><?php echo "\"", $row['Assignment_title'] . "\" "; ?>Feedback</strong></h4>
+        <form class="form-signin ">
+            <ul class="treeview-animated-list mb-3">
+                <div class="card my-3 bg-light">
+                    <div class="card-body">
                         <div class="row">
                             <div class="col">
                                 <i class="fas fa-angle-right"></i>
@@ -137,6 +136,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 </div>
                             </li>
                         </ul>
+                    </div>
+                </div>
+                <div class="card my-3 bg-light">
+                    <div class="card-body">
                         <div class="row">
                             <div class="col">
                                 <i class="fas fa-angle-right"></i>
@@ -166,6 +169,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 </div>
                             </li>
                         </ul>
+                    </div>
+                </div>
+                <div class="card my-3 bg-light">
+                    <div class="card-body">
                         <div class="row">
                             <div class="col">
                                 <i class="fas fa-angle-right"></i>
@@ -178,6 +185,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         <ul class="nested">
                             <pre><?php echo $row['Dynamic_test_feedback']; ?></pre>
                         </ul>
+                    </div>
+                </div>
+                <div class="card my-3 bg-light">
+                    <div class="card-body">
                         <div class="row">
                             <div class="col">
                                 <i class="fas fa-angle-right"></i>
@@ -190,6 +201,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         <ul class="nested">
                             <p><?php echo $row['Feature_test_feedback']; ?></p>
                         </ul>
+                    </div>
+                </div>
+                <div class="card my-3 bg-light">
+                    <div class="card-body">
                         <div class="row">
                             <div class="col">
                                 <i class="fas fa-angle-right"></i>
@@ -199,11 +214,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 <span><i></i><label><strong><?php echo $row['Doing_compilation_grade'] + $row['Doing_style_grade'] + $row['Doing_dynamic_test_grade'] + $row['Doing_feature_test_grade'] . "/" . $row['Full_grade'] ?></strong></label></span>
                             </div>
                         </div>
-                        </ul>
-                    </ul>
-                </form>
-            </div>
-        </div>
+                    </div>
+                </div>
+            </ul>
+        </form>
+
     </div>
     <!-- Footer -->
     <div class="footerstyle">
