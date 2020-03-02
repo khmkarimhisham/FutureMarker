@@ -60,7 +60,7 @@ if (isset($_SESSION['User_ID'])) {
                     <hr class="divider my-4">
                 </div>
                 <div class="col-lg-8 align-self-baseline">
-                    <button type="button" class=" headerbtn">Join Us</button>
+                    <button type="button" class="headerbtn" onclick="location.href='signup.php';">Join Us</button>
                 </div>
             </div>
         </div>
