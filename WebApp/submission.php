@@ -176,7 +176,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                             </div>
                         </div>
                         <ul class="nested">
-                            <p><?php echo $row['Dynamic_test_feedback']; ?></p>
+                            <pre><?php echo $row['Dynamic_test_feedback']; ?></pre>
                         </ul>
                         <div class="row">
                             <div class="col">
@@ -199,6 +199,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 <span><i></i><label><strong><?php echo $row['Doing_compilation_grade'] + $row['Doing_style_grade'] + $row['Doing_dynamic_test_grade'] + $row['Doing_feature_test_grade'] . "/" . $row['Full_grade'] ?></strong></label></span>
                             </div>
                         </div>
+                        </ul>
                     </ul>
                 </form>
             </div>

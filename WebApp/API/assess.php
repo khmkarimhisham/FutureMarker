@@ -88,6 +88,12 @@ if (isset($_FILES['codeFile'])) {
                 while ($row = mysqli_fetch_assoc($result)) {
                     exec("java -jar testcase_api/dist/testcase_api.jar \"" . $row['Input'] . "\" \"" . $row['output']  . "\" \"" . $file_full_path . "\"", $output4);
                     $temp_json = json_decode($output4[0]);
+                    $done_dynamic_test_feedback .= "Test Case " . ($dynamic_count + 1) . "      ";
+                    if ($temp_json->{'TestCase'}=="true"){ 
+                        $done_dynamic_test_feedback .= "✔\n";
+                    }else{
+                        $done_dynamic_test_feedback .= "✘\n";
+                    }
                     $tests[$dynamic_count] = $temp_json->{'TestCase'};
                     $dynamic_count++;
                 }
