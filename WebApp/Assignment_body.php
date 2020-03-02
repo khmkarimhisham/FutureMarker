@@ -119,9 +119,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             </ul>
         </div>
     </nav>
-    <div class="container">
+  
         <div class="row">
-            <div class="col">
+            <div class="col" style="margin-left: 25px;">
                 <div class="card -row my-3">
                     <div class="card-body">
                         <div>
@@ -169,7 +169,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     </div>
                 </div>
             </div>
-            <div class="col">
+            <div class="col" style="margin-right: 25px;">
                 <div class="card -row my-3">
                     <div class="card-body">
                         <div class="raw">
@@ -237,7 +237,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 </div>
             </div>
         </div>
-    </div>
+    
 
     <!-- Footer -->
     <div class="footerstyle">

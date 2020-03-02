@@ -138,7 +138,7 @@ if ($_SESSION['User_type'] == "student") {
 
 
 
-    <div class="container">
+    
         <div class="my-2">
             <?php
             if (!empty($assignment_msg)) {
@@ -152,7 +152,7 @@ if ($_SESSION['User_type'] == "student") {
             ?>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col" style="margin-left: 25px;">
                 <div class="card -row my-2">
                     <div class="card-body">
                         <div>
@@ -191,7 +191,7 @@ if ($_SESSION['User_type'] == "student") {
                     </div>
                 </div>
             </div>
-            <div class="col">
+            <div class="col" style="margin-right: 25px;">
                 <div class="card -row my-2">
                     <div class="card-body">
                         <div class="raw">
@@ -224,7 +224,7 @@ if ($_SESSION['User_type'] == "student") {
                 </div>
             </div>
         </div>
-    </div>
+    
 
 
 

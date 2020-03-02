@@ -131,9 +131,9 @@ if ($_SESSION['User_type'] == "Instructor") {
             </ul>
         </div>
     </nav>
-    <div class="container">
+    
         <div class="row">
-            <div class="col">
+            <div class="col" style="margin-left: 25px;">
                 <div class="card -row my-5">
                     <div class="card-body">
                         <div>
@@ -172,7 +172,7 @@ if ($_SESSION['User_type'] == "Instructor") {
                     </div>
                 </div>
             </div>
-            <div class="col">
+            <div class="col" style="margin-right: 25px;">
                 <div class="card -row my-5">
                     <div class="card-body">
                         <div class="raw">
@@ -203,7 +203,7 @@ if ($_SESSION['User_type'] == "Instructor") {
                 </div>
             </div>
         </div>
-    </div>
+    
 
 
 
