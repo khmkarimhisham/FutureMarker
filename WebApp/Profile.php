@@ -10,7 +10,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $bio = $_POST["bio"];
     $phone = $_POST["phone"];
-  //  $user_image=$POST[""];
     if ($_SESSION['User_type'] == "instructor") {
         $query = "UPDATE `instructor`SET `Instructor_bio`='$bio',`Instructor_phone`='$phone' WHERE  `Instructor_ID`= $User_ID";
         $query2 = mysqli_query($db_connection, $query);
@@ -28,23 +27,23 @@ if ($_SESSION['User_type'] == "instructor") {
     $sql = "SELECT * FROM `instructor` WHERE `Instructor_ID`= $User_ID";
     $res = mysqli_query($db_connection, $sql);
     $row = mysqli_fetch_assoc($res);
-    // print_r($row);
     if ($res) {
         $bio = $row['Instructor_bio'];
         $Phone = $row['Instructor_phone'];
         $firstN = $row['Instructor_firstname'];
         $lastN = $row['Instructor_lastname'];
+        $img = $row['Instructor_image'];
     }
 } else {
     $sql = "SELECT * FROM `student` WHERE `Student_ID`= $User_ID";
     $res = mysqli_query($db_connection, $sql);
     $row = mysqli_fetch_assoc($res);
-    //print_r($row);
     if ($res) {
         $bio = $row['Student_bio'];
         $Phone = $row['Student_phone'];
         $firstN = $row['Student_firstname'];
         $lastN = $row['Student_lastname'];
+        $img = $row['Student_image'];
     }
 }
 
@@ -70,8 +69,8 @@ if ($_SESSION['User_type'] == "instructor") {
 </head>
 
 <body style="background-color: f0f0f0">
-    <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark homeheader">
-        <a class="navbar-brand" href="Home.html">
+<nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark homeheader">
+        <a class="navbar-brand" href="index.php">
             <img class="navbar-brand" src="images/logo.png">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,7 +79,7 @@ if ($_SESSION['User_type'] == "instructor") {
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+                <li class="nav-item active">
                     <a class="nav-link" href="<?php echo $usertype == "instructor" ?  "courses_instructor.php" : "courses_student.php"; ?>">
                         Courses
                         <span class="sr-only">(current)</span>
@@ -88,7 +87,6 @@ if ($_SESSION['User_type'] == "instructor") {
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="#">
-
                         Groups
                     </a>
                 </li>
@@ -98,8 +96,6 @@ if ($_SESSION['User_type'] == "instructor") {
                         Grades
                     </a>
                 </li>
-
-
             </ul>
             <ul class="navbar-nav navedit ">
                 <li class="nav-item">
@@ -114,7 +110,6 @@ if ($_SESSION['User_type'] == "instructor") {
                         <i class="fa fa-search">
                             <span class="badge badge-success"></span>
                         </i>
-
                     </a>
                 </li>
                 <li class="nav-item">
@@ -125,6 +120,7 @@ if ($_SESSION['User_type'] == "instructor") {
                     </a>
                 </li>
                 <li>
+
                     <div class="dropdown mydrop">
                         <button type="button" class="btn btn-primary dropdown-toggle mydropbutton" data-toggle="dropdown">
                             <img src="<?php echo $_SESSION['User_image']; ?>" width="30" height="30">
@@ -140,21 +136,18 @@ if ($_SESSION['User_type'] == "instructor") {
                         </div>
                     </div>
                 </li>
-
             </ul>
-
-
         </div>
     </nav>
     <div class="container">
         <div class="row">
 
             <div class="col-4">
-                <div class="card -row my-5"style=" border-radius: 25px;">
+                <div class="card -row my-5" style=" border-radius: 25px;">
                     <div class="card-body">
 
                         <div class="text-center">
-                            <img src="images/avatar2.jpg" width="240" height="240" class="avatar img-circle img-thumbnail" alt="avatar">
+                            <img src="<?php echo  $img; ?>" width="240" height="240" class="avatar img-circle img-thumbnail" alt="avatar">
                             <h6>Upload a different photo...</h6>
                             <input type="file" class="text-center center-block file-upload" style="margin-left: 40px;">
                             <script>
@@ -241,31 +234,24 @@ if ($_SESSION['User_type'] == "instructor") {
                             </div>
                         </div>
 
-                      
-
                         <hr>
-                        <label class="profilelebal"style="font-size: 24">Personal Information</label>
+                        <label class="profilelebal" style="font-size: 24">Personal Information</label>
                         <hr class="my-1">
-                        <div><span  class="profilelebal">Name:</span><label style="margin-left: 10px;font-size: 18;"><?php echo $firstN . " " . $lastN; ?> </label></div>
+                        <div><span class="profilelebal">Name:</span><label style="margin-left: 10px;font-size: 18;"><?php echo $firstN . " " . $lastN; ?> </label></div>
                         <hr class="my-2">
                         <div><span class="profilelebal">Bio:</span><label style="margin-left: 10px;font-size: 18;"><?php echo $bio; ?></label></div>
                         <hr class="my-4">
-                        <label class="profilelebal"style="font-size: 24">Contact Information</label>
+                        <label class="profilelebal" style="font-size: 24">Contact Information</label>
                         <hr class="my-1">
                         <div><span class="profilelebal">Email:</span><a href="#"><label style="margin-left: 10px;font-size: 18;"><?php echo $email; ?></label></a></div>
                         <hr class="my-2">
                         <div><span class="profilelebal">Phone:</span><a href="#"><label style="margin-left: 10px;font-size: 18;"><?php echo $Phone; ?></label></a></div>
 
                     </div>
-
-
                 </div>
             </div>
         </div>
-
     </div>
-
-
 
     <!-- Footer -->
     <div class="footerstyle">
