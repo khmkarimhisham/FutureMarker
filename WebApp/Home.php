@@ -119,7 +119,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="raw">
                             <?php
                             $user_comment = '';
+                            if($usertype =='student'){
                             $result = mysqli_query($db_connection, "SELECT * FROM `post` JOIN `enrollment` ON post.Course_ID = enrollment.Course_ID WHERE enrollment.Student_ID = $userID");
+                            }else{
+                                $result = mysqli_query($db_connection, "SELECT * FROM `post` JOIN `teaches` ON post.Course_ID = teaches.Course_ID WHERE teaches.Instructor_ID = $userID");
+
+                            }
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
                                     $count_posts = $row['Post_ID'];
