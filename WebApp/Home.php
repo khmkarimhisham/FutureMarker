@@ -12,12 +12,12 @@ require('DB/db.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // print_r($_POST);
-    // for($x=0;$x<$count_posts;$x++){
-    //     if(isset($_POST['textarea'.$x])){
-    //         $content=$_POST['textarea'.$x];
-    //     // $sql=mysqli_query($db_connection,"INSERT INTO `comment` (`Comment_ID`, `User_ID`, `Comment_time`, `Comment_content`, `Post_ID`) VALUES (NULL, '1', NOW(),'$content', $row['Post_ID'])");
-    //     }
-    // }
+   if(isset($_POST['POST-NUM'])){
+        $x=$_POST['POST-NUM'];
+            $content=$_POST['textarea'.$x];
+        $sql=mysqli_query($db_connection,"INSERT INTO `comment` (`Comment_ID`, `User_ID`, `Comment_time`, `Comment_content`, `Post_ID`) VALUES (NULL, $userID, NOW(),'$content', $x)");
+        
+    }
 }
 
 
@@ -119,12 +119,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="raw">
                             <?php
                             $user_comment = '';
-                            $count_posts = 0;
                             $result = mysqli_query($db_connection, "SELECT * FROM `post` JOIN `enrollment` ON post.Course_ID = enrollment.Course_ID WHERE enrollment.Student_ID = $userID");
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
+                                    $count_posts = $row['Post_ID'];
                                     $comments = '';
-                                    $count_posts += 1;
 
                                     $data_instructor = mysqli_query($db_connection, "SELECT `Instructor_firstname`,`Instructor_lastname`,`Instructor_image` FROM `instructor` WHERE `Instructor_ID`=" . $row['Instructor_ID']);
                                     if ($data_instructor->num_rows > 0) {
@@ -148,7 +147,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 }
                                                 $fetch_user_comment = $user_comment->fetch_assoc();
 
-                                                $comments = ' 
+                                                $comments = $comments. ' 
+                                                <li class="media">
+
                                             <a href="#" >
                                                 <img src="' . ($fetch_comment['User_type'] == "instructor" ? $fetch_user_comment['Instructor_image'] : $fetch_user_comment['Student_image']) . '" width="30" height="30">
                                             </a>
@@ -161,6 +162,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                     ' . $fetch_comment['Comment_content'] . '
                                                 </p>
                                             </div>
+                                            </li>
+
                                        ';
                                             }
                                         }
@@ -185,15 +188,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                             <div class="panel panel-info">
                                                                 <div class="panel-body">
                                                                 <form method="post" id="' . $count_posts . '" name="' . $count_posts . '" >
+                                                                     <input type="number" id="POST-NUM" name="POST-NUM" value="'.$count_posts.'" hidden>
+
                                                                     <textarea name="textarea' . $count_posts . '" id="textarea' . $count_posts . '" class="form-control" placeholder="write a comment..." rows="3"></textarea>
                                                                     <button type="submit" class="btn btn-info pull-right" >comment</button>
                                                                     </form>
                                                                     <div class="clearfix"></div>
                                                                     <hr>
                                                                     <ul class="media-list">
-                                                                        <li class="media">
                                                                    ' . $comments . '
-                                                                         </li>
                                                                    </ul>
                                                                 </div>
                                                             </div>
@@ -203,7 +206,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             </div>
                                             
                                                 ';
-                                            echo $count_posts;
                                         }
                                     }
                                 }
