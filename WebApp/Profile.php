@@ -7,13 +7,34 @@ $usertype = $_SESSION['User_type'];
 $User_ID = $_SESSION['User_ID'];
 $error_message = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+    $assignment_attachment_check=false;
+    $targetFilePath='';
     $bio = $_POST["bio"];
     $phone = $_POST["phone"];
     if ($_SESSION['User_type'] == "instructor") {
+        if (!empty($_FILES["file1"]["name"])) {
+            $assignment_attachment = basename($_FILES["file1"]["name"]);
+            $attachment_dir = "images/";
+            $fileType = pathinfo($assignment_attachment, PATHINFO_EXTENSION);
+            do {
+                $assignment_attachment = rand() . '.' . $fileType;
+                $targetFilePath = $attachment_dir . $assignment_attachment;
+            } while (file_exists($targetFilePath));
+            $assignment_attachment_check = move_uploaded_file($_FILES["file1"]["tmp_name"], $targetFilePath);
+          
+        }
+        if($assignment_attachment_check){      
+            $query = "UPDATE `instructor` SET `Instructor_bio`='$bio',`Instructor_phone`='$phone',`Instructor_image` = '$targetFilePath'  WHERE  `Instructor_ID`= $User_ID";
+            $query2 = mysqli_query($db_connection, $query);
+        }else{
         $query = "UPDATE `instructor`SET `Instructor_bio`='$bio',`Instructor_phone`='$phone' WHERE  `Instructor_ID`= $User_ID";
         $query2 = mysqli_query($db_connection, $query);
-    } else {
+        }
+  
+    } elseif($assignment_attachment_check){
+        $query = "UPDATE `student`SET `Student_bio`='$bio',`Student_phone`='$phone',`Student_image`='$targetFilePath'  WHERE  `Student_ID`= $User_ID";
+        $query2 = mysqli_query($db_connection, $query);
+    }else {
         $query = "UPDATE `student`SET `Student_bio`='$bio',`Student_phone`='$phone' WHERE  `Student_ID`= $User_ID";
         $query2 = mysqli_query($db_connection, $query);
     }
@@ -148,30 +169,7 @@ if ($_SESSION['User_type'] == "instructor") {
 
                         <div class="text-center">
                             <img src="<?php echo  $img; ?>" width="240" height="240" class="avatar img-circle img-thumbnail" alt="avatar">
-                            <h6>Upload a different photo...</h6>
-                            <input type="file" class="text-center center-block file-upload" style="margin-left: 40px;">
-                            <script>
-                                $(document).ready(function() {
-
-
-                                    var readURL = function(input) {
-                                        if (input.files && input.files[0]) {
-                                            var reader = new FileReader();
-
-                                            reader.onload = function(e) {
-                                                $('.avatar').attr('src', e.target.result);
-                                            }
-
-                                            reader.readAsDataURL(input.files[0]);
-                                        }
-                                    }
-
-
-                                    $(".file-upload").on('change', function() {
-                                        readURL(this);
-                                    });
-                                });
-                            </script>
+                        
                         </div>
                         </hr><br>
                         <hr class="my-1">
@@ -215,7 +213,14 @@ if ($_SESSION['User_type'] == "instructor") {
                                         </button>
                                     </div>
                                     <form method="post" enctype="multipart/form-data">
+                                    
+
+
                                         <div class="modal-body">
+                                        <div class="form-group">
+                                                <label for="profileimage">Upload Profile Image</label>
+                                                <input type="file"id="profileimage" name="file1" class="text-center center-block file-upload" style="margin-left: 40px;">
+                                            </div>
                                             <div class="form-group">
                                                 <label for="bio">Bio</label>
                                                 <input type="text" class="form-control" name="bio" id="bio" placeholder="Enter Bio">
