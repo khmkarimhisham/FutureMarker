@@ -162,11 +162,11 @@ if ($_SESSION['User_type'] == "student") {
                             <hr class="my-2">
                             <div> <a class="aedit active" href="#"> <label>Material</label></a></div>
                             <hr class="my-3">
-                            <div> <a class="aedit" href="#"> <label>Update</label></a></div>
+                            <div> <a class="aedit" href="Home.php"> <label>Posts</label></a></div>
                             <hr class="my-3">
                             <div> <a class="aedit" href="#"> <label>Grades</label></a></div>
                             <hr class="my-3">
-                            <div> <a class="aedit" href="#"> <label>Members</label></a></div>
+                            <div> <a class="aedit" href="Members.php?course_id=<?php echo $Course_ID?>"> <label>Members</label></a></div>
                             <hr class="my-3">
                         </div>
                     </div>
