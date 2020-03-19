@@ -38,8 +38,10 @@ public class run {
 
         if (runOutput.equals(output)) {
             result.put("TestCase", "true");
+            result.put("output", runOutput);
         } else {
             result.put("TestCase", "false");
+            result.put("output", runOutput);
         }
         System.out.println(result);
     }

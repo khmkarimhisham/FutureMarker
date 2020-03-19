@@ -90,11 +90,10 @@ if (isset($_GET['submit']) && isset($_GET['course_id'])) {
                     }
                 }
             }
-
             if ($_GET['feature_number'] > 0) {
                 for ($i = 1; $i <= (int) $_GET['feature_number']; $i++) {
                     $sql2 = mysqli_query($db_connection, "INSERT INTO `feature_test`(`Assignment_ID`, `Test_name`, `regex`)
-                     VALUES ($assignment_ID ,'" . $_GET["input-select$i"] . "',' " . $_GET["textarea$i"] . "')");
+                     VALUES ($assignment_ID" . ",'" . $_GET["input-select$i"] . "','" . addslashes($_GET["textarea$i"]) . "')");
                     if (!$sql2) {
                         $error_message .= "Failed to upload feature test";
                     }

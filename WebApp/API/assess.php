@@ -81,23 +81,35 @@ if (isset($_FILES['codeFile'])) {
 
             $sql = "SELECT * FROM `dynamic_test` WHERE `Assignment_ID` = '$Assignment_ID'";
             $result = mysqli_query($db_connection, $sql);
+            $dynamic_test_temp_array = array();
             $done_dynamic_test_feedback = "";
             $done_feature_test_feedback = "";
+            $temp_json = null;
             if (mysqli_num_rows($result) > 0) {
                 $dynamic_count = 0;
                 while ($row = mysqli_fetch_assoc($result)) {
                     exec("java -jar testcase_api/dist/testcase_api.jar \"" . $row['Input'] . "\" \"" . $row['output']  . "\" \"" . $file_full_path . "\"", $output4);
                     $temp_json = json_decode($output4[0]);
-                    $done_dynamic_test_feedback .= "Test Case " . ($dynamic_count + 1) . "      ";
-                    if ($temp_json->{'TestCase'}=="true"){ 
-                        $done_dynamic_test_feedback .= "✔\n";
-                    }else{
-                        $done_dynamic_test_feedback .= "✘\n";
+                    $output4 = null;
+                    array_push($dynamic_test_temp_array, "Test Case " . ($dynamic_count + 1));
+                    if ($temp_json->{'TestCase'} == "true") {
+                        array_push($dynamic_test_temp_array, "✔");
+                    } else if ($temp_json->{'TestCase'} == "false") {
+                        array_push($dynamic_test_temp_array, "✘");
                     }
+                    if ($row['Hidden']) {
+                        array_push($dynamic_test_temp_array, "This input is hidden");
+                        array_push($dynamic_test_temp_array, "This output is hidden");
+                    } else {
+                        array_push($dynamic_test_temp_array, $row['Input']);
+                        array_push($dynamic_test_temp_array, $row['output']);
+                    }
+                    array_push($dynamic_test_temp_array, $temp_json->{'output'});
                     $tests[$dynamic_count] = $temp_json->{'TestCase'};
                     $dynamic_count++;
                 }
                 $response->{'TestCase'} = $tests;
+                $done_dynamic_test_feedback = implode("#|#|#|#", $dynamic_test_temp_array);
             }
 
             $done_compilation_grade = 0;

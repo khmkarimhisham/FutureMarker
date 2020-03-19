@@ -183,7 +183,35 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                             </div>
                         </div>
                         <ul class="nested">
-                            <pre><?php echo $row['Dynamic_test_feedback']; ?></pre>
+                            <?php
+                            $x = explode("#|#|#|#", $row['Dynamic_test_feedback']);
+                            while (sizeof($x)) {
+                                $color = "";
+                                if ($x[1] == "✔") {
+                                    $color = "alert-success";
+                                } else {
+                                    $color = "alert-danger";
+                                }
+                                echo "
+                                <br>
+                                <i></i><label><strong>" . array_shift($x) . "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" . array_shift($x)
+                                    . "</strong></label><br>
+                                <label>Input:</label>
+                                <div class='alert $color mr-5'>
+                                " . array_shift($x) . "
+                                </div>
+                                <label>The Right Output:</label>
+                                <div class='alert $color mr-5'>
+                                " . array_shift($x) . "
+                                </div>
+                                <label>Your Output:</label>
+                                <div class='alert $color mr-5'>
+                                " . array_shift($x) . "
+                                </div>
+                                ";
+                            }
+                            ?>
+
                         </ul>
                     </div>
                 </div>
