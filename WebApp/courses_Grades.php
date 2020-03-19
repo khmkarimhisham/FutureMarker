@@ -20,6 +20,7 @@
 
     <!------ Include the above in your HEAD tag ---------->
 </head>
+
 <body style="background-color: f0f0f0">
     <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark homeheader">
         <a class="navbar-brand" href="index.php">
@@ -93,7 +94,7 @@
     </nav>
     <div class="container">
         <div class="row">
-        <div class="col-4">
+            <div class="col-4">
                 <div class="card -row my-5" style=" border-radius: 25px;">
                     <div class="card-body">
                         <div class="text-center">
@@ -108,7 +109,7 @@
                             <hr class="my-3">
                             <div> <a class="aedit" href="#"> <label>Grades</label></a></div>
                             <hr class="my-3">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -116,20 +117,30 @@
             <div class="col-7">
                 <div class="card -row my-5" style=" border-radius: 25px;">
                     <div class="card-body">
-                                                                         <!--Course name-->
+                        <!--Course name-->
                         <label class="profilelebal" style="font-size: 24">Mobile Programming</label><br>
                         <label class="profilelebal" style="font-size: 18">Grades</label>
                         <hr class="my-1">
                         <table class="table table-sm table-light ">
                             <!---->
                             <tr class="table-active "><label style="font-size: 18"> Assignment 1 :</label> <label style="font-size: 18;font-weight: 200; margin-left: 15px;">98</label>
-                             </tr><hr class="my-2 ">
-                             <tr class="table-active "><label style="font-size: 18"> Assignment 2 :</label> <label style="font-size: 18;font-weight: 200; margin-left: 15px;">98</label>
-                             </tr><hr class="my-2 ">
-                             <tr class="table-active "><label style="font-size: 18"> Assignment 3 :</label> <label style="font-size: 18;font-weight: 200;margin-left: 15px; ">98</label>
-                             </tr><hr class="my-2 ">
-                             <tr class="table-active "><label style="font-size: 18"> Assignment 4 :</label> <label style="font-size: 18;font-weight: 200;margin-left: 15px;">98</label>
-                             </tr><hr class="my-2 ">
+                                <label style="font-size: 18;margin-left: 170px; ">67/100%</label>
+                            </tr>
+                            <hr class="my-2 ">
+                            <tr class="table-active "><label style="font-size: 18"> Assignment 2 :</label> <label style="font-size: 18;font-weight: 200; margin-left: 15px;">98</label>
+                                <label style="font-size: 18;margin-left: 170px; ">67/100%</label>
+                            </tr>
+                            <hr class="my-2 ">
+                            <tr class="table-active "><label style="font-size: 18"> Assignment 3 :</label> <label style="font-size: 18;font-weight: 200;margin-left: 15px; ">98</label>
+                                <label style="font-size: 18;margin-left: 170px; ">67/100%</label>
+                            </tr>
+                            <hr class="my-2 ">
+                            <tr class="table-active "><label style="font-size: 18"> Assignment 4 :</label> <label style="font-size: 18;font-weight: 200;margin-left: 15px;">98</label>
+                                <label style="font-size: 18;margin-left: 170px; ">67/100%</label>
+                            </tr>
+                            <hr class="my-2 ">
+                            <tr class="table-active "><label style="font-size: 21;margin-top: 20px;"> Total Grade :</label> <label style="font-size: 18;font-weight: 200;margin-left: 15px;">98/100%</label>
+
                         </table>
 
 
@@ -142,4 +153,5 @@
 
 
 </body>
+
 </html>
