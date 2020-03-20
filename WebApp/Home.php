@@ -8,10 +8,20 @@ if (!isset($_SESSION['User_ID'])) {
 $usertype = $_SESSION['User_type'];
 $userID = $_SESSION['User_ID'];
 
+// if($usertype=='instructor'){
+//     $result=mysqli_query($db_connection,"SELECT  `Instructor_image` FROM `instructor` WHERE `Instructor_ID`=$userID");
+//     $row =$result->fetch_assoc();
+//     $userImage=$row['Instructor_image'];
+// }else{
+//     $result=mysqli_query($db_connection,"SELECT  `Instructor_image` FROM `instructor` WHERE `Instructor_ID`=$userID");
+//     $row =$result->fetch_assoc();
+//     $userImage=$row['Instructor_image'];
+// }
+
 require('DB/db.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    // print_r($_POST);
+  
    if(isset($_POST['POST-NUM'])){
         $x=$_POST['POST-NUM'];
             $content=$_POST['textarea'.$x];
@@ -38,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body style="background-color: f0f0f0">
-    <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark homeheader">
+<nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark homeheader">
         <a class="navbar-brand" href="index.php">
             <img class="navbar-brand" src="images/logo.png">
         </a>
@@ -111,7 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
         <div class="row">
             <div class="col-12 col-md-8">
-                <div class="card -row my-5">
+                <div class="card -row my-3">
 
                     <div class="card-body">
                         <h>Posts</h>
@@ -140,7 +150,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-                                        $data_comment = mysqli_query($db_connection, "SELECT * FROM comment JOIN user ON comment.User_ID = user.User_ID WHERE Post_ID =" . $row['Post_ID']);
+                                        $data_comment = mysqli_query($db_connection, "SELECT * FROM comment JOIN user ON comment.User_ID = user.User_ID WHERE Post_ID =" . $row['Post_ID']. " ORDER BY Comment_time");
                                         if ($data_comment->num_rows > 0) {
                                             while ($fetch_comment = $data_comment->fetch_assoc()) {
 
@@ -226,8 +236,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             </div>
 
-            <div class="col-6 col-md-4">
-                <div class="card -row my-5">
+            <div class="col-5 col-md-4">
+                <div class="card -row my-3">
                     <div class="card-body">
                         <div class="raw">
                             <h>upcoming</h>
@@ -259,13 +269,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
     <!-- Footer -->
-    <footer class="page-footer font-small footerstyle">
+    <!-- <footer class="page-footer font-small footerstyle">
         <hr>
-        <!-- Copyright -->
+        Copyright
         <div class="footer-copyright text-center py-3">©Future Marker 2020 Copyright:
         </div>
-        <!-- Copyright -->
-    </footer>
+        < Copyright 
+    </footer> -->
     <!-- Footer -->
 </body>
 

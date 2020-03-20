@@ -6,14 +6,21 @@ if (!isset($_SESSION['User_ID'])) {
     header("Location: login.php");
 }
 $usertype = $_SESSION['User_type'];
-$User_ID = $_SESSION['User_ID'];
+
 require 'DB/db.php';
+
 
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $Course_ID = $_GET['course_id'];
-
+    $assignment_id = $_GET['assignment_id'];
     $result1 = mysqli_query($db_connection, "SELECT * FROM `course` WHERE `Course_ID` = $Course_ID");
+    $result2 = mysqli_query($db_connection, "SELECT * FROM `assignment` WHERE `Assignment_ID`=$assignment_id");
+    if (mysqli_num_rows($result2) > 0) {
+        $row = mysqli_fetch_assoc($result2);
+        $assignment_tit = $row['Assignment_title'];
+        $assignment_weigth = $row['Full_grade'];
+    }
     if (mysqli_num_rows($result1) > 0) {
         $row = mysqli_fetch_assoc($result1);
         $Course_name = $row['Course_name'];
@@ -29,7 +36,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 }
 
 
-
+if ($_SESSION['User_type'] == "student") {
+    header("Location: courses_content.php");
+}
 ?>
 <html>
 
@@ -45,7 +54,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <link rel="stylesheet" href="CSS/couresbody.css">
     <link href="CSS/default.css" rel="stylesheet" type="text/css" media="screen" />
 
-
+    <!-- Makes the file tree(s) expand/collapsae dynamically -->
+    <script src="JS/php_file_tree.js" type="text/javascript"></script>
 
     <script type="text/javascript" src="JS/index.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -141,7 +151,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                             <hr class="my-3">
                             <div> <a class="aedit" href="#"> <label>Grades</label></a></div>
                             <hr class="my-3">
-
+                            <hr class="my-3">
                         </div>
                     </div>
                 </div>
@@ -149,59 +159,24 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             <div class="col-7">
                 <div class="card -row my-5" style=" border-radius: 25px;">
                     <div class="card-body">
-                        <!--Course name-->
-                        <label class="profilelebal" style="font-size: 24"><?php echo $Course_name ?></label><br>
-                        <label class="profilelebal" style="font-size: 18">Grades</label>
+                        <a href="course_content_i.php?course_id=<?php echo $Course_ID; ?>"><strong><?php echo $Course_name ?></strong></a><br>
+                        <label class="profilelebal" style="font-size: 18"><?php echo $assignment_tit ?></label>
                         <hr class="my-1">
                         <table class="table table-sm table-light ">
-                            <!---->
                             <?php
-                            if ($usertype == "instructor") {
-                                $result = mysqli_query($db_connection, "SELECT * FROM `assignment` WHERE `Course_ID`= $Course_ID");
-                                if ($result->num_rows > 0) {
-                                    $total_grade = 0;
-                                    while ($row = $result->fetch_assoc()) {
-                                        $assignment_title = $row['Assignment_title'];
-                                        $assignment_ID = $row['Assignment_ID'];
-                                        $assignment_weight = $row['Full_grade'];
-                                        settype($assignment_weight,"integer");
-
-                                        $total_grade +=$assignment_weight;
-                                        
-                                        echo '<a href="students_grades.php?course_id='. $Course_ID.'&assignment_id='.$assignment_ID.'"><tr class="table-active "><label style="font-size: 18"> ' . $assignment_title . ' :</label></a> <label style="font-size: 18;font-weight: 200; margin-left: 15px;">' . $assignment_weight . '</label></tr>';
-                                    }
-                                    echo '<hr class="my-2 "><tr class="table-active "><label style="font-size: 21;margin-top: 20px;"> Total Grade :</label> <label style="font-size: 18;font-weight: 200;margin-left: 15px;">'.$total_grade.' /100%</label>
-                                 ';
+                            $sql = "SELECT * FROM student JOIN doing_assignment ON student.Student_ID=doing_assignment.Student_ID WHERE doing_assignment.Assignment_ID=$assignment_id";
+                            $result = mysqli_query($db_connection, $sql);
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    settype($row['Compilation_grade'], "integer");
+                                    settype($row['Style_grade'], "integer");
+                                    settype($row['Dynamic_test_grade'], "integer");
+                                    settype($row['Feature_test_grade'], "integer");
+                                    $assignment_grade = $row['Compilation_grade'] + $row['Style_grade'] + $row['Dynamic_test_grade'] + $row['Feature_test_grade'];
+                                    echo '<tr class="table-active "><img src="' . $row['Student_image'] . '" width="30" height="30"><a href="details.php?member_id=' . $row['Student_ID'] . '" class="aedit">' . $row['Student_firstname'] . ' ' . $row['Student_lastname'] . '</a> <label style="font-size: 18;font-weight: 200; margin-left: 15px;"> ' . $assignment_grade . '</label> </tr><hr class="my-2 ">';
                                 }
-                            } else {
-                                $result = mysqli_query($db_connection, "SELECT doing_assignment.Compilation_grade,doing_assignment.Style_grade,doing_assignment.Dynamic_test_grade,doing_assignment.Feature_test_grade, assignment.Assignment_title,assignment.Full_grade FROM doing_assignment JOIN assignment ON assignment.Assignment_ID=doing_assignment.Assignment_ID WHERE doing_assignment.Student_ID=$User_ID AND assignment.Course_ID=$Course_ID");
-                                if ($result->num_rows > 0) {
-                                    $total_grade = 0;
-                                    $total_assign_grade=0;
-                                    while ($row = $result->fetch_assoc()) {
-
-                                        $assignment_title = $row['Assignment_title'];
-                                        $assignment_weight = $row['Full_grade'];
-                                        
-                                        settype($row['Compilation_grade'],"integer");
-                                        settype($row['Style_grade'],"integer");
-                                        settype($row['Dynamic_test_grade'],"integer");
-                                        settype($row['Feature_test_grade'],"integer");
-                                        $assignment_grade=$row['Compilation_grade'] + $row['Style_grade']+ $row['Dynamic_test_grade']+$row['Feature_test_grade'];
-                                        settype($assignment_grade,"integer");
-                                        $total_assign_grade +=$assignment_grade;
-                                        settype($assignment_weight,"integer");
-                                        $total_grade +=$assignment_weight;
-                                        echo '<tr class="table-active "><label style="font-size: 18"> ' . $assignment_title . ' :</label> <label style="font-size: 18;font-weight: 200; margin-left: 15px;">' .$assignment_grade.'/'. $assignment_weight . '</label></tr><hr class="my-2 ">';
-                                    }
-                                    $total_grade=$total_assign_grade * (100 / $total_grade);
-                                    echo '<tr class="table-active "><label style="font-size: 21;margin-top: 20px;"> Total Grade :</label> <label style="font-size: 18;font-weight: 200;margin-left: 15px;">'.$total_grade.'/100%</label>
-                                ';
-                                }
-                            
                             }
                             ?>
-
 
                         </table>
 
@@ -212,8 +187,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
         </div>
     </div>
-
-
 </body>
 
 </html>

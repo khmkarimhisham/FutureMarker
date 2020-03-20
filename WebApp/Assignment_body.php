@@ -134,7 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                             <hr class="my-3">
                             <div> <a class="aedit" href="#"> <label>Update</label></a></div>
                             <hr class="my-3">
-                            <div> <a class="aedit" href="#"> <label>Grades</label></a></div>
+                            <div> <a class="aedit" href="students_grades.php?course_id=<?php echo $Course_ID?>&assignment_id=<?php echo $Assignment_ID?>"> <label>Grades</label></a></div>
                             <hr class="my-3">
                             <div> <a class="aedit" href="#"> <label>Members</label></a></div>
                             <hr class="my-3">
@@ -191,7 +191,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                     
                                             <hr class="my-1">
                                             <img src="images/assignment_image.png" width="20" height="20">
-                                            <a href="submission.php?course_id=' . $Course_ID . '&assignment_id=' . $Assignment_ID . '&submission=' . $Doing_ID . '" > Submission ' . $count . '</a>
+                                            <a href="submission.php?course_id=' . $Course_ID . '&assignment_id=' . $Assignment_ID . '&submission=' . $Doing_ID . '" > Submission ' . $count . '</a> <hr class="my-3">
                                       
                                             ';
                                         $count++;
