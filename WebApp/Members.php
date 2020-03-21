@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 
 if ($_SESSION['User_type'] == "student") {
-    header("Location: courses_content.php");
+    header("Location: course_content.php");
 }
 ?>
 <html>
