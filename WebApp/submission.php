@@ -227,7 +227,27 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                             </div>
                         </div>
                         <ul class="nested">
-                            <p><?php echo $row['Feature_test_feedback']; ?></p>
+                        <?php
+                            $y = explode("#|#|#|#", $row['Feature_test_feedback']);
+                            while (sizeof($y)) {
+                                $color2 = "";
+                                if ($y[0] == "true") {
+                                    $color2 = "alert-success";
+                                } else {
+                                    $color2 = "alert-danger";
+                                }
+                                unset($y[0]);  
+
+                                echo "
+                                <br>
+                                
+                                <div class='alert $color2 mr-5'>
+                                " . array_shift($y) . "
+                                </div>
+                               
+                                ";
+                            }
+                            ?>
                         </ul>
                     </div>
                 </div>

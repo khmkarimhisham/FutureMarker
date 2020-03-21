@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 01, 2020 at 02:19 PM
+-- Generation Time: Mar 21, 2020 at 06:11 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `aaaa`
+-- Database: `futuremarker`
 --
 
 -- --------------------------------------------------------
@@ -138,7 +138,8 @@ CREATE TABLE `feature_test` (
   `Test_ID` int(11) NOT NULL,
   `Assignment_ID` int(11) DEFAULT NULL,
   `Test_name` varchar(100) DEFAULT NULL,
-  `regex` varchar(250) DEFAULT NULL
+  `regex` varchar(250) DEFAULT NULL,
+  `Repetition_counter` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

@@ -3,7 +3,7 @@
 require '../DB/db.php';
 function indentation_msg($x)
 {
-    if (preg_match_all("/[1-9]*:/", $x, $matches)) {
+    if (preg_match_all("/[0-9]*:/", $x, $matches)) {
         $output = "";
         for ($z = 0; $z < count($matches[0]); $z++) {
             $output .= "Line " . str_replace(":", "", $matches[0][$z]) . " has incorrect indentation<br>";
@@ -15,7 +15,7 @@ function indentation_msg($x)
 }
 function identifiers_msg($x)
 {
-    if (preg_match_all("/[1-9]*:/", $x, $matches)) {
+    if (preg_match_all("/[0-9]*:/", $x, $matches)) {
         $output = "";
         for ($z = 0; $z < count($matches[0]); $z++) {
             $output .= "The identifier name should be more obvious at line " . str_replace(":", "", $matches[0][$z]) . "<br>";
@@ -60,6 +60,19 @@ if (isset($_FILES['codeFile'])) {
 
     if (move_uploaded_file($file_tmp, $file_full_path)) {
 
+        $done_dynamic_test_feedback = "";
+        $done_feature_test_feedback = "";
+        $dynamic_count = 0;
+        $feature_count = 0;
+        $feature_true_count = 0;
+
+
+        $done_compilation_grade = 0;
+        $done_style_grade = 0;
+        $done_dynamic_test_grade = 0;
+        $done_feature_test_grade = 0;
+
+
         exec("java -jar .\compiler_api\dist\compiler_api.jar $file_full_path", $output1);
         $temp_json = json_decode($output1[0]);
         $response->{'build'} = $temp_json->{'build'};
@@ -82,11 +95,9 @@ if (isset($_FILES['codeFile'])) {
             $sql = "SELECT * FROM `dynamic_test` WHERE `Assignment_ID` = '$Assignment_ID'";
             $result = mysqli_query($db_connection, $sql);
             $dynamic_test_temp_array = array();
-            $done_dynamic_test_feedback = "";
-            $done_feature_test_feedback = "";
+
             $temp_json = null;
             if (mysqli_num_rows($result) > 0) {
-                $dynamic_count = 0;
                 while ($row = mysqli_fetch_assoc($result)) {
                     exec("java -jar testcase_api/dist/testcase_api.jar \"" . $row['Input'] . "\" \"" . $row['output']  . "\" \"" . $file_full_path . "\"", $output4);
                     $temp_json = json_decode($output4[0]);
@@ -112,10 +123,40 @@ if (isset($_FILES['codeFile'])) {
                 $done_dynamic_test_feedback = implode("#|#|#|#", $dynamic_test_temp_array);
             }
 
-            $done_compilation_grade = 0;
-            $done_style_grade = 0;
-            $done_dynamic_test_grade = 0;
-            $done_feature_test_grade = 0;
+
+            $sql = "SELECT * FROM `feature_test` WHERE `Assignment_ID` = '$Assignment_ID'";
+            $result = mysqli_query($db_connection, $sql);
+            $feature_test_temp_array = array();
+
+            if (mysqli_num_rows($result) > 0) {
+
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $output5 = null;
+                    exec("java -jar featureTest_API/dist/featureTest_API.jar \"" . $file_full_path . "\" \"" . $row['regex']  . "\" \"" . $row['Repetition_counter'] . "\"", $output5);
+                    $feature_output = $output5[0];
+                    array_push($feature_test_temp_array, $output5[0]);
+
+                    if ($feature_output == "true") {
+                        array_push($feature_test_temp_array, "Nice work by using " . $row['Test_name']);
+                        $feature_true_count++;
+                    } else if ($feature_output == "false") {
+                        if ($row['Repetition_counter'] == "1") {
+                            $Times = "time";
+                        } else {
+                            $Times = "times";
+                        }
+                        array_push($feature_test_temp_array, "You must use " . $row['Test_name'] . " " . $row['Repetition_counter'] . " " . $Times . " at least");
+                    }
+                    $feature_count++;
+                }
+                $temp_feature_grade = $feature_true_count / $feature_count;
+                $done_feature_test_grade = $temp_feature_grade * $ass_feature_test_grade;
+
+                $done_feature_test_feedback = implode("#|#|#|#", $feature_test_temp_array);
+            }
+
+
+
 
             if ($response->{'build'}) {
                 $compilation_feedback = "The code compiled successfully";

@@ -92,8 +92,8 @@ if (isset($_GET['submit']) && isset($_GET['course_id'])) {
             }
             if ($_GET['feature_number'] > 0) {
                 for ($i = 1; $i <= (int) $_GET['feature_number']; $i++) {
-                    $sql2 = mysqli_query($db_connection, "INSERT INTO `feature_test`(`Assignment_ID`, `Test_name`, `regex`)
-                     VALUES ($assignment_ID" . ",'" . $_GET["input-select$i"] . "','" . addslashes($_GET["textarea$i"]) . "')");
+                    $sql2 = mysqli_query($db_connection, "INSERT INTO `feature_test`(`Assignment_ID`, `Test_name`, `regex`, `Repetition_counter`)
+                     VALUES ($assignment_ID" . ",'" . $_GET["input-select$i"] . "','" . addslashes($_GET["textarea$i"]) . "','" . $_GET["repetition$i"] . "')");
                     if (!$sql2) {
                         $error_message .= "Failed to upload feature test";
                     }
@@ -212,19 +212,19 @@ if (isset($_GET['submit']) && isset($_GET['course_id'])) {
                             <div class="container">
                                 <div class="form-label-group">
                                     <input type="number" id="compile" name="compile" class="form-control" placeholder="Dgree Of Compile" required>
-                                    <label for="compile">Dgree Of Compile</label>
+                                    <label for="compile">Compilation Degree</label>
                                 </div>
                                 <div class="form-label-group">
                                     <input type="number" id="Styleofcode" name="Styleofcode" class="form-control" placeholder="Dgree Of Code Style" required>
-                                    <label for="Styleofcode">Dgree Of Code Style</label>
+                                    <label for="Styleofcode">Style Degree</label>
                                 </div>
                                 <div class="form-label-group">
                                     <input type="number" id="featureinput" name="featureinput" class="form-control" placeholder="Dgree Of Feature Testing " required>
-                                    <label for="featureinput">Dgree Of Feature Testing</label>
+                                    <label for="featureinput">Feature Testing Degree</label>
                                 </div>
                                 <div class="form-label-group">
                                     <input type="number" id="dynamicinput" name="dynamicinput" class="form-control" placeholder="Dgree Of Dynamic Testing" required>
-                                    <label for="dynamicinput">Dgree Of Dynamic Testing</label>
+                                    <label for="dynamicinput">Dynamic Testing Degree</label>
                                 </div>
                                 <div class="form-label-group">
                                     <input type="number" id="totalgrade" name="totalgrade" class="form-control" placeholder="Total Grade" required>
