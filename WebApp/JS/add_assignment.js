@@ -29,12 +29,12 @@ function addtoform2() {
         "<label for='input-select" + inc2 + "'>Choose Type</label>" +
         "<select id='input-select" + inc2 + "' name='input-select" + inc2 + "' class='form-control' required>" +
         "<option value='' disabled selected>Select the feature</option>" +
-        "<option value='If Statement'>If Statement</option>" +
-        "<option value='else..if Statement'>else..if Statement</option>" +
-        "<option value='if..else Statement'>if..else Statement</option>" +
-        "<option value='While Loop'>While Loop</option>" +
-        "<option value='For Loop'>For Loop</option>" +
-        "<option value='Switch Statement'>Switch Statement</option>" +
+        "<option value='if statement'>if statement</option>" +
+        "<option value='else statement'>else statement</option>" +
+        "<option value='else if statement'>else if statement</option>" +
+        "<option value='while loop'>While Loop</option>" +
+        "<option value='for loop'>For Loop</option>" +
+        "<option value='switch statements'>Switch Statement</option>" +
         "<option value='Other'>Other</option>" +
         "</select>" +
         "</div>" +
@@ -54,18 +54,18 @@ function addtoform2() {
     document.getElementById("mylocation2").appendChild(node2);
     $("#input-select" + inc2).change(function () {
         $("#textarea" + inc2).val(function () {
-            if ($("#input-select" + inc2).val() == "If Statement") {
-                return "if\\s*\\(.*\\)\\s*{[\\s\\S]*?}";
-            } else if ($("#input-select" + inc2).val() == "if..else Statement") {
-                return "if\\s*\\(.*\\)\\s*{[\\s\\S]*?}\\s*else\\s*{[\\s\\S]*?}";
-            } else if ($("#input-select" + inc2).val() == "else..if Statement") {
-                return "else if\\s*\\(.*\\)\\s*{[\\s\\S]*?}";
-            } else if ($("#input-select" + inc2).val() == "While Loop") {
-                return "while\\s*\\(.*\\)\\s*{[\\s\\S]*?}";
-            } else if ($("#input-select" + inc2).val() == "For Loop") {
-                return "for\\s*\\(.*;.*;.*\\)\\s*{[\\s\\S]*?}";
-            } else if ($("#input-select" + inc2).val() == "Switch Statement") {
-                return "switch\\s*\\(.*\\)\\s*{[\\s\\S]*?}";
+            if ($("#input-select" + inc2).val() == "if statement") {
+                return "if\\s*\\(.*\\)\\s*\\{[\\s\\S]*?\\}";
+            } else if ($("#input-select" + inc2).val() == "else statement") {
+                return "if\\s*\\(.*\\)\\s*\\{[\\s\\S]*?\\}\\s*else\\s*\\{[\\s\\S]*?\\}";
+            } else if ($("#input-select" + inc2).val() == "else if statement") {
+                return "else if\\s*\\(.*\\)\\s*\\{[\\s\\S]*?\\}";
+            } else if ($("#input-select" + inc2).val() == "while loop") {
+                return "while\\s*\\(.*\\)\\s*\\{[\\s\\S]*?\\}";
+            } else if ($("#input-select" + inc2).val() == "for loop") {
+                return "for\\s*\\(.*\\;.*\\;.*\\)\\s*\\{[\\s\\S]*?\\}";
+            } else if ($("#input-select" + inc2).val() == "switch statements") {
+                return "switch\\s*\\(.*\\)\\s*\\{[\\s\\S]*?\\}";
             } else if ($("#input-select" + inc2).val() == "Other") {
                 return "";
             }
