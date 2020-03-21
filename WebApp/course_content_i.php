@@ -208,6 +208,10 @@ if ($_SESSION['User_type'] == "student") {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                                <label for="Ufile">Choose file</label>
+                                                <input type="file"id="Ufile" name="Ufile" class="text-center center-block file-upload" style="margin-left: 40px;">
+                                            </div>
 
 
                                     </div>
@@ -241,12 +245,16 @@ if ($_SESSION['User_type'] == "student") {
 
 
                                     <div class="modal-body text-center">
-                                        <div class="form-group">
+                                        
                                         <div class="form-group">
                                                 <label for="foldername">Folder Name</label>
                                                 <input type="text" class="form-control" name="foldername" id="foldername" placeholder="Folder Name" required>
                                             </div>
-                                        </div>
+                                            <div class="form-group">
+                                                <label for="folderfile">Choose file</label>
+                                                <input type="file"id="folderfile" name="folderfile" class="text-center center-block file-upload" style="margin-left: 40px;">
+                                            </div>
+                                        
 
 
                                     </div>
