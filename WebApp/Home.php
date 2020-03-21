@@ -195,7 +195,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 ' . $post_date . '
                                                 </div>
                                                 <div class="diveditfirst">
-                                                ' . $row['Post_content'] . '' . $row['Post_attachment'] . '
+                                                ' . file_get_contents($row['Post_content'] ).'' . $row['Post_attachment'] . '
                                                 <hr class="my-2">
                                                 <div class="row bootstrap snippets">
                                                     <div class="col-12 col-md-8">

@@ -1,4 +1,58 @@
+<?php
+
+session_start();
+require('DB/db.php');
+if (!isset($_SESSION['User_ID'])) {
+    header("Location: login.php");
+}
+
+if ($_SESSION['User_type'] == "student") {
+    header("Location: courses_student.php");
+}
+$User_ID = $_SESSION['User_ID'];
+$error_message = "";
+if (isset($_GET['submit']) && isset($_GET['course_id'])) {
+    $course_id = $_GET['course_id'];
+    $sql = "SELECT * FROM course WHERE Course_ID =$course_id";
+    $result = mysqli_query($db_connection, $sql);
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+        $Course_name = $row['Course_name'];
+        $Course_image =  $row['Course_image'];
+    }
+    $post_desc = $_GET['summernote'];
+    do {
+        $doc_name = rand() . '.doc';
+        $doc_dir = "uploads/post/$doc_name";
+    } while (file_exists($doc_dir));
+    file_put_contents($doc_dir, $post_desc);
+    $sql1 = "INSERT INTO `post`( `Instructor_ID`, `Course_ID`, `Post_content`, `Post_attachment`) VALUES ($User_ID,$course_id,'$doc_dir',NULL)";
+    $result1 = mysqli_query($db_connection, $sql1);
+    if ($result1) {
+        $error_message = "The post is uploaded successfully ";
+    } else {
+        $error_message = "Invalid Access Code";
+    }
+} else if (isset($_GET['course_id'])) {
+
+    $Course_ID = $_GET['course_id'];
+    $sql2 = "SELECT * FROM course WHERE Course_ID =$Course_ID";
+    $result2 = mysqli_query($db_connection, $sql2);
+    if (mysqli_num_rows($result2) > 0) {
+        $row = mysqli_fetch_assoc($result2);
+        $Course_name = $row['Course_name'];
+        $Course_image =  $row['Course_image'];
+    } else {
+        header("Location: course_content_i.php?course_id=$Course_ID");
+    }
+} else {
+    header("Location: courses_instructor.php");
+}
+
+
+?>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,6 +77,7 @@
 
     <!------ Include the above in your HEAD tag ---------->
 </head>
+
 <body style="background-color: f0f0f0">
     <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark homeheader">
         <a class="navbar-brand" href="index.php">
@@ -92,7 +147,7 @@
             </ul>
         </div>
     </nav>
-   <div class="container">
+    <div class="container">
         <div class="row">
             <div class="col">
                 <div class="card -row" style=" border-radius: 25px;">
@@ -109,7 +164,7 @@
                             <hr class="my-3">
                             <div> <a class="aedit" href="#"> <label>Grades</label></a></div>
                             <hr class="my-3">
-                           
+
                         </div>
                     </div>
                 </div>
@@ -117,11 +172,13 @@
             <div class="col-8">
                 <div class="card -row" style=" border-radius: 25px;">
                     <div class="card-body">
-                        <label class="profilelebal" style="font-size: 20">MObile POrgramming</label><br>
+                        <label class="profilelebal" style="font-size: 20"><?php echo $Course_name ?></label><br>
                         <label class="profilelebal" style="font-size: 18">Updates</label>
                         <hr class="my-1">
                         <form class="form-signin" method="GET" enctype="multipart/form-data">
                             <div class="container">
+                                <input type="text" id="course_id" name="course_id" class="form-control" value="<?php echo $Course_ID; ?>" hidden>
+                                <?php echo $error_message ?>
                                 <textarea id="summernote" name="summernote"></textarea>
                                 <script>
                                     $('#summernote').summernote({
@@ -139,11 +196,11 @@
                                         ]
                                     });
                                 </script>
-                                <div class="text-right"style="margin-top: 20px;">
+                                <div class="text-right" style="margin-top: 20px;">
                                     <button type="submit" name="submit" class="btn btn-primary">Post</button>
                                 </div>
                             </div>
-                            
+
                         </form>
                         <hr>
 
@@ -156,4 +213,5 @@
         </div>
     </div>
 </body>
+
 </html>
