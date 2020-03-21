@@ -197,16 +197,12 @@ if ($_SESSION['User_type'] == "student") {
 
                                     <div class="modal-body text-center">
                                         <div class="form-group">
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-outline-secondary btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Choose Course To Upload
-                                                </button>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <button class="dropdown-item" type="button">Flutter</button>
-                                                    <button class="dropdown-item" type="button">Mobile</button>
-                                                    <button class="dropdown-item" type="button">Phone</button>
-                                                </div>
-                                            </div>
+                                          <select class="browser-default custom-select">
+                                                <option selected="">Choose folder</option>
+                                                <option value="1">One</option>
+                                                <option value="2">Two</option>
+                                                <option value="3">Three</option>
+                                            </select>
                                         </div>
                                         <div class="form-group">
                                                 <label for="Ufile">Choose file</label>
