@@ -138,93 +138,169 @@ if ($_SESSION['User_type'] == "student") {
 
 
 
-    
-        <div class="my-2">
-            <?php
-            if (!empty($assignment_msg)) {
-                echo '<div class="alert alert-success alert-dismissible fade show" role="alert">'
-                    .  $assignment_msg .
-                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+    <div class="my-2">
+        <?php
+        if (!empty($assignment_msg)) {
+            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">'
+                .  $assignment_msg .
+                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                     </button>
                                     </div>';
-            }
-            ?>
+        }
+        ?>
+    </div>
+    <div class="row">
+        <div class="col" style="margin-left: 25px;">
+            <div class="card -row my-2">
+                <div class="card-body">
+                    <div>
+                        <img src="<?php echo $Course_image; ?>" style="width: 260px;" class="rounded mx-auto d-block" alt="Course Image">
+                    </div>
+                    <div>
+                        <hr class="my-2">
+                        <div> <a class="aedit active" href="#"> <label>Material</label></a></div>
+                        <hr class="my-3">
+                        <div> <a class="aedit" href="Home.php"> <label>Posts</label></a></div>
+                        <hr class="my-3">
+                        <div> <a class="aedit" href="courses_Grades.php?course_id=<?php echo $Course_ID; ?>"> <label>Grades</label></a></div>
+                        <hr class="my-3">
+                        <div> <a class="aedit" href="Members.php?course_id=<?php echo $Course_ID ?>"> <label>Members</label></a></div>
+                        <hr class="my-3">
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="row">
-            <div class="col" style="margin-left: 25px;">
-                <div class="card -row my-2">
-                    <div class="card-body">
-                        <div>
-                            <img src="<?php echo $Course_image; ?>" style="width: 260px;" class="rounded mx-auto d-block" alt="Course Image">
+        <div class="col-5">
+            <div class="card -row my-2">
+                <div class="card-body">
+                    <div>
+                        <h4><strong><?php echo $Course_name; ?></strong></h4>
+
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" name="uploadfile" class="btn btn-outline-secondary " data-toggle="modal" data-target="#uploadfile">Upload File</button>
+                    </div>
+                    <div class="modal fade" id="uploadfile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header border-bottom-0">
+                                    <h5 class="modal-title" id="exampleModalLabel">Upload File</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form method="post" enctype="multipart/form-data">
+
+
+
+                                    <div class="modal-body text-center">
+                                        <div class="form-group">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-outline-secondary btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Choose Course To Upload
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <button class="dropdown-item" type="button">Flutter</button>
+                                                    <button class="dropdown-item" type="button">Mobile</button>
+                                                    <button class="dropdown-item" type="button">Phone</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="modal-footer border-top-0 d-flex justify-content-center">
+                                        <button type="submit" class="btn btn-outline-secondary">Upload</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <div>
-                            <hr class="my-2">
-                            <div> <a class="aedit active" href="#"> <label>Material</label></a></div>
-                            <hr class="my-3">
-                            <div> <a class="aedit" href="updates.php?course_id=<?php echo $Course_ID?>"> <label>Posts</label></a></div>
-                            <hr class="my-3">
-                            <div> <a class="aedit" href="courses_Grades.php?course_id=<?php echo $Course_ID;?>"> <label>Grades</label></a></div>
-                            <hr class="my-3">
-                            <div> <a class="aedit" href="Members.php?course_id=<?php echo $Course_ID?>"> <label>Members</label></a></div>
-                            <hr class="my-3">
+                    </div>
+
+                    <div><label><?php echo $Course_des; ?></label></div>
+                    <div><label><?php echo "Access Code : " . $Course_AC; ?></label></div>
+                    <hr class="my-2 ">
+                    <div class="container text-right">
+                            <a href="#" data-toggle="modal" data-target="#createfolder">
+                                <label style="font-size: 16;font-weight: bold;">Create Folder</label>
+                            </a>
                         </div>
+                        <div class="modal fade" id="createfolder" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header border-bottom-0">
+                                    <h5 class="modal-title" id="exampleModalLabel">Craete Folder</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form method="post" enctype="multipart/form-data">
+
+
+
+                                    <div class="modal-body text-center">
+                                        <div class="form-group">
+                                        <div class="form-group">
+                                                <label for="foldername">Folder Name</label>
+                                                <input type="text" class="form-control" name="foldername" id="foldername" placeholder="Folder Name" required>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="modal-footer border-top-0 d-flex justify-content-center">
+                                        <button type="submit" class="btn btn-outline-secondary">Create</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <table class="table table-sm table-light ">
+                            <?php
+                            echo php_file_tree($Course_dir, "[link]");
+                            ?>
+                        </table>
                     </div>
                 </div>
             </div>
-            <div class="col-5">
-                <div class="card -row my-2">
-                    <div class="card-body">
-                        <div>
-                            <h4><strong><?php echo $Course_name; ?></strong></h4>
-                        </div>
-                        <div><label><?php echo $Course_des; ?></label></div>
-                        <div><label><?php echo "Access Code : " . $Course_AC; ?></label></div>
-                        <hr class="my-2 ">
-                        <div class="container">
-                            <table class="table table-sm table-light ">
-                                <?php
-                                echo php_file_tree($Course_dir, "[link]");
-                                ?>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col" style="margin-right: 25px;">
-                <div class="card -row my-2">
-                    <div class="card-body">
-                        <div class="raw">
-                            <h4><strong>Assignment</strong></h4>
-                            <hr class="my-2">
-                            <div class="diveditsecond">
-                                <?php
+        </div>
+        <div class="col" style="margin-right: 25px;">
+            <div class="card -row my-2">
+                <div class="card-body">
+                    <div class="raw">
+                        <h4><strong>Assignment</strong></h4>
+                        <hr class="my-2">
+                        <div class="diveditsecond">
+                            <?php
 
-                                $result = mysqli_query($db_connection, "SELECT * FROM `assignment` WHERE `Course_ID` = $Course_ID;");
+                            $result = mysqli_query($db_connection, "SELECT * FROM `assignment` WHERE `Course_ID` = $Course_ID;");
 
-                                if (mysqli_num_rows($result) > 0) {
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        $assignment_date = $row['Assignment_date'];
-                                        $assignment_title = $row['Assignment_title'];
-                                        $assignment_id = $row['Assignment_ID'];
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    $assignment_date = $row['Assignment_date'];
+                                    $assignment_title = $row['Assignment_title'];
+                                    $assignment_id = $row['Assignment_ID'];
 
-                                        $assignment_due = date("F j, Y, g:i a", strtotime($row['Assignment_deadline']));
-                                        echo $assignment_due . '
+                                    $assignment_due = date("F j, Y, g:i a", strtotime($row['Assignment_deadline']));
+                                    echo $assignment_due . '
                                             <hr class="my-1">
                                             <img src="images/assignment_image.png" width="20" height="20">
                                             <a href="Assignment_body.php?course_id=' . $Course_ID . '&assignment_id=' . $assignment_id . '">' . $assignment_title . '</a><br><br>';
-                                    }
                                 }
-                                ?>
-                            </div>
+                            }
+                            ?>
                         </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-outline-secondary " onclick="window.location.href='add_assignment.php?course_id=<?php echo $Course_ID;?>'">Add Assignmnet</button></div>
                     </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-outline-secondary " onclick="window.location.href='add_assignment.php?course_id=<?php echo $Course_ID; ?>'">Add Assignmnet</button></div>
                 </div>
             </div>
         </div>
-    
+    </div>
+
 
 
 
