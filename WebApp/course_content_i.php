@@ -235,11 +235,7 @@ if ($_SESSION['User_type'] == "student") {
                     <div><label><?php echo $Course_des; ?></label></div>
                     <div><label><?php echo "Access Code : " . $Course_AC; ?></label></div>
                     <hr class="my-2 ">
-                    <div class="container text-right">
-                        <a href="#" data-toggle="modal" data-target="#createfolder">
-                            <label style="font-size: 16;font-weight: bold;">Create Folder</label>
-                        </a>
-                    </div>
+                  
                     <div class="modal fade" id="createfolder" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
