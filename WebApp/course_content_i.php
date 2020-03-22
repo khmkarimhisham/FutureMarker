@@ -188,8 +188,9 @@ if ($_SESSION['User_type'] == "student") {
                         <h4><strong><?php echo $Course_name; ?></strong></h4>
 
                     </div>
-                    <div class="text-right">
+                     <div class="text-right">
                         <button type="submit" name="uploadfile" class="btn btn-outline-secondary " data-toggle="modal" data-target="#uploadfile">Upload File</button>
+                        <button type="submit" name="createfolder" class="btn btn-outline-secondary " data-toggle="modal" data-target="#createfolder">Create Folder</button>
                     </div>
                     <div class="modal fade" id="uploadfile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
