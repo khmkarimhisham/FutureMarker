@@ -14,8 +14,13 @@ if (isset($_GET['assignment'])) {
     $assignment_msg = 'Assignment Uploaded Successfully';
 }
 if (isset($_GET['create'])) {
-    if($_GET['create']=1){
-    $foldermsg = 'folder created Successfully';
+    if ($_GET['create'] = 1) {
+        $foldermsg = 'folder created Successfully';
+    }
+}
+if (isset($_GET['upload'])) {
+    if ($_GET['upload'] = 1) {
+        $foldermsg = 'upload file Successfully';
     }
 }
 if (isset($_GET['course_id'])) {
@@ -149,10 +154,10 @@ if ($_SESSION['User_type'] == "student") {
                                     </div>';
         }
         ?>
-          <?php
+        <?php
         if (!empty($foldermsg)) {
             echo '<div class="alert alert-success alert-dismissible fade show" role="alert">'
-                .  $foldermsg.
+                .  $foldermsg .
                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                     </button>
@@ -188,7 +193,7 @@ if ($_SESSION['User_type'] == "student") {
                         <h4><strong><?php echo $Course_name; ?></strong></h4>
 
                     </div>
-                     <div class="text-right">
+                    <div class="text-right">
                         <button type="submit" name="uploadfile" class="btn btn-outline-secondary " data-toggle="modal" data-target="#uploadfile">Upload File</button>
                         <button type="submit" name="createfolder" class="btn btn-outline-secondary " data-toggle="modal" data-target="#createfolder">Create Folder</button>
                     </div>
@@ -201,21 +206,26 @@ if ($_SESSION['User_type'] == "student") {
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form method="POST" enctype="multipart/form-data">
+                                <form method="POST" action="upload.php" enctype="multipart/form-data">
 
-                                <input type="text" id="Select" name="Select" class="form-control" value="1" hidden>
+                                    <input type="text" id="Select" name="Select" class="form-control" value="1" hidden>
 
 
                                     <div class="modal-body text-center">
                                         <input type="text" id="course_id" name="course_id" class="form-control" value="<?php echo $Course_ID; ?>" hidden>
 
                                         <div class="form-group">
-                                            <select class="browser-default custom-select">
-                                                <option selected="">Choose folder</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
+                                            <select name="ImageFile" class="browser-default custom-select">
+                                                <option value="">- Select Image -
+                                                    <?php
+                                                    $dirPath = dir($Course_dir);
+                                                    while (($file = $dirPath->read()) !== false) {
+                                                        echo "<option value=\"" . trim($file) . "\">" . $file . "\n";
+                                                    }
+                                                    $dirPath->close(); 
+                                                    ?>
                                             </select>
+                                         
                                         </div>
                                         <div class="form-group">
                                             <label for="Ufile">Choose file</label>
@@ -235,7 +245,7 @@ if ($_SESSION['User_type'] == "student") {
                     <div><label><?php echo $Course_des; ?></label></div>
                     <div><label><?php echo "Access Code : " . $Course_AC; ?></label></div>
                     <hr class="my-2 ">
-                  
+
                     <div class="modal fade" id="createfolder" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
@@ -248,7 +258,7 @@ if ($_SESSION['User_type'] == "student") {
                                 <form method="post" action="upload.php" enctype="multipart/form-data">
 
 
-                                        <input type="text" id="Select" name="Select" class="form-control" value="2" hidden>
+                                    <input type="text" id="Select" name="Select" class="form-control" value="2" hidden>
 
                                     <div class="modal-body text-center">
                                         <input type="text" id="course_id" name="course_id" class="form-control" value="<?php echo $Course_ID; ?>" hidden>
