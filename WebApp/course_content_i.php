@@ -13,11 +13,14 @@ include "php_file_tree.php";
 if (isset($_GET['assignment'])) {
     $assignment_msg = 'Assignment Uploaded Successfully';
 }
+if (isset($_GET['create'])) {
+    if($_GET['create']=1){
+    $foldermsg = 'folder created Successfully';
+    }
+}
+if (isset($_GET['course_id'])) {
 
-
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $Course_ID = $_GET['course_id'];
-
     $result1 = mysqli_query($db_connection, "SELECT * FROM `course` WHERE `Course_ID` = $Course_ID");
     if (mysqli_num_rows($result1) > 0) {
         $row = mysqli_fetch_assoc($result1);
@@ -26,11 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $Course_image =  $row['Course_image'];
         $Course_dir =  $row['Course_material_dir'];
         $Course_AC =  $row['Course_access_code'];
-    } else {
-        header("Location: Home.php");
     }
-} else {
-    header("Location: Home.php");
 }
 
 
@@ -150,6 +149,16 @@ if ($_SESSION['User_type'] == "student") {
                                     </div>';
         }
         ?>
+          <?php
+        if (!empty($foldermsg)) {
+            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">'
+                .  $foldermsg.
+                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>';
+        }
+        ?>
     </div>
     <div class="row">
         <div class="col" style="margin-left: 25px;">
@@ -191,13 +200,16 @@ if ($_SESSION['User_type'] == "student") {
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form method="post" enctype="multipart/form-data">
+                                <form method="POST" enctype="multipart/form-data">
 
+                                <input type="text" id="Select" name="Select" class="form-control" value="1" hidden>
 
 
                                     <div class="modal-body text-center">
+                                        <input type="text" id="course_id" name="course_id" class="form-control" value="<?php echo $Course_ID; ?>" hidden>
+
                                         <div class="form-group">
-                                          <select class="browser-default custom-select">
+                                            <select class="browser-default custom-select">
                                                 <option selected="">Choose folder</option>
                                                 <option value="1">One</option>
                                                 <option value="2">Two</option>
@@ -205,14 +217,14 @@ if ($_SESSION['User_type'] == "student") {
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                                <label for="Ufile">Choose file</label>
-                                                <input type="file"id="Ufile" name="Ufile" class="text-center center-block file-upload" style="margin-left: 40px;">
-                                            </div>
+                                            <label for="Ufile">Choose file</label>
+                                            <input type="file" id="Ufile" name="Ufile" class="text-center center-block file-upload" style="margin-left: 40px;">
+                                        </div>
 
 
                                     </div>
                                     <div class="modal-footer border-top-0 d-flex justify-content-center">
-                                        <button type="submit" class="btn btn-outline-secondary">Upload</button>
+                                        <button type="submit1" class="btn btn-outline-secondary">Upload</button>
                                     </div>
                                 </form>
                             </div>
@@ -223,11 +235,11 @@ if ($_SESSION['User_type'] == "student") {
                     <div><label><?php echo "Access Code : " . $Course_AC; ?></label></div>
                     <hr class="my-2 ">
                     <div class="container text-right">
-                            <a href="#" data-toggle="modal" data-target="#createfolder">
-                                <label style="font-size: 16;font-weight: bold;">Create Folder</label>
-                            </a>
-                        </div>
-                        <div class="modal fade" id="createfolder" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <a href="#" data-toggle="modal" data-target="#createfolder">
+                            <label style="font-size: 16;font-weight: bold;">Create Folder</label>
+                        </a>
+                    </div>
+                    <div class="modal fade" id="createfolder" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                                 <div class="modal-header border-bottom-0">
@@ -236,26 +248,28 @@ if ($_SESSION['User_type'] == "student") {
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form method="post" enctype="multipart/form-data">
+                                <form method="post" action="upload.php" enctype="multipart/form-data">
 
 
+                                        <input type="text" id="Select" name="Select" class="form-control" value="2" hidden>
 
                                     <div class="modal-body text-center">
-                                        
+                                        <input type="text" id="course_id" name="course_id" class="form-control" value="<?php echo $Course_ID; ?>" hidden>
+
                                         <div class="form-group">
-                                                <label for="foldername">Folder Name</label>
-                                                <input type="text" class="form-control" name="foldername" id="foldername" placeholder="Folder Name" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="folderfile">Choose file</label>
-                                                <input type="file"id="folderfile" name="folderfile" class="text-center center-block file-upload" style="margin-left: 40px;">
-                                            </div>
-                                        
+                                            <label for="foldername">Folder Name</label>
+                                            <input type="text" class="form-control" name="foldername" id="foldername" placeholder="Folder Name" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="folderfile">Choose file</label>
+                                            <input type="file" id="folderfile" name="folderfile" class="text-center center-block file-upload" style="margin-left: 40px;">
+                                        </div>
+
 
 
                                     </div>
                                     <div class="modal-footer border-top-0 d-flex justify-content-center">
-                                        <button type="submit" class="btn btn-outline-secondary">Create</button>
+                                        <button type="submit2" class="btn btn-outline-secondary">Create</button>
                                     </div>
                                 </form>
                             </div>
