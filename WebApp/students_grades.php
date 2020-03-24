@@ -168,12 +168,13 @@ if ($_SESSION['User_type'] == "student") {
                             $result = mysqli_query($db_connection, $sql);
                             if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
+                                    $Doing_ID=$row['Doing_ID'];
                                     settype($row['Compilation_grade'], "integer");
                                     settype($row['Style_grade'], "integer");
                                     settype($row['Dynamic_test_grade'], "integer");
                                     settype($row['Feature_test_grade'], "integer");
                                     $assignment_grade = $row['Compilation_grade'] + $row['Style_grade'] + $row['Dynamic_test_grade'] + $row['Feature_test_grade'];
-                                    echo '<tr class="table-active "><img src="' . $row['Student_image'] . '" width="30" height="30"><a href="details.php?member_id=' . $row['Student_ID'] . '" class="aedit">' . $row['Student_firstname'] . ' ' . $row['Student_lastname'] . '</a> <label style="font-size: 18;font-weight: 200; margin-left: 15px;"> ' . $assignment_grade . '</label> </tr><hr class="my-2 ">';
+                                    echo '<tr class="table-active "><img src="' . $row['Student_image'] . '" width="30" height="30"><a href="submission.php?course_id=' . $Course_ID . '&assignment_id=' . $assignment_id . '&submission=' . $Doing_ID . '"" class="aedit">' . $row['Student_firstname'] . ' ' . $row['Student_lastname'] . '</a> <label style="font-size: 18;font-weight: 200; margin-left: 15px;"> ' . $assignment_grade . '</label> </tr><hr class="my-2 ">';
                                 }
                             }
                             ?>
