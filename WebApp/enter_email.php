@@ -61,7 +61,7 @@ if (isset($_POST['email'])) {
                         <!-- Background image for card set in CSS! -->
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title text-center">Log In</h5>
+                        <h5 class="card-title text-center">Reset password</h5>
                         <form class="form-signin" action="enter_email.php" method="post">
 
 
