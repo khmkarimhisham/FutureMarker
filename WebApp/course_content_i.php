@@ -24,7 +24,6 @@ if (isset($_GET['upload'])) {
     }
 }
 if (isset($_GET['course_id'])) {
-
     $Course_ID = $_GET['course_id'];
     $result1 = mysqli_query($db_connection, "SELECT * FROM `course` WHERE `Course_ID` = $Course_ID");
     if (mysqli_num_rows($result1) > 0) {
@@ -36,12 +35,9 @@ if (isset($_GET['course_id'])) {
         $Course_AC =  $row['Course_access_code'];
     }
 }
-
-
 if ($_SESSION['User_type'] == "student") {
     header("Location: courses_content.php");
 }
-
 ?>
 
 <html>
@@ -176,7 +172,7 @@ if ($_SESSION['User_type'] == "student") {
                         <hr class="my-2">
                         <div> <a class="aedit active" href="#"> <label>Material</label></a></div>
                         <hr class="my-3">
-                        <div> <a class="aedit" href="Home.php"> <label>Posts</label></a></div>
+                        <div> <a class="aedit" href="updates.php?course_id=<?php echo $Course_ID; ?>"> <label>Posts</label></a></div>
                         <hr class="my-3">
                         <div> <a class="aedit" href="courses_Grades.php?course_id=<?php echo $Course_ID; ?>"> <label>Grades</label></a></div>
                         <hr class="my-3">
@@ -191,7 +187,6 @@ if ($_SESSION['User_type'] == "student") {
                 <div class="card-body">
                     <div>
                         <h4><strong><?php echo $Course_name; ?></strong></h4>
-
                     </div>
                     <div class="text-right">
                         <button type="submit" name="uploadfile" class="btn btn-outline-secondary " data-toggle="modal" data-target="#uploadfile">Upload File</button>
@@ -210,7 +205,6 @@ if ($_SESSION['User_type'] == "student") {
 
                                     <input type="text" id="Select" name="Select" class="form-control" value="1" hidden>
 
-
                                     <div class="modal-body text-center">
                                         <input type="text" id="course_id" name="course_id" class="form-control" value="<?php echo $Course_ID; ?>" hidden>
 
@@ -219,9 +213,13 @@ if ($_SESSION['User_type'] == "student") {
                                                 <option value="">- Select Image -
                                                     <?php
                                                     $dirPath = dir($Course_dir);
+                                                    if(($file = $dirPath->read())!== false){
+                                                        $file = $dirPath->read();
+                                                    
                                                     while (($file = $dirPath->read()) !== false) {
                                                         echo "<option value=\"" . trim($file) . "\">" . $file . "\n";
                                                     }
+                                                }
                                                     $dirPath->close(); 
                                                     ?>
                                             </select>
@@ -231,8 +229,6 @@ if ($_SESSION['User_type'] == "student") {
                                             <label for="Ufile">Choose file</label>
                                             <input type="file" id="Ufile" name="Ufile" class="text-center center-block file-upload" style="margin-left: 40px;">
                                         </div>
-
-
                                     </div>
                                     <div class="modal-footer border-top-0 d-flex justify-content-center">
                                         <button type="submit1" class="btn btn-outline-secondary">Upload</button>

@@ -2,9 +2,18 @@
 require 'DB/db.php';
 if (isset($_GET['token'])) {
     $token = $_GET['token'];
+    $error_message='';
+    $change_button='';
+
     $sql = "SELECT Email FROM user WHERE token='$token' LIMIT 1";
     $results = mysqli_query($db_connection, $sql);
-    $email = mysqli_fetch_assoc($results)['Email'];
+    if((mysqli_num_rows($results) > 0)){
+        $email = mysqli_fetch_assoc($results)['Email'];
+
+    }else{
+        $error_message= $error_message."this token not vaild :( ";
+        $change_button='disabled';
+    }
 } elseif (isset($_POST['new_pass'])) {
 
     $email = $_POST['email'];
@@ -17,6 +26,7 @@ if (isset($_GET['token'])) {
         $results = mysqli_query($db_connection, $sql);
         if ($results) {
 
+            
             header('location: login.php');
         }
     }
@@ -86,7 +96,7 @@ if (isset($_GET['token'])) {
                                     </div>';
                             }
                             ?>
-                            <button class="btn btn-lg btn-primary btn-block " type="submit">Change</button>
+                            <button class="btn btn-lg btn-primary btn-block " type="submit" <?php echo $change_button;?>>Change</button>
                             <a class="d-block text-center mt-2 small" href="login.php">log in </a>
                             <a class="d-block text-center mt-2 small" href="signup.php">Don`t have account? Sign Up</a>
 

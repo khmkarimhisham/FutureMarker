@@ -223,11 +223,11 @@ if ($_SESSION['User_type'] == "instructor") {
                                             </div>
                                             <div class="form-group">
                                                 <label for="bio">Bio</label>
-                                                <input type="text" class="form-control" name="bio" id="bio" placeholder="Enter Bio" value="<?php echo $_POST['bio'];?>">
+                                                <input type="text" class="form-control" name="bio" id="bio" placeholder="Enter Bio" value="<?php echo $bio;?>">
                                             </div>
                                             <div class="form-group">
                                                 <label for="phone">Phone</label>
-                                                <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter your phone number" value="<?php echo $_POST['phone'];?>">
+                                                <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter your phone number" value="<?php echo $Phone;?>">
                                             </div>
 
                                         </div>
