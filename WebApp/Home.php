@@ -43,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="CSS/content.css">
+    <link rel="stylesheet" href="CSS/notifaction.css">
 
     <!------ Include the above in your HEAD tag ---------->
 </head>
@@ -72,23 +73,64 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <li class="nav-item active">
                     <a class="nav-link " href="#">
 
-                        Grades
+                        Grades 
                     </a>
                 </li>
             </ul>
-            <ul class="navbar-nav navedit ">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="fa fa-bell">
-                            <span class="badge badge-info">11</span>
-                        </i>
+                 <ul class="navbar-nav navedit ">
+                <li class="nav-item dropdown">
+                  <a class="nav-link text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-bell"></i>
                     </a>
-                </li>
+                    
+                    <ul class="dropdown-menu scrollable-menu">
+                      <li class="head text-light bg-dark">
+                        <div class="row">
+                          <div class="col-lg-12 col-sm-12 col-12">
+                            <span>Notifications (2)</span>
+                         
+                            </div></div>
+                      </li>
+                     <li class="notification-box ">
+                        <div class="row">
+                          <div class="col-lg-3 col-sm-3 col-3 text-center">
+                            <img src="/demo/man-profile.jpg" class="w-50 rounded-circle">
+                          </div>    
+                          <div class="col-lg-8 col-sm-8 col-8">
+                            <strong class="text-info">mobile programming</strong>
+                            <div >
+                              anas hassan update a new filedpofofefjeiofejfoijei jnndlljmijgiojfpjopjfpopofpofpokpokfkpfkp pokfopkspofkpkfkkfpokf;fp;m pokpofkpskfpkfk
+                                
+                            </div>
+                            <small class="text-warning">27.03.2020, 15:00</small>
+                          </div>    
+                        </div>
+                      </li>
+                      <hr>
+                        <li class="notification-box ">
+                        <div class="row">
+                          <div class="col-lg-3 col-sm-3 col-3 text-center">
+                            <img src="/demo/man-profile.jpg" class="w-50 rounded-circle">
+                          </div>    
+                          <div class="col-lg-8 col-sm-8 col-8">
+                            <strong class="text-info">mobile programming</strong>
+                            <div>
+                              anas hassan update a new file
+                            </div>
+                            <small class="text-warning">27.03.2020, 15:00</small>
+                          </div>    
+                        </div>
+                      </li>
+                    
+                      
+                    </ul>
+                     </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="fa fa-search">
                             <span class="badge badge-success"></span>
                         </i>
+
                     </a>
                 </li>
                 <li class="nav-item">
@@ -99,7 +141,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </a>
                 </li>
                 <li>
-
                     <div class="dropdown mydrop">
                         <button type="button" class="btn btn-primary dropdown-toggle mydropbutton" data-toggle="dropdown">
                             <img src="<?php echo $_SESSION['User_image']; ?>" width="30" height="30">
