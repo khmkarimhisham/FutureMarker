@@ -1,0 +1,332 @@
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+
+.navbar-icon-top .navbar-nav .nav-link > .fa {
+    position: relative;
+    width: 36px;
+    font-size: 24px;
+}
+
+.navbar-icon-top .navbar-nav .nav-link > .fa > .badge {
+    font-size: 0.75rem;
+    position: absolute;
+    right: 0;
+    font-family: sans-serif;
+}
+
+.navbar-icon-top .navbar-nav .nav-link > .fa {
+    top: 3px;
+    line-height: 12px;
+}
+
+.navbar-icon-top .navbar-nav .nav-link > .fa > .badge {
+    top: -10px;
+}
+
+@media (min-width: 576px) {
+    .navbar-icon-top.navbar-expand-sm .navbar-nav .nav-link {
+        text-align: center;
+        display: table-cell;
+        height: 70px;
+        vertical-align: middle;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .navbar-icon-top.navbar-expand-sm .navbar-nav .nav-link > .fa {
+        display: block;
+        width: 48px;
+        margin: 2px auto 4px auto;
+        top: 0;
+        line-height: 24px;
+    }
+
+    .navbar-icon-top.navbar-expand-sm .navbar-nav .nav-link > .fa > .badge {
+        top: -7px;
+    }
+}
+
+@media (min-width: 768px) {
+    .navbar-icon-top.navbar-expand-md .navbar-nav .nav-link {
+        text-align: center;
+        display: table-cell;
+        height: 70px;
+        vertical-align: middle;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .navbar-icon-top.navbar-expand-md .navbar-nav .nav-link > .fa {
+        display: block;
+        width: 48px;
+        margin: 2px auto 4px auto;
+        top: 0;
+        line-height: 24px;
+    }
+
+    .navbar-icon-top.navbar-expand-md .navbar-nav .nav-link > .fa > .badge {
+        top: -7px;
+    }
+}
+
+@media (min-width: 992px) {
+    .navbar-icon-top.navbar-expand-lg .navbar-nav .nav-link {
+        text-align: center;
+        display: table-cell;
+        height: 70px;
+        vertical-align: middle;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .navbar-icon-top.navbar-expand-lg .navbar-nav .nav-link > .fa {
+        display: block;
+        width: 48px;
+        margin: 2px auto 4px auto;
+        top: 0;
+        line-height: 24px;
+    }
+
+    .navbar-icon-top.navbar-expand-lg .navbar-nav .nav-link > .fa > .badge {
+        top: -7px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .navbar-icon-top.navbar-expand-xl .navbar-nav .nav-link {
+        text-align: center;
+        display: table-cell;
+        height: 70px;
+        vertical-align: middle;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .navbar-icon-top.navbar-expand-xl .navbar-nav .nav-link > .fa {
+        display: block;
+        width: 48px;
+        margin: 2px auto 4px auto;
+        top: 0;
+        line-height: 24px;
+    }
+
+    .navbar-icon-top.navbar-expand-xl .navbar-nav .nav-link > .fa > .badge {
+        top: -7px;
+    }
+}
+
+.mydrop {
+    margin-top: 15px;
+    background-color: transparent;
+
+
+}
+
+.mydropbutton {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+
+.mydrop:hover
+.mydropbutton {
+    background-color: transparent;
+    border-color: transparent;
+
+}
+.mydrop:focus
+.mydropbutton {
+    background-color: transparent;
+    border-color: transparent;
+
+}
+.mydrop .dropdown-menu {
+    background-color: #230444;
+    border-radius: 15px;
+    width:280px;
+
+}
+.mydrop .dropdown-item {
+    color: #ffffff;
+}
+
+.mydrop .dropdown-item:hover,
+.mydrop .dropdown-item:focus {
+    color: #eb8242;
+    background-color: rgba(255, 255, 255, .5);
+}
+.homeheader {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0;
+    z-index: 10000;
+    transition: all 0.2s ease-in-out;
+    height: 75px;
+    background-color: #230444;
+    line-height: 40px;
+
+}
+a{
+    color: cornflowerblue;
+    font-size: 20;
+}
+a:hover {
+  text-decoration: none;
+ 
+}
+.diveditfirst{
+    padding-top: 7px;
+    padding-left: 50px;
+    padding-right: 10px;
+    font-size: 18;
+}
+.diveditsecond{
+    padding-top: 7px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-family: cursive;
+    font-size: 16;
+}
+
+
+.comment-wrapper .panel-body {
+    max-height:650px;
+    overflow:auto;
+}
+
+.comment-wrapper .media-list .media img {
+    width:50px;
+    height:50px;
+    border:2px solid #e5e7e8;
+}
+
+.comment-wrapper .media-list .media {
+    border-bottom:1px dashed #efefef;
+    margin-bottom:25px;
+}
+.footerstyle {
+    background-color: #230444;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 6%;
+    color: white;
+    text-align: center;
+    padding-top: 25px;
+
+}
+span {
+    font-size: 15px;
+}
+
+.box {
+    padding: 60px 0px;
+     background-image: url(images/515.jpg);
+   
+}
+
+.box-part {
+    background-color: white;
+    border-radius: 0;
+    padding: 60px 10px;
+    margin: 30px 0px;
+}
+
+.text {
+    margin: 20px 0px;
+}
+
+.fa {
+    color: #4183D7;
+}
+.side-nav.wide.slim {
+    width: 3.75rem !important;}
+
+$grey: #F5F5F5;
+$dark-grey: #323B40;
+
+$light-blue: #E0F5FF;
+$blue: #B9E5FE;
+$dark-blue: #00A5FA;
+
+$green: #B7E0DC;
+$dark-green: #019888;
+
+$lime: #C7E8C8;
+$dark-lime: #42B045;
+
+$yellow: #FFEEBA;
+$dark-yellow: #FF9901;
+  
+$pink: #FABAD0;
+$dark-pink: #EF075F;
+ 
+$red: #FEC9C6;
+$dark-red: #FD3D08;
+
+@mixin color-div($color1, $color2){
+    background-color: $color1;
+    color: $color2;
+}
+
+.container {
+  padding: 2rem 0rem;
+}
+
+h4 {
+  margin: 2rem 0rem;
+}
+
+.panel {
+  border-radius: 4px;
+  padding: 1rem;
+  margin-top: 0.2rem;
+  
+  @include color-div($grey, $dark-grey);
+  
+  &.panel-blue {
+    @include color-div($light-blue, $dark-blue);
+  }
+  
+  &.panel-big-height{
+    min-height: 150px;
+  }
+}
+
+.item {
+  border-radius: 4px;
+  padding: 0.5rem;
+  margin: 0.2rem;
+  
+  &.item-blue {
+    @include color-div($blue, $dark-blue);
+  }
+  
+  &.item-green {
+    @include color-div($green, $dark-green);
+  }
+  
+  &.item-lime {
+    @include color-div($lime, $dark-lime);
+  }
+  
+  &.item-yellow {
+    @include color-div($yellow, $dark-yellow);
+  }
+  
+  &.item-pink {
+    @include color-div($pink, $dark-pink);
+  }
+  
+  &.item-red {
+    @include color-div($red, $dark-red);
+  }
+  
+  &.item-big-width{
+    min-width: 380px;
+  }
+}
+
+
