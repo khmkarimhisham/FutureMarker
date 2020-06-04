@@ -25,7 +25,7 @@ class InstructorProfile extends StatelessWidget {
               ),
               Positioned(
                 top: 10,
-                right: 30,
+                right: 20,
                 child: Icon(
                   Icons.settings,
                   color: Colors.white,

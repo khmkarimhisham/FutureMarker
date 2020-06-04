@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:futuremarker/Views/Auth/Signup.dart';
+import 'package:futuremarkerapp/Views/Auth/Signup.dart';
 
 import 'Widget/bezierContainer.dart';
 

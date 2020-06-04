@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:futuremarker/Views/Auth/Widget/bezierContainer.dart';
+import 'package:futuremarkerapp/Views/Auth/Widget/bezierContainer.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:futuremarker/Views/Auth/Login.dart';
+import 'package:futuremarkerapp/Views/Auth/Login.dart';
 
 class SignUpPage extends StatefulWidget {
   @override

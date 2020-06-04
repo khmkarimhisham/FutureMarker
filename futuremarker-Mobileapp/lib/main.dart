@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:futuremarker/Views/Auth/Signup.dart';
+import 'package:futuremarkerapp/Views/Auth/Signup.dart';
 
+import 'Views/Instructor/EditProfile.dart';
 import 'Views/Instructor/Home.dart';
 import 'Views/Instructor/Profile.dart';
 
