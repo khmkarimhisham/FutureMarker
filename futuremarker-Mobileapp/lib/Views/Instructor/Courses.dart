@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:futuremarkerapp/Views/Instructor/Instructor_Drawer.dart';
+import 'package:futuremarkerapp/Views/Instructor/CreateCourse.dart';
+
+
 
 
 class MyCourses extends StatefulWidget {
@@ -87,7 +90,12 @@ class _MyCoursesState extends State<MyCourses> {
                         style: TextStyle(color: Colors.white, fontSize: 24),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => CreateCourse()),
+                          );
+                        },
                         icon: Icon(
                           Icons.add,
                           color: Colors.white,

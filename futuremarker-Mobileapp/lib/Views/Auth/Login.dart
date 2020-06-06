@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:futuremarkerapp/Views/Auth/Signup.dart';
 
-import 'Widget/bezierContainer.dart';
+import '../Widget/bezierContainer.dart';
 
 class LoginPage extends StatefulWidget {
 
