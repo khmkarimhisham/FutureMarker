@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:futuremarkerapp/Views/Instructor/Instructor_Drawer.dart';
 import 'package:futuremarkerapp/Views/Instructor/CreateCourse.dart';
 
+import 'Course.dart';
+
 
 
 
@@ -11,7 +13,7 @@ class MyCourses extends StatefulWidget {
 }
 
 class _MyCoursesState extends State<MyCourses> {
-  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _courseskey = GlobalKey<ScaffoldState>();
   final primary = Color(0xfff263238);
   final secondary = Colors.white;
 
@@ -43,7 +45,7 @@ class _MyCoursesState extends State<MyCourses> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _key,
+      key: _courseskey,
       backgroundColor: Color(0xfff0f0f0),
       drawer: MyDrawer(),
       body: SingleChildScrollView(
@@ -59,7 +61,15 @@ class _MyCoursesState extends State<MyCourses> {
                 child: ListView.builder(
                     itemCount: schoolLists.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return buildList(context, index);
+                      return InkWell(
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Course()),
+                          );
+                        },
+                        child: buildList(context, index),
+                      );
                     }),
               ),
               Container(
@@ -77,7 +87,7 @@ class _MyCoursesState extends State<MyCourses> {
                     children: <Widget>[
                       IconButton(
                         onPressed: () {
-                          _key.currentState.openDrawer();
+                          _courseskey.currentState.openDrawer();
                         },
                         icon: Icon(
                           Icons.menu,
