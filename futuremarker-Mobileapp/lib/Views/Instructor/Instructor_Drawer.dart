@@ -3,6 +3,8 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:futuremarkerapp/Views/Instructor/Courses.dart';
 import 'package:futuremarkerapp/Views/Instructor/Home.dart';
 import 'package:futuremarkerapp/Views/Instructor/Profile.dart';
+import 'package:futuremarkerapp/Views/Instructor/Chat.dart';
+
 
 
 class MyDrawer extends StatelessWidget {
@@ -79,7 +81,11 @@ class MyDrawer extends StatelessWidget {
                   buildDivider(),
                   _buildRow(Icons.grade, "Grades"),
                   buildDivider(),
-                  _buildRow(Icons.message, "Messages", showBadge: true),
+                  InkWell(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => InstructorListChat()));
+                      },
+                      child: _buildRow(Icons.message, "Messages", showBadge: true)),
                   buildDivider(),
                   _buildRow(Icons.notifications, "Notifications",
                       showBadge: true),
