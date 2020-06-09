@@ -84,6 +84,7 @@ class _InstructorHomeState extends State<InstructorHome> {
         child: Column(
           children: <Widget>[
             Container(
+
               margin:
               EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               decoration: BoxDecoration(
@@ -94,8 +95,8 @@ class _InstructorHomeState extends State<InstructorHome> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  Wrap(
+
                     children: <Widget>[
                       Text(
                         'Anas hassan',
@@ -252,8 +253,8 @@ class _InstructorHomeState extends State<InstructorHome> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  Wrap(
+
                     children: <Widget>[
                       Text(
                         'Anas hassan',
@@ -261,7 +262,7 @@ class _InstructorHomeState extends State<InstructorHome> {
                       ),
                       Icon(Icons.play_arrow),
                       Text(
-                        'System Programming',
+                        'System ans ahhakkakkakkakakk lkkk Programming',
                         style: TextStyle(fontSize: 18),
                       ),
                     ],

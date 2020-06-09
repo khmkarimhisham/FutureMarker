@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:futuremarkerapp/Views/Instructor/Folder.dart';
+
 class Course extends StatefulWidget {
   static final String path = "lib/src/pages/misc/navybar.dart";
   @override
@@ -55,7 +57,7 @@ class _CourseState extends State<Course> {
               },
             ),
             FlatButton(
-              child: Text('Creare'),
+              child: Text('Create'),
               onPressed: () {},
             ),
           ],
@@ -141,10 +143,18 @@ class _CourseState extends State<Course> {
                         child: Column(
                           // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            Card(
-                              child: ListTile(
-                                leading: Icon(Icons.folder),
-                                title: Text('database'),
+                            InkWell(
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => FolderContent()),
+                                );
+                              },
+                              child: Card(
+                                child: ListTile(
+                                  leading: Icon(Icons.folder),
+                                  title: Text('database'),
+                                ),
                               ),
                             ),
                             Card(
@@ -280,8 +290,8 @@ class _CourseState extends State<Course> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                            Wrap(
+
                               children: <Widget>[
                                 Text(
                                   'Anas hassan',
@@ -436,6 +446,7 @@ class _CourseState extends State<Course> {
                   right: 20,
                   child: InkWell(
                     onTap: () {
+                      _addCommentDialog();
 
                     },
                     child: Icon(
