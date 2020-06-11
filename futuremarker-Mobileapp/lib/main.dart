@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:futuremarkerapp/Views/Auth/Signup.dart';
 import 'package:futuremarkerapp/Views/Instructor/CreateCourse.dart';
 
+import 'Views/Instructor/Chat.dart';
+import 'Views/Instructor/ChatContent.dart';
 import 'Views/Instructor/Course.dart';
 import 'Views/Instructor/Courses.dart';
 import 'Views/Instructor/EditProfile.dart';
