@@ -11,9 +11,10 @@ class SignUpPage extends StatefulWidget {
 }
 
 class Item {
-  const Item(this.name, this.icon);
+  const Item(this.name, this.icon,this.role);
   final String name;
   final Icon icon;
+  final int role;
 }
 
 class _SignUpPageState extends State<SignUpPage> {
@@ -24,6 +25,7 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmpasswordController = TextEditingController();
 
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool visibility = true;
   bool visibilityconfirm = true;
@@ -33,16 +35,21 @@ class _SignUpPageState extends State<SignUpPage> {
   List<Item> users = <Item>[
     const Item(
         'Instructor',
+
         Icon(
           Icons.person,
           color: Colors.black,
-        )),
+        ),
+       1
+    ),
     const Item(
         'Student',
         Icon(
           Icons.person,
           color: Colors.black,
-        )),
+        ),
+      2
+    ),
   ];
 
   Widget _submitButton() {
@@ -380,5 +387,15 @@ class _SignUpPageState extends State<SignUpPage> {
     setState(() {
       visibilityconfirm = !visibilityconfirm;
     });
+  }
+  void SignUp(){
+
+    var data ={
+      'role':selectedUser.role ,
+      'name':_nameController.text,
+      'email':_emailController.text,
+      'password':_passwordController.text,
+    };
+
   }
 }

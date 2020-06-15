@@ -3,6 +3,8 @@ import 'dart:async';
 
 import 'package:futuremarkerapp/Views/Instructor/Folder.dart';
 
+import 'AssignmentBody.dart';
+
 class Course extends StatefulWidget {
   static final String path = "lib/src/pages/misc/navybar.dart";
   @override
@@ -31,7 +33,6 @@ class _CourseState extends State<Course> {
               children: <Widget>[
                 Form(
                   child: TextFormField(
-
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 18.0,
@@ -65,6 +66,7 @@ class _CourseState extends State<Course> {
       },
     );
   }
+
   Future<void> _addCommentDialog() async {
     return showDialog<void>(
       context: context,
@@ -144,10 +146,11 @@ class _CourseState extends State<Course> {
                           // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             InkWell(
-                              onTap: (){
+                              onTap: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => FolderContent()),
+                                  MaterialPageRoute(
+                                      builder: (context) => FolderContent()),
                                 );
                               },
                               child: Card(
@@ -214,39 +217,84 @@ class _CourseState extends State<Course> {
                     child: Column(
                       // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        Card(
-                          child: ListTile(
-                            leading: Icon(Icons.assignment),
-                            title: Text('database'),
-                            subtitle: Text('due:24/12/2020'),
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Assignment()),
+                            );
+                          },
+                          child: Card(
+                            child: ListTile(
+                              leading: Icon(Icons.assignment),
+                              title: Text('database'),
+                              subtitle: Text('due:24/12/2020'),
+                            ),
                           ),
                         ),
-                        Card(
-                          child: ListTile(
-                            leading: Icon(Icons.assignment),
-                            title: Text('database'),
-                            subtitle: Text('due:24/12/2020'),
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Assignment()),
+                            );
+                          },
+                          child: Card(
+                            child: ListTile(
+                              leading: Icon(Icons.assignment),
+                              title: Text('database'),
+                              subtitle: Text('due:24/12/2020'),
+                            ),
                           ),
                         ),
-                        Card(
-                          child: ListTile(
-                            leading: Icon(Icons.assignment),
-                            title: Text('database'),
-                            subtitle: Text('due:24/12/2020'),
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Assignment()),
+                            );
+                          },
+                          child: Card(
+                            child: ListTile(
+                              leading: Icon(Icons.assignment),
+                              title: Text('database'),
+                              subtitle: Text('due:24/12/2020'),
+                            ),
                           ),
                         ),
-                        Card(
-                          child: ListTile(
-                            leading: Icon(Icons.assignment),
-                            title: Text('database'),
-                            subtitle: Text('due:24/12/2020'),
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Assignment()),
+                            );
+                          },
+                          child: Card(
+                            child: ListTile(
+                              leading: Icon(Icons.assignment),
+                              title: Text('database'),
+                              subtitle: Text('due:24/12/2020'),
+                            ),
                           ),
                         ),
-                        Card(
-                          child: ListTile(
-                            leading: Icon(Icons.assignment),
-                            title: Text('database'),
-                            subtitle: Text('due:24/12/2020'),
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Assignment()),
+                            );
+                          },
+                          child: Card(
+                            child: ListTile(
+                              leading: Icon(Icons.assignment),
+                              title: Text('database'),
+                              subtitle: Text('due:24/12/2020'),
+                            ),
                           ),
                         ),
                       ],
@@ -291,7 +339,6 @@ class _CourseState extends State<Course> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Wrap(
-
                               children: <Widget>[
                                 Text(
                                   'Anas hassan',
@@ -326,13 +373,13 @@ class _CourseState extends State<Course> {
                               children: <Widget>[
 //
                                 IconButton(
-                                    icon: Icon(Icons.favorite, color: _iconColor),
+                                    icon:
+                                        Icon(Icons.favorite, color: _iconColor),
                                     onPressed: () {
                                       setState(() {
-                                        if(_iconColor == Colors.red){
+                                        if (_iconColor == Colors.red) {
                                           _iconColor = Colors.grey;
-                                        }
-                                        else{
+                                        } else {
                                           _iconColor = Colors.red;
                                         }
                                       });
@@ -346,7 +393,7 @@ class _CourseState extends State<Course> {
                                   width: 16.0,
                                 ),
                                 InkWell(
-                                    onTap: (){
+                                    onTap: () {
                                       _addCommentDialog();
                                     },
                                     child: Icon(Icons.comment)),
@@ -359,8 +406,8 @@ class _CourseState extends State<Course> {
                             Divider(),
                             //Comments
                             Container(
-                              margin:
-                              EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
                               decoration: BoxDecoration(
                                 color: Color(0xffff6f6f6),
                                 borderRadius: BorderRadius.circular(5.0),
@@ -377,28 +424,31 @@ class _CourseState extends State<Course> {
                                         height: 30,
                                         margin: EdgeInsets.only(right: 10),
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(50),
-                                          border: Border.all(width: 3, color: Colors.white),
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          border: Border.all(
+                                              width: 3, color: Colors.white),
                                           image: DecorationImage(
-                                              image: AssetImage('Images/01.png'),
+                                              image:
+                                                  AssetImage('Images/01.png'),
                                               fit: BoxFit.fill),
                                         ),
                                       ),
                                       Text('Mohamed Essam')
                                     ],
                                   ),
-                                  Padding(padding: EdgeInsets.only(left: 40),
-                                    child:  Text('anas ahssan cnfjgoijojgoijsogoigojsojoijioieiion '
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 40),
+                                    child: Text(
+                                        'anas ahssan cnfjgoijojgoijsogoigojsojoijioieiion '
                                         'jejoijeiojoijo ijoi joi jj oijoijo '),
-
                                   ),
                                 ],
-
                               ),
                             ),
                             Container(
-                              margin:
-                              EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
                               decoration: BoxDecoration(
                                 color: Color(0xffff6f6f6),
                                 borderRadius: BorderRadius.circular(5.0),
@@ -415,29 +465,31 @@ class _CourseState extends State<Course> {
                                         height: 30,
                                         margin: EdgeInsets.only(right: 10),
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(50),
-                                          border: Border.all(width: 3, color: Colors.white),
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          border: Border.all(
+                                              width: 3, color: Colors.white),
                                           image: DecorationImage(
-                                              image: AssetImage('Images/01.png'),
+                                              image:
+                                                  AssetImage('Images/01.png'),
                                               fit: BoxFit.fill),
                                         ),
                                       ),
                                       Text('Mohamed Essam')
                                     ],
                                   ),
-                                  Padding(padding: EdgeInsets.only(left: 40),
-                                    child:  Text('anas ahssan cnfjgoijojgoijsogoigojsojoijioieiion '
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 40),
+                                    child: Text(
+                                        'anas ahssan cnfjgoijojgoijsogoigojsojoijioieiion '
                                         'jejoijeiojoijo ijoi joi jj oijoijo '),
-
                                   ),
                                 ],
-
                               ),
                             ),
                           ],
                         ),
                       ),
-
                     ],
                   ),
                 ),
@@ -447,7 +499,6 @@ class _CourseState extends State<Course> {
                   child: InkWell(
                     onTap: () {
                       _addCommentDialog();
-
                     },
                     child: Icon(
                       Icons.add,

@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Future Marker',
       debugShowCheckedModeBanner: false,
-      home:InstructorHome() ,
+      home:SignUpPage() ,
     );
   }
 }
