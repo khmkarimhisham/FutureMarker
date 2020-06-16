@@ -31,6 +31,7 @@ dependencies:
   path_provider: ^1.2.0
   image: ^2.1.4
   file_picker: ^1.10.0
+  shared_preferences: ^0.5.2+1
 
 
 dev_dependencies:

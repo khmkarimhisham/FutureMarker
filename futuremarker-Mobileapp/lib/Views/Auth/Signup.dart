@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:futuremarkerapp/Controllers/Auth/SendData.dart';
+import 'package:futuremarkerapp/Views/Instructor/Home.dart';
 import 'package:futuremarkerapp/Views/Widget/bezierContainer.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:futuremarkerapp/Views/Auth/Login.dart';
 
@@ -25,6 +28,7 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmpasswordController = TextEditingController();
 
+  SendData sendData=new SendData();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool visibility = true;
@@ -349,12 +353,12 @@ class _SignUpPageState extends State<SignUpPage> {
                           SizedBox(
                             height: 15.0,
                           ),
-//                          Center(
-//                            child: Text(
-//                              errmessage,
-//                              style: TextStyle(fontSize: 16, color: Colors.red),
-//                            ),
-//                          ),
+                          Center(
+                            child: Text(
+                              errmessage,
+                              style: TextStyle(fontSize: 16, color: Colors.red),
+                            ),
+                          ),
 
                         ],
                       ),
@@ -362,11 +366,17 @@ class _SignUpPageState extends State<SignUpPage> {
                     SizedBox(
                       height: 20,
                     ),
-                    _submitButton(),
+                    InkWell(
+                        onTap: ()=> _SignUp(),
+                        child: _submitButton()),
                     SizedBox(
                       height: 10,
                     ),
-                    _loginAccountLabel(),
+                    InkWell(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                        },
+                        child: _loginAccountLabel()),
                   ],
                 ),
               ),
@@ -388,14 +398,51 @@ class _SignUpPageState extends State<SignUpPage> {
       visibilityconfirm = !visibilityconfirm;
     });
   }
-  void SignUp(){
+  void _showDialog(){
+    showDialog(
+        context:context ,
+        builder:(BuildContext context){
+          return AlertDialog(
+            title: new Text('Failed'),
+            content:  new Text('Check your email or password'),
+            actions: <Widget>[
+              new RaisedButton(
 
-    var data ={
-      'role':selectedUser.role ,
-      'name':_nameController.text,
-      'email':_emailController.text,
-      'password':_passwordController.text,
-    };
+                child: new Text(
+                  'Close',
+                ),
+
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+
+              ),
+            ],
+          );
+        }
+    );
+  }
+   _SignUp(){
+
+    var key = _formKey.currentState;
+    if (key.validate()) {
+      key.save();
+
+    setState(() {
+      sendData.registerData(selectedUser.role, _nameController.text.trim(), _emailController.text.trim(), _passwordController.text.trim()).whenComplete((){
+        if(sendData.status){
+          _showDialog();
+          errmessage = 'Check email or password';
+        }
+        else{
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>InstructorHome()));
+
+
+        }
+      });
+    });
+    }
+
 
   }
 }

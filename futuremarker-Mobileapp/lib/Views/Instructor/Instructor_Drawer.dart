@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:futuremarkerapp/Views/Auth/Login.dart';
 import 'package:futuremarkerapp/Views/Instructor/Courses.dart';
 import 'package:futuremarkerapp/Views/Instructor/Home.dart';
 import 'package:futuremarkerapp/Views/Instructor/Profile.dart';
@@ -93,7 +94,11 @@ class MyDrawer extends StatelessWidget {
                   _buildRow(Icons.settings, "Settings"),
                   buildDivider(),
                   SizedBox(height: 50.0,),
-                  _buildRow(Icons.power_settings_new, "Log Out"),
+                  InkWell(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                      },
+                      child: _buildRow(Icons.power_settings_new, "Log Out")),
 
                 ],
               ),

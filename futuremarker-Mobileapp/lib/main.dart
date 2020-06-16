@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:futuremarkerapp/Views/Auth/Signup.dart';
 import 'package:futuremarkerapp/Views/Instructor/CreateCourse.dart';
 
+import 'Views/Auth/Login.dart';
 import 'Views/Instructor/Chat.dart';
 import 'Views/Instructor/ChatContent.dart';
 import 'Views/Instructor/Course.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Future Marker',
       debugShowCheckedModeBanner: false,
-      home:SignUpPage() ,
+      home:LoginPage() ,
     );
   }
 }

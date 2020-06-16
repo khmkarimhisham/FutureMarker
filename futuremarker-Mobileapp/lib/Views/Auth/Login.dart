@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:futuremarkerapp/Views/Instructor/Home.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:futuremarkerapp/Views/Auth/Signup.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:futuremarkerapp/Controllers/Auth/SendData.dart';
+
 
 import '../Widget/bezierContainer.dart';
 
@@ -13,13 +17,33 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  read() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'token';
+    final value = prefs.get(key ) ?? 0;
+    if(value != '0'){
+      Navigator.of(context).push(
+          new MaterialPageRoute(
+            builder: (BuildContext context) => new InstructorHome(),
+          )
+      );
+    }
+  }
+
+  @override
+  initState(){
+    read();
+  }
+  
+  SendData sendData=new SendData();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
   bool visibility = true;
-  String message = "";
+  String errmessage = "";
 
 
   Widget _submitButton() {
@@ -213,19 +237,21 @@ class _LoginPageState extends State<LoginPage> {
                             SizedBox(
                               height: 15.0,
                             ),
-//                            Center(
-//                              child: Text(
-//                                message,
-//                                style: TextStyle(fontSize: 16, color: Colors.red),
-//                              ),
-//                            ),
+                            Center(
+                              child: Text(
+                                errmessage,
+                                style: TextStyle(fontSize: 16, color: Colors.red),
+                              ),
+                            ),
 
                           ],
                         ),
                       ),
 
                       SizedBox(height: 20),
-                      _submitButton(),
+                      InkWell(
+                          onTap: ()=> _LogIn(),
+                          child: _submitButton()),
                       Container(
                         padding: EdgeInsets.symmetric(vertical: 10),
                         alignment: Alignment.centerRight,
@@ -235,7 +261,11 @@ class _LoginPageState extends State<LoginPage> {
                       ),
 
                       SizedBox(height: height * .055),
-                      _createAccountLabel(),
+                      InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpPage()));
+                          },
+                          child: _createAccountLabel()),
                     ],
                   ),
                 ),
@@ -257,5 +287,55 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       visibility = !visibility;
     });
+  }
+
+  void _showDialog(){
+    showDialog(
+        context:context ,
+        builder:(BuildContext context){
+          return AlertDialog(
+            title: new Text('Failed'),
+            content:  new Text('Check your email or password'),
+            actions: <Widget>[
+              new RaisedButton(
+
+                child: new Text(
+                  'Close',
+                ),
+
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+
+              ),
+            ],
+          );
+        }
+    );
+  }
+  _LogIn(){
+
+    var key = _formKey.currentState;
+    if (key.validate()) {
+      key.save();
+
+      setState(() {
+        sendData.loginData( _emailController.text.trim(), _passwordController.text.trim()).whenComplete((){
+          if(sendData.status){
+            _showDialog();
+            errmessage = 'Check email or password';
+          }
+          else{
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>InstructorHome()));
+
+            print(_emailController.text);
+
+
+          }
+        });
+      });
+    }
+
+
   }
 }
