@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:futuremarkerapp/Controllers/Auth/SendData.dart';
+import 'package:futuremarkerapp/Controllers/Auth/AuthController.dart';
 import 'package:futuremarkerapp/Views/Instructor/Home.dart';
 import 'package:futuremarkerapp/Views/Widget/bezierContainer.dart';
 

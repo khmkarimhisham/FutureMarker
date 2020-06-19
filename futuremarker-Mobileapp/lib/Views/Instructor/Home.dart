@@ -8,7 +8,7 @@ class InstructorHome extends StatefulWidget {
   @override
   _InstructorHomeState createState() => _InstructorHomeState();
 }
-final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
+
 TextEditingController _CommentController = TextEditingController();
 
 final Color primary = Color(0xfff263238);
@@ -66,17 +66,10 @@ class _InstructorHomeState extends State<InstructorHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _key,
+
       appBar: AppBar(
         backgroundColor: Color(0xfff263238),
         title: Text('Home'),
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: () {
-            _key.currentState.openDrawer();
-          },
-        ),
 
       ),
       drawer: MyDrawer(),

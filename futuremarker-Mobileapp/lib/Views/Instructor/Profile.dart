@@ -36,13 +36,13 @@ class InstructorProfile extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 36.0),
                     child: Center(
-                      child: CircularProfileAvatar(
-                        null,
-                        child: Image(image: AssetImage('Images/01.JPG')),
-                        borderColor: Colors.white,
-                        borderWidth: 5,
-                        elevation: 2,
-                        radius: 80,
+                      child:Container(
+                        height: 170,
+                        alignment: Alignment.center,
+                        child: CircleAvatar(
+                          radius: 160,
+                         backgroundImage: ExactAssetImage('Images/avatar.jpg'),
+                        ),
                       ),
                     ),
                   ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:futuremarkerapp/Views/Auth/Signup.dart';
 import 'package:futuremarkerapp/Views/Instructor/CreateCourse.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Views/Auth/Login.dart';
 import 'Views/Instructor/Chat.dart';
@@ -14,7 +15,10 @@ import 'Views/Instructor/Profile.dart';
 
 
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+
+}
 class MyApp extends StatelessWidget {
 
   @override

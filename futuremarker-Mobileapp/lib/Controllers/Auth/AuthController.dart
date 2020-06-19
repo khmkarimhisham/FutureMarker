@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SendData {
 
-  String URL='http://192.168.1.24:8000/api';
+  String URL='http://192.168.1.26:8000/api';
 
   var status ;
   var token ;
@@ -31,11 +31,11 @@ class SendData {
       print('data : ${data["error"]}');
     }else{
       print('data : ${data["token"]}');
-      _save(data["token"]);
+      save(data["token"],data["email"],data["password"]);
     }
 
   }
-  loginData(String email , String password) async{
+  Future<Map> loginData(String email , String password) async{
 
     String FullUrl = "$URL/login";
     final response = await  http.post(FullUrl,
@@ -44,16 +44,21 @@ class SendData {
           "email": "$email",
           "password" : "$password"
         } ) ;
-    status = response.body.contains('error');
-
-    var data = json.decode(response.body);
-
-    if(status){
-      print('data : ${data["error"]}');
-    }else{
-      print('data : ${data["token"]}');
-      _save(data["token"]);
-    }
+    if(response.statusCode == 200){
+      return json.decode(response.body); // token
+    } return {'token':0};
+//    status = response.body.contains('error');
+//
+//    var data = json.decode(response.body);
+//
+//    if(status){
+//      print('data : ${data["error"]}');
+//    }else{
+//      print('data : ${data["token"]}');
+//      print('data : ${data["password"]}');
+//      _save(data["token"],data["email"],data["password"]);
+//
+//    }
 
   }
   _SetHeader() => {
@@ -62,11 +67,17 @@ class SendData {
 
   };
 
-  _save(String token) async {
+  save(String token,String email,String password) async {
     final prefs = await SharedPreferences.getInstance();
-    final key = 'token';
+    final Tkey = 'token';
     final value = token;
-    prefs.setString(key, value);
+    final Ekey = 'email';
+    final Evalue = email;
+    final Pkey = 'password';
+    final Pvalue = password;
+    prefs.setString(Tkey, value);
+    prefs.setString(Ekey, Evalue);
+    prefs.setString(Pkey, Pvalue);
   }
 
   read() async {
@@ -75,5 +86,7 @@ class SendData {
     final value = prefs.get(key ) ?? 0;
     print('read : $value');
   }
+
+
 
 }
