@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SendData {
 
-  String URL='http://192.168.1.26:8000/api';
+  String URL='http://192.168.1.3:8000/api';
 
   var status ;
   var token ;

@@ -2,181 +2,281 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 
+import 'Instructor_Drawer.dart';
+import 'package:futuremarkerapp/Controllers/Instructor/UserDataConrtoller.dart';
+
 //import 'package:cached_network_image/cached_network_image.dart';
 
 class InstructorProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xfff263238),
       appBar: AppBar(
         backgroundColor: Color(0xfff263238),
         title: Text('Profile'),
         automaticallyImplyLeading: false,
       ),
+      drawer: MyDrawer(),
       body: SafeArea(
-          child: ListView(
-        children: <Widget>[
-          Stack(
+          child: SingleChildScrollView(
+            child: Stack(
             children: <Widget>[
-              Container(
-                width: double.infinity,
-                height: 250,
-                color: Color(0xfff263238),
+              FutureBuilder(
+                  future: UserData().getData(),
+                  builder: (BuildContext context, AsyncSnapshot ss) {
+                    if (ss.hasError) {
+                      print('error');
+                    }
+                    if (ss.hasData) {
+                      Map myData = ss.data['user'];
+                      List mycourse = ss.data['courses'];
+                     // print(mycourse);
+                      int i=0;
+                      while( i<=mycourse.length){
+                        i++;
+                      }
+
+                      return
+                        Column(
+                        children: <Widget>[
+                          _buildProfile(
+                            name: '${myData['name']}',
+                            email: '${myData['email']}',
+                            phone: '${myData['phone']}',
+                            bio: '${myData['bio']}',
+                            image: '${myData['image']}',
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                              children: <Widget>[
+                                Card(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Color(0xfff263238)),
+                                    alignment: Alignment.topLeft,
+                                    padding: EdgeInsets.all(15),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Container(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            "My Courses",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16,
+                                            ),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        ),
+                                        Divider(
+                                          color: Colors.black38,
+                                        ),
+                                        Container(
+                                          child: ListView.builder(
+                                              scrollDirection: Axis.vertical,
+                                              shrinkWrap: true,
+                                              padding: const EdgeInsets.all(16),
+                                              itemCount: mycourse.length,
+                                              itemBuilder: (context, i) {
+                                                return ListTile(
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: 12,
+                                                          vertical: 4),
+                                                  leading: Image(
+                                                    image: NetworkImage(
+                                                        '${UserData().imageurl}/${mycourse[i]['course_image']}'),
+                                                    width: 100.0,
+                                                    height: 100.0,
+                                                  ),
+                                                  title: Text(
+                                                    "${mycourse[i]['course_name']}",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 16,
+                                                    ),
+                                                  ),
+                                                );
+                                              }),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return _buildProfile();
+                    }
+                  }),
+            ],
+          ),
+
+      )),
+    );
+  }
+
+  _buildProfile({
+    String name,
+    String email,
+    String bio,
+    String phone,
+    String image,
+  }) {
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(top: 20.0),
+          child: Center(
+            child: Container(
+              height: 200,
+              alignment: Alignment.center,
+              child: CircleAvatar(
+                radius: 100,
+                backgroundImage: image != null
+                    ? NetworkImage('${UserData().imageurl}/$image')
+                    : ExactAssetImage('Images/avatar.jpg'),
               ),
-              Positioned(
-                top: 10,
-                right: 20,
-                child: Icon(
-                  Icons.settings,
-                  color: Colors.white,
-                ),
-              ),
-              Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 36.0),
-                    child: Center(
-                      child:Container(
-                        height: 170,
-                        alignment: Alignment.center,
-                        child: CircleAvatar(
-                          radius: 160,
-                         backgroundImage: ExactAssetImage('Images/avatar.jpg'),
+            ),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            children: <Widget>[
+              Card(
+                child: Container(
+                  decoration: BoxDecoration(color: Color(0xfff263238)),
+                  alignment: Alignment.topLeft,
+                  padding: EdgeInsets.all(15),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "User Information",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                          ),
+                          textAlign: TextAlign.left,
                         ),
                       ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      children: <Widget>[
-                        Card(
-                          child: Container(
-                            alignment: Alignment.topLeft,
-                            padding: EdgeInsets.all(15),
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    "User Information",
-                                    style: TextStyle(
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                                Divider(
-                                  color: Colors.black38,
-                                ),
-                                Container(
-                                    child: Column(
-                                      children: <Widget>[
-                                        ListTile(
-                                          contentPadding:
-                                          EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                                          leading: Icon(Icons.person),
-                                          title: Text("Name"),
-                                          subtitle: Text("Anas Hassan"),
-                                        ),
-                                        ListTile(
-                                          leading: Icon(Icons.email),
-                                          title: Text("Email"),
-                                          subtitle: Text("anashassan299@gmail.com"),
-                                        ),
-                                        ListTile(
-                                          leading: Icon(Icons.phone),
-                                          title: Text("Phone"),
-                                          subtitle: Text("01023515929"),
-                                        ),
-                                        ListTile(
-                                          leading: Icon(Icons.person),
-                                          title: Text("About Me"),
-                                          subtitle: Text(
-                                              "This is a about me link and you can khow about me in this section."),
-                                        ),
-                                      ],
-                                    ))
-                              ],
+                      Divider(
+                        color: Colors.black38,
+                      ),
+                      Container(
+                          child: Column(
+                        children: <Widget>[
+                          ListTile(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 4),
+                            leading: Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            title: Text(
+                              "Name",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
+                            ),
+                            subtitle: Text(
+                              name == null ? 'User' : "$name",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 10.0),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      children: <Widget>[
-                        Card(
-                          child: Container(
-                            alignment: Alignment.topLeft,
-                            padding: EdgeInsets.all(15),
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    "My Courses",
-                                    style: TextStyle(
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                                Divider(
-                                  color: Colors.black38,
-                                ),
-                                Container(
-                                    child: Column(
-                                      children: <Widget>[
-                                        ListTile(
-                                          contentPadding:
-                                          EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                                          leading:Image(image: AssetImage('Images/01.JPG'),width: 100.0,height: 100.0,),
-                                          title: Text("Flutter"),
-
-                                        ),
-                                        Divider(
-                                          color: Colors.black38,
-                                        ),
-                                        ListTile(
-                                          leading:Image(image: AssetImage('Images/01.JPG'),width: 100.0,height: 100.0,),
-                                          title: Text("Web Programming"),
-
-                                        ),
-                                        Divider(
-                                          color: Colors.black38,
-                                        ),
-                                        ListTile(
-                                          leading:Image(image: AssetImage('Images/01.JPG'),width: 100.0,height: 100.0,),
-                                          title: Text("System Programming"),
-
-                                        ),
-                                    
-                                      ],
-                                    ))
-                              ],
+                          ListTile(
+                            leading: Icon(
+                              Icons.email,
+                              color: Colors.white,
+                            ),
+                            title: Text(
+                              "Email",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
+                            ),
+                            subtitle: Text(
+                              email == null ? 'Future@gmail.com' : "$email",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
-                        )
-                      ],
-                    ),
+                          ListTile(
+                            leading: Icon(
+                              Icons.phone,
+                              color: Colors.white,
+                            ),
+                            title: Text(
+                              "Phone",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
+                            ),
+                            subtitle: Text(
+                              phone == 'null' ? '000-000000000' : "$phone",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          ListTile(
+                            leading: Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            title: Text(
+                              "About Me",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
+                            ),
+                            subtitle: Text(
+                              bio == 'null' ? 'this is bio about me' : "$bio",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ))
+                    ],
                   ),
-
-                ],
-              ),
+                ),
+              )
             ],
-          )
-        ],
-      )),
+          ),
+        ),
+      ],
     );
   }
 }

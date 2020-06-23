@@ -6,8 +6,8 @@ import 'dart:convert';
 
 class UserData{
 
-  String URL='http://192.168.1.26:8000/api';
-  String imageurl='http://192.168.1.26:8000';
+  String URL='http://192.168.1.3:8000/api';
+  String imageurl='http://192.168.1.3:8000';
 
   var status ;
   var token ;

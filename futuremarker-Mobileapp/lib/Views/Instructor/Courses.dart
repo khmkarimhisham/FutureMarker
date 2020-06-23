@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:futuremarkerapp/Controllers/Instructor/UserDataConrtoller.dart';
 import 'package:futuremarkerapp/Views/Instructor/Instructor_Drawer.dart';
 import 'package:futuremarkerapp/Views/Instructor/CreateCourse.dart';
 
 import 'Course.dart';
-
-
-
 
 class MyCourses extends StatefulWidget {
   @override
@@ -18,28 +16,26 @@ class _MyCoursesState extends State<MyCourses> {
   final secondary = Colors.white;
 
   final List<Map> schoolLists = [
-
     {
       "name": "WilingTon Cambridge",
       "location": "Kasai Pantan NY, 12483",
       "type": "Lower Secondary School",
       "logoText":
-      "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
+          "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
     },
     {
       "name": "Fredik Panlon",
       "location": "572 Statan NY, 12483",
       "type": "Higher Secondary School",
       "logoText":
-      "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
+          "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
     },
-
     {
       "name": "Campare Handeson",
       "location": "Kasai Pantan NY, 12483",
       "type": "Lower Secondary School",
       "logoText":
-      "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
+          "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
     },
   ];
   @override
@@ -54,24 +50,82 @@ class _MyCoursesState extends State<MyCourses> {
           width: MediaQuery.of(context).size.width,
           child: Stack(
             children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(top: 100),
-                height: MediaQuery.of(context).size.height,
-                width: double.infinity,
-                child: ListView.builder(
-                    itemCount: schoolLists.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
-                        onTap: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Course()),
-                          );
-                        },
-                        child: buildList(context, index),
+              FutureBuilder(
+                  future: UserData().getData(),
+                  builder: (BuildContext context, AsyncSnapshot ss) {
+                    if (ss.hasError) {
+                      print('error');
+                    }
+                    if (ss.hasData) {
+
+                      List mycourse = ss.data['courses'];
+
+                      int i = 0;
+                      while (i <= mycourse.length) {
+                        i++;
+                      }
+                      return Container(
+                        padding: EdgeInsets.only(top: 100),
+                        height: MediaQuery.of(context).size.height,
+                        width: double.infinity,
+                        child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: mycourse.length,
+                            itemBuilder: (context, i) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: Colors.white,
+                                ),
+                                width: double.infinity,
+                                height: 110,
+                                margin: EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 20),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 20),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      width: 80,
+                                      height: 80,
+                                      margin: EdgeInsets.only(right: 15),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        border: Border.all(
+                                            width: 3, color: secondary),
+                                        image: DecorationImage(
+                                            image:  NetworkImage(
+                                                '${UserData().imageurl}/${mycourse[i]['course_image']}'),
+                                            fit: BoxFit.fill),
+                                      ),
+                                    ),
+                                    Flexible(
+                                      fit: FlexFit.loose,
+                                      child: Center(
+                                        child: Text(
+                                          "${mycourse[i]['course_name']}",
+                                          softWrap: false,
+                                          overflow: TextOverflow.fade,
+                                          style: TextStyle(
+                                              color: primary,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            }),
                       );
-                    }),
-              ),
+                    } else {
+                      return Center(
+                        child: Text('You Don\'t join in any course'),
+                      );
+                    }
+                  }),
               Container(
                 height: 110,
                 width: double.infinity,
@@ -81,7 +135,7 @@ class _MyCoursesState extends State<MyCourses> {
                         bottomLeft: Radius.circular(30),
                         bottomRight: Radius.circular(30))),
                 child: Padding(
-                  padding: const EdgeInsets.only(top:20.0),
+                  padding: const EdgeInsets.only(top: 20.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -103,7 +157,8 @@ class _MyCoursesState extends State<MyCourses> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => CreateCourse()),
+                            MaterialPageRoute(
+                                builder: (context) => CreateCourse()),
                           );
                         },
                         icon: Icon(
@@ -116,50 +171,9 @@ class _MyCoursesState extends State<MyCourses> {
                   ),
                 ),
               ),
-
             ],
           ),
         ),
-      ),
-    );
-
-  }
-
-  Widget buildList(BuildContext context, int index) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
-        color: Colors.white,
-      ),
-      width: double.infinity,
-      height: 110,
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            width: 80,
-            height: 80,
-            margin: EdgeInsets.only(right: 15),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              border: Border.all(width: 3, color: secondary),
-              image: DecorationImage(
-                  image: AssetImage('Images/01.png'),
-                  fit: BoxFit.fill),
-            ),
-          ),
-          Center(
-            child: Text(
-              schoolLists[index]['name'],
-              style: TextStyle(
-                  color: primary,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18),
-            ),
-          )
-        ],
       ),
     );
   }
