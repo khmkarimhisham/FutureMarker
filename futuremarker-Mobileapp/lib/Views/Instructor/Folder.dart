@@ -5,6 +5,9 @@ import 'package:file_picker/file_picker.dart';
 
 
 class FolderContent extends StatefulWidget {
+  int CourseID;
+  String FolderName, CourseDir;
+  FolderContent(this.CourseID,this.FolderName,this.CourseDir);
   @override
   _FolderContentState createState() => _FolderContentState();
 }
@@ -20,7 +23,6 @@ class _FolderContentState extends State<FolderContent> {
    selectfile() async{
     filePath = await FilePicker.getFilePath(type: FileType.any);
 
-
   }
 
   @override
@@ -33,41 +35,8 @@ class _FolderContentState extends State<FolderContent> {
       body:  Container(
         child: Stack(
           children: <Widget>[
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Card(
-                      child: ListTile(
-                        leading: Icon(Icons.insert_drive_file),
-                        title: Text('database'),
-                      ),
-                    ),
-                    Card(
-                      child: ListTile(
-                        leading: Icon(Icons.insert_drive_file),
-                        title: Text('database'),
-                      ),
-                    ),
-                    Card(
-                      child: ListTile(
-                        leading: Icon(Icons.insert_drive_file),
-                        title: Text('database'),
-                      ),
-                    ),
-                    Card(
-                      child: ListTile(
-                        leading:Icon(Icons.insert_drive_file),
-                        title: Text('database'),
-                      ),
-                    ),
 
-                  ],
-                ),
-              ),
-            ),
+
             Positioned(
               bottom: 40,
               right: 20,

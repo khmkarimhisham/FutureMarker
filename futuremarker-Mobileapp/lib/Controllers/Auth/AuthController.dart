@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SendData {
 
-  String URL='http://192.168.1.3:8000/api';
+  String URL='http://192.168.1.9:8000/api';
 
   var status ;
   var token ;
@@ -47,18 +47,6 @@ class SendData {
     if(response.statusCode == 200){
       return json.decode(response.body); // token
     } return {'token':0};
-//    status = response.body.contains('error');
-//
-//    var data = json.decode(response.body);
-//
-//    if(status){
-//      print('data : ${data["error"]}');
-//    }else{
-//      print('data : ${data["token"]}');
-//      print('data : ${data["password"]}');
-//      _save(data["token"],data["email"],data["password"]);
-//
-//    }
 
   }
   _SetHeader() => {

@@ -4,6 +4,7 @@ import 'package:futuremarkerapp/Views/Instructor/Instructor_Drawer.dart';
 import 'package:futuremarkerapp/Views/Instructor/CreateCourse.dart';
 
 import 'Course.dart';
+import 'Folder.dart';
 
 class MyCourses extends StatefulWidget {
   @override
@@ -15,29 +16,7 @@ class _MyCoursesState extends State<MyCourses> {
   final primary = Color(0xfff263238);
   final secondary = Colors.white;
 
-  final List<Map> schoolLists = [
-    {
-      "name": "WilingTon Cambridge",
-      "location": "Kasai Pantan NY, 12483",
-      "type": "Lower Secondary School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
-    },
-    {
-      "name": "Fredik Panlon",
-      "location": "572 Statan NY, 12483",
-      "type": "Higher Secondary School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
-    },
-    {
-      "name": "Campare Handeson",
-      "location": "Kasai Pantan NY, 12483",
-      "type": "Lower Secondary School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
-    },
-  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,49 +52,55 @@ class _MyCoursesState extends State<MyCourses> {
                             shrinkWrap: true,
                             itemCount: mycourse.length,
                             itemBuilder: (context, i) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25),
-                                  color: Colors.white,
-                                ),
-                                width: double.infinity,
-                                height: 110,
-                                margin: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 20),
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 20),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Container(
-                                      width: 80,
-                                      height: 80,
-                                      margin: EdgeInsets.only(right: 15),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        border: Border.all(
-                                            width: 3, color: secondary),
-                                        image: DecorationImage(
-                                            image:  NetworkImage(
-                                                '${UserData().imageurl}/${mycourse[i]['course_image']}'),
-                                            fit: BoxFit.fill),
-                                      ),
-                                    ),
-                                    Flexible(
-                                      fit: FlexFit.loose,
-                                      child: Center(
-                                        child: Text(
-                                          "${mycourse[i]['course_name']}",
-                                          softWrap: false,
-                                          overflow: TextOverflow.fade,
-                                          style: TextStyle(
-                                              color: primary,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
+                              return InkWell(
+                                onTap: (){
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) => Course(mycourse[i]['id'],mycourse[i]['course_name'],mycourse[i]['course_material_dir'])));
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                    color: Colors.white,
+                                  ),
+                                  width: double.infinity,
+                                  height: 110,
+                                  margin: EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 20),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 20),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                        width: 80,
+                                        height: 80,
+                                        margin: EdgeInsets.only(right: 15),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(50),
+                                          border: Border.all(
+                                              width: 3, color: secondary),
+                                          image: DecorationImage(
+                                              image:  NetworkImage(
+                                                  '${UserData().imageurl}/${mycourse[i]['course_image']}'),
+                                              fit: BoxFit.fill),
                                         ),
                                       ),
-                                    )
-                                  ],
+                                      Flexible(
+                                        fit: FlexFit.loose,
+                                        child: Center(
+                                          child: Text(
+                                            "${mycourse[i]['course_name']}",
+                                            softWrap: false,
+                                            overflow: TextOverflow.fade,
+                                            style: TextStyle(
+                                                color: primary,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               );
                             }),

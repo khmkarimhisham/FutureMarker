@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:futuremarkerapp/Controllers/Instructor/CourseController.dart';
 import 'dart:async';
 
 import 'package:futuremarkerapp/Views/Instructor/Folder.dart';
@@ -6,7 +7,10 @@ import 'package:futuremarkerapp/Views/Instructor/Folder.dart';
 import 'AssignmentBody.dart';
 
 class Course extends StatefulWidget {
-  static final String path = "lib/src/pages/misc/navybar.dart";
+  int CourseID;
+  String CourseName, CourseDir;
+  Course(this.CourseID, this.CourseName, this.CourseDir);
+
   @override
   _CourseState createState() => _CourseState();
 }
@@ -124,7 +128,7 @@ class _CourseState extends State<Course> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xfff263238),
-        title: Text('Course Name'),
+        title: Text(widget.CourseName),
       ),
       body: PageView(
         physics: NeverScrollableScrollPhysics(),
@@ -137,58 +141,48 @@ class _CourseState extends State<Course> {
           Container(
             child: Stack(
               children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => FolderContent()),
-                                );
-                              },
-                              child: Card(
-                                child: ListTile(
-                                  leading: Icon(Icons.folder),
-                                  title: Text('database'),
+                FutureBuilder(
+                  future: Courses().CourseContent(widget.CourseID),
+                  builder: (context, ss) {
+                    if (ss.hasError) {
+                      print('error');
+                    }
+                    if (ss.hasData) {
+                      List myData = ss.data['material'];
+                      print(myData);
+                      return ListView.builder(
+                          itemCount: myData.length,
+                          itemBuilder: (context, position) {
+                            Map myMap = myData[position];
+                            return myMap.keys.first == 'T' ? Container(): SingleChildScrollView(
+                              child: Container(
+                                child: Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                        GestureDetector(
+                                         // onTap: (){},
+                                          child: Card(
+                                            elevation: 5,
+                                            child: ListTile(
+                                              leading: Icon(Icons.folder),
+                                              title: Text('${myMap.values.first}'),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                            Card(
-                              child: ListTile(
-                                leading: Icon(Icons.folder),
-                                title: Text('database'),
-                              ),
-                            ),
-                            Card(
-                              child: ListTile(
-                                leading: Icon(Icons.folder),
-                                title: Text('database'),
-                              ),
-                            ),
-                            Card(
-                              child: ListTile(
-                                leading: Icon(Icons.folder),
-                                title: Text('database'),
-                              ),
-                            ),
-                            Card(
-                              child: ListTile(
-                                leading: Icon(Icons.folder),
-                                title: Text('database'),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+                            );
+                          });
+                    } else {
+                      return Text('not found matiral0');
+                    }
+                  },
                 ),
                 Positioned(
                   bottom: 40,
@@ -218,7 +212,7 @@ class _CourseState extends State<Course> {
                       // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -234,7 +228,7 @@ class _CourseState extends State<Course> {
                           ),
                         ),
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -250,7 +244,7 @@ class _CourseState extends State<Course> {
                           ),
                         ),
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -266,7 +260,7 @@ class _CourseState extends State<Course> {
                           ),
                         ),
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -282,7 +276,7 @@ class _CourseState extends State<Course> {
                           ),
                         ),
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(

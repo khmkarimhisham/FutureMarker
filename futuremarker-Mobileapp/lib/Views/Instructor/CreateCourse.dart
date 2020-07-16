@@ -1,8 +1,13 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:futuremarkerapp/Controllers/Instructor/CourseController.dart';
+import 'package:futuremarkerapp/Views/Instructor/uplode_image.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import '../Widget/bezierContainer.dart';
+import 'package:image/image.dart' as img;
 
 
 
@@ -19,21 +24,7 @@ class _CreateCourseState extends State<CreateCourse> {
     super.initState();
   }
 
-  void open_camera()
-  async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
-    setState(() {
-      _image = image;
-    });
 
-  }
-  void open_gallery()
-  async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _image = image;
-    });
-  }
   Widget _submitButton() {
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -88,7 +79,6 @@ class _CreateCourseState extends State<CreateCourse> {
                     SizedBox(height: 80,),
                     Text('Enter The Course Information' ,style: TextStyle(fontWeight: FontWeight.bold ,fontSize: 22 ),),
                     SizedBox(height: 50),
-
                     Form(
                       key: _formKey,
                       child: Column(
@@ -148,16 +138,17 @@ class _CreateCourseState extends State<CreateCourse> {
                                     color: Colors.black12,
                                     height: 200.0,
                                     width: 200.0,
-                                    child: _image == null ? Container(
-                                      color: Colors.white,
-                                    ): Image.file(_image),),
+                                    child: _image == null ? Container(): Image.file(_image),),
 
                                   FlatButton(
                                     color: Color(0xfff263238),
 
                                     child:Text("Open Gallery", style: TextStyle(color: Colors.white),),
-                                    onPressed: (){
-                                      open_gallery();
+                                    onPressed: ()async{
+                                      File img = await uploadImage().open_gallery();
+                                      setState(() {
+                                        _image = img;
+                                      });
                                     },
                                   )
                                 ],
@@ -170,7 +161,11 @@ class _CreateCourseState extends State<CreateCourse> {
                     ),
 
                     SizedBox(height: 20),
-                    _submitButton(),
+                    InkWell(
+                        onTap: (){
+                          Create();
+                        },
+                        child: _submitButton()),
 
 
                     SizedBox(height: height * .055),
@@ -184,5 +179,17 @@ class _CreateCourseState extends State<CreateCourse> {
         ),
       )
     );
+  }
+  Create(){
+    var key = _formKey.currentState;
+    if (key.validate()) {
+      key.save();
+
+      setState(() {
+        Courses().createCourse(_nameController.text, _descriptionController.text, _image);
+        //if()
+        Navigator.pop(context);
+      });
+    }
   }
 }
