@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:futuremarkerapp/Controllers/Instructor/CourseController.dart';
 import 'dart:async';
+import 'package:tree_view/tree_view.dart';
 
 import 'package:futuremarkerapp/Views/Instructor/Folder.dart';
 
@@ -154,7 +155,7 @@ class _CourseState extends State<Course> {
                           itemCount: myData.length,
                           itemBuilder: (context, position) {
                             Map myMap = myData[position];
-                            return myMap.keys.first == 'T' ? Container(): SingleChildScrollView(
+                            return myMap.keys.last == 'dir' ? Container(): SingleChildScrollView(
                               child: Container(
                                 child: Center(
                                   child: Padding(
@@ -163,12 +164,13 @@ class _CourseState extends State<Course> {
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
                                         GestureDetector(
-                                         // onTap: (){},
+                                          onTap: (){ Navigator.push(context,
+                                              MaterialPageRoute(builder: (context) => FolderContent(widget.CourseID,myMap.values.last,widget.CourseDir)));},
                                           child: Card(
                                             elevation: 5,
                                             child: ListTile(
                                               leading: Icon(Icons.folder),
-                                              title: Text('${myMap.values.first}'),
+                                              title: Text('${myMap.values.last}'),
                                             ),
                                           ),
                                         )
@@ -205,96 +207,53 @@ class _CourseState extends State<Course> {
           Container(
             child: Stack(
               children: <Widget>[
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Assignment()),
+                FutureBuilder(
+                  future: Courses().CourseContent(widget.CourseID),
+                  builder: (context, ss) {
+                    if (ss.hasError) {
+                      print('error');
+                    }
+                    if (ss.hasData) {
+                      List myData = ss.data['assignments'];
+                      print(myData);
+                      return ListView.builder(
+                          itemCount: myData.length,
+                          itemBuilder: (context, position) {
+                            Map myMap = myData[position];
+                            return SingleChildScrollView(
+                              child: Container(
+                                child: Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                        GestureDetector(
+                                          onTap: (){
+                                            Navigator.push(context,
+                                                MaterialPageRoute(builder: (context) => Assignment(widget.CourseID,myMap['id'],myMap['assignment_title'])));
+                                          },
+                                          child: Card(
+                                            child: ListTile(
+                                              leading: Icon(Icons.assignment),
+                                              title: Text('${myMap['assignment_title']}'),
+                                              subtitle: Text('Due ${myMap['assignment_deadline']}'),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                             );
-                          },
-                          child: Card(
-                            child: ListTile(
-                              leading: Icon(Icons.assignment),
-                              title: Text('database'),
-                              subtitle: Text('due:24/12/2020'),
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Assignment()),
-                            );
-                          },
-                          child: Card(
-                            child: ListTile(
-                              leading: Icon(Icons.assignment),
-                              title: Text('database'),
-                              subtitle: Text('due:24/12/2020'),
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Assignment()),
-                            );
-                          },
-                          child: Card(
-                            child: ListTile(
-                              leading: Icon(Icons.assignment),
-                              title: Text('database'),
-                              subtitle: Text('due:24/12/2020'),
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Assignment()),
-                            );
-                          },
-                          child: Card(
-                            child: ListTile(
-                              leading: Icon(Icons.assignment),
-                              title: Text('database'),
-                              subtitle: Text('due:24/12/2020'),
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Assignment()),
-                            );
-                          },
-                          child: Card(
-                            child: ListTile(
-                              leading: Icon(Icons.assignment),
-                              title: Text('database'),
-                              subtitle: Text('due:24/12/2020'),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                          });
+                    } else {
+                      return Text('not found matiral0');
+                    }
+                  },
                 ),
+
                 Positioned(
                   bottom: 40,
                   right: 20,

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:futuremarkerapp/Controllers/Instructor/CourseController.dart';
 
 class Assignment extends StatefulWidget {
+  int assignmentID, courseID;
+  String assignmentName;
+
+  Assignment(this.courseID, this.assignmentID, this.assignmentName);
   @override
   _AssignmentState createState() => _AssignmentState();
 }
@@ -11,65 +16,76 @@ class _AssignmentState extends State<Assignment> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xfff263238),
-        title: Text('Assignment Name'),
+        title: Text('${widget.assignmentName}'),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Container(
-
-              margin:
-              EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(5.0),
               ),
               padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Wrap(
+              child: FutureBuilder(
+                future: Courses().CourseContent(widget.courseID),
+                builder: (context, ss) {
+                  if (ss.hasError) {
+                    print('error');
+                  }
+                  if (ss.hasData) {
+                    List myData = ss.data['assignments'];
+                  //  print(myData);
+                    Map myMap=myData[0];
 
-                    children: <Widget>[
-                      Text(
-                        'Add Two Numbers',
-                        style: TextStyle(fontSize: 18),
-                      ),
+                          return  Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Wrap(
 
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Due:14 /12 /2020-12 pm',
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  Divider(),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  //hena haykon l post body lgai mn ldatabse
-                  Text(
-                      'In computer science, a data structure is a data organization, management, '
-                          'and storage format that enables efficient access and modification. More precisely,'
-                          ' a data structure is a collection of data values, the relationships among them, '
-                          'and the functions or operations that can be applied to the data.'),
+                                children: <Widget>[
+                                  Text(
+                                    '${myMap['assignment_title']}',
+                                    style: TextStyle(fontSize: 18),
+                                  ),
 
-                  Divider(),
-                  Text(
-                    'Created At 14 /12 /2020-12 pm',
-                    style: TextStyle(fontSize: 12),
-                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'Due:${myMap['assignment_deadline']}',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              Divider(),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              //hena haykon l post body lgai mn ldatabse
+                              Text(
+                                  '${myMap['assignment_desc_dir']}'),
 
-                ],
+                              Divider(),
+                              Text(
+                                'Created At ${myMap['created_at']}',
+                                style: TextStyle(fontSize: 12),
+                              ),
+
+                            ],
+                          );
+
+                  }
+                  else {
+                    return CircularProgressIndicator();
+                  }
+                },
               ),
             ),
           ],
         ),
       ),
-      
-
     );
   }
 }
