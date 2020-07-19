@@ -21,6 +21,8 @@ class MyDrawer extends StatelessWidget {
     final key = 'token';
     final value = token;
     prefs.remove(key);
+    prefs.remove('email');
+
   }
 
 

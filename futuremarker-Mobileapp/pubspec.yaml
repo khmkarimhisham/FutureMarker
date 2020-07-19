@@ -33,6 +33,10 @@ dependencies:
   file_picker: ^1.10.0
   shared_preferences: ^0.5.2+1
   tree_view: ^0.0.5
+  flutter_pdfview: ^1.0.3
+  url_launcher:
+  open_file:
+  html2md:
 
 
 dev_dependencies:

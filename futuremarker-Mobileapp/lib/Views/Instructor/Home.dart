@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:futuremarkerapp/Controllers/Auth/AuthController.dart';
 import 'package:futuremarkerapp/Views/Instructor/Instructor_Drawer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 // ignore: camel_case_types
@@ -63,6 +65,22 @@ class _InstructorHomeState extends State<InstructorHome> {
       },
     );
   }
+
+  SendData sendData = new SendData();
+
+  Future read() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'token';
+    final Ekey = 'email';
+    final Pkey = 'password';
+    final value = prefs.get(key) ?? 0;
+    final Evalue = prefs.get(Ekey) ?? 0;
+    final Pvalue = prefs.get(Pkey) ?? 0;
+    if (value != 0) {
+      sendData.loginData(Evalue,Pvalue);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

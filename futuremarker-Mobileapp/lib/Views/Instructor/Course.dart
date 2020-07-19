@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:futuremarkerapp/Controllers/Instructor/CourseController.dart';
+import 'package:futuremarkerapp/Controllers/Instructor/UserDataConrtoller.dart';
+
 import 'dart:async';
 import 'package:tree_view/tree_view.dart';
 
 import 'package:futuremarkerapp/Views/Instructor/Folder.dart';
+import 'package:html2md/html2md.dart' as html2md;
+import 'package:flutter/src/gestures/tap.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/gestures.dart';
+
 
 import 'AssignmentBody.dart';
 
@@ -155,31 +162,46 @@ class _CourseState extends State<Course> {
                           itemCount: myData.length,
                           itemBuilder: (context, position) {
                             Map myMap = myData[position];
-                            return myMap.keys.last == 'dir' ? Container(): SingleChildScrollView(
-                              child: Container(
-                                child: Center(
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                      children: <Widget>[
-                                        GestureDetector(
-                                          onTap: (){ Navigator.push(context,
-                                              MaterialPageRoute(builder: (context) => FolderContent(widget.CourseID,myMap.values.last,widget.CourseDir)));},
-                                          child: Card(
-                                            elevation: 5,
-                                            child: ListTile(
-                                              leading: Icon(Icons.folder),
-                                              title: Text('${myMap.values.last}'),
-                                            ),
+                            return myMap.keys.last == 'dir'
+                                ? Container()
+                                : SingleChildScrollView(
+                                    child: Container(
+                                      child: Center(
+                                        child: Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: <Widget>[
+                                              GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              FolderContent(
+                                                                  widget
+                                                                      .CourseID,
+                                                                  myMap.values
+                                                                      .last,
+                                                                  widget
+                                                                      .CourseDir)));
+                                                },
+                                                child: Card(
+                                                  elevation: 5,
+                                                  child: ListTile(
+                                                    leading: Icon(Icons.folder),
+                                                    title: Text(
+                                                        '${myMap.values.last}'),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                        )
-                                      ],
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ),
-                            );
+                                  );
                           });
                     } else {
                       return Text('not found matiral0');
@@ -215,29 +237,39 @@ class _CourseState extends State<Course> {
                     }
                     if (ss.hasData) {
                       List myData = ss.data['assignments'];
-                      print(myData);
+                      List mylist = ss.data['assignments_dec'];
+
+                      print('------------------ ${mylist}');
                       return ListView.builder(
                           itemCount: myData.length,
                           itemBuilder: (context, position) {
                             Map myMap = myData[position];
+                            print("${mylist[position]} ++++++++");
                             return SingleChildScrollView(
                               child: Container(
                                 child: Center(
                                   child: Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
                                         GestureDetector(
-                                          onTap: (){
-                                            Navigator.push(context,
-                                                MaterialPageRoute(builder: (context) => Assignment(widget.CourseID,myMap['id'],myMap['assignment_title'])));
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Assignment(myMap,
+                                                            mylist[position])));
                                           },
                                           child: Card(
                                             child: ListTile(
                                               leading: Icon(Icons.assignment),
-                                              title: Text('${myMap['assignment_title']}'),
-                                              subtitle: Text('Due ${myMap['assignment_deadline']}'),
+                                              title: Text(
+                                                  '${myMap['assignment_title']}'),
+                                              subtitle: Text(
+                                                  'Due ${myMap['assignment_deadline']}'),
                                             ),
                                           ),
                                         )
@@ -253,7 +285,6 @@ class _CourseState extends State<Course> {
                     }
                   },
                 ),
-
                 Positioned(
                   bottom: 40,
                   right: 20,
@@ -277,175 +308,198 @@ class _CourseState extends State<Course> {
           Container(
             child: Stack(
               children: <Widget>[
-                SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        margin:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Wrap(
-                              children: <Widget>[
-                                Text(
-                                  'Anas hassan',
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                Icon(Icons.play_arrow),
-                                Text(
-                                  'Mobile Programming',
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              'Posted on 14 /12 /2020-12 pm',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                            Divider(),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            //hena haykon l post body lgai mn ldatabse
-                            Text(
-                                'In computer science, a data structure is a data organization, management, '
-                                'and storage format that enables efficient access and modification. More precisely,'
-                                ' a data structure is a collection of data values, the relationships among them, '
-                                'and the functions or operations that can be applied to the data.'),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-//
-                                IconButton(
-                                    icon:
-                                        Icon(Icons.favorite, color: _iconColor),
-                                    onPressed: () {
-                                      setState(() {
-                                        if (_iconColor == Colors.red) {
-                                          _iconColor = Colors.grey;
-                                        } else {
-                                          _iconColor = Colors.red;
-                                        }
-                                      });
-                                    }),
+                FutureBuilder(
+                    future: Courses().CourseContent(widget.CourseID),
+                    builder: (context, ss) {
+                      if (ss.hasError) {
+                        print('error');
+                      }
+                      if (ss.hasData) {
+                        List myData = ss.data['posts'];
+                        List myattch=ss.data['posts_attch'];
 
-                                SizedBox(
-                                  width: 5.0,
-                                ),
-                                Text('55'),
-                                SizedBox(
-                                  width: 16.0,
-                                ),
-                                InkWell(
-                                    onTap: () {
-                                      _addCommentDialog();
-                                    },
-                                    child: Icon(Icons.comment)),
-                                SizedBox(
-                                  width: 5.0,
-                                ),
-                                Text('24'),
-                              ],
-                            ),
-                            Divider(),
-                            //Comments
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 20),
-                              decoration: BoxDecoration(
-                                color: Color(0xffff6f6f6),
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
-                                        width: 30,
-                                        height: 30,
-                                        margin: EdgeInsets.only(right: 10),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                          border: Border.all(
-                                              width: 3, color: Colors.white),
-                                          image: DecorationImage(
-                                              image:
-                                                  AssetImage('Images/01.png'),
-                                              fit: BoxFit.fill),
-                                        ),
+                        print(myData);
+                        return ListView.builder(
+                            itemCount: myData.length,
+                            itemBuilder: (context, position) {
+                              Map myMap = myData[position];
+                              List comment = myMap['comments'];
+
+                              return SingleChildScrollView(
+                                child: Column(
+                                  children: <Widget>[
+                                    Container(
+                                      margin: EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 20),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
                                       ),
-                                      Text('Mohamed Essam')
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 40),
-                                    child: Text(
-                                        'anas ahssan cnfjgoijojgoijsogoigojsojoijioieiion '
-                                        'jejoijeiojoijo ijoi joi jj oijoijo '),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 20),
-                              decoration: BoxDecoration(
-                                color: Color(0xffff6f6f6),
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
-                                        width: 30,
-                                        height: 30,
-                                        margin: EdgeInsets.only(right: 10),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                          border: Border.all(
-                                              width: 3, color: Colors.white),
-                                          image: DecorationImage(
-                                              image:
-                                                  AssetImage('Images/01.png'),
-                                              fit: BoxFit.fill),
-                                        ),
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Wrap(
+                                            children: <Widget>[
+                                              Text(
+                                                '${myMap['user']['name']}',
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            '${myMap['created_at']}',
+                                            style: TextStyle(fontSize: 12),
+                                          ),
+                                          Divider(),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+
+                                          Text(
+                                              '${html2md.convert(myMap['post_content'])}'),
+                                          ListView.builder(
+                                              scrollDirection: Axis.vertical,
+                                              shrinkWrap: true,
+                                              itemCount: myattch.length,
+                                              itemBuilder: (context, position)
+                                              {
+                                                myattch[position];
+                                                Map attch=myattch[position];
+
+                                                return  Container(
+                                                  color: Colors.black,
+                                                  child: new RichText(
+                                                    text: new LinkTextSpan(
+                                                        url: '${UserData().imageurl}/${attch.values}',
+                                                        text: '${attch.keys}'),
+                                                  ),
+                                                );
+                                                  }),
+
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: <Widget>[
+//
+                                              IconButton(
+                                                  icon: Icon(Icons.favorite,
+                                                      color: _iconColor),
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      if (_iconColor ==
+                                                          Colors.red) {
+                                                        _iconColor =
+                                                            Colors.grey;
+                                                      } else {
+                                                        _iconColor = Colors.red;
+                                                      }
+                                                    });
+                                                  }),
+
+                                              SizedBox(
+                                                width: 5.0,
+                                              ),
+                                              Text('55'),
+                                              SizedBox(
+                                                width: 16.0,
+                                              ),
+                                              InkWell(
+                                                  onTap: () {
+                                                    _addCommentDialog();
+                                                  },
+                                                  child: Icon(Icons.comment)),
+                                              SizedBox(
+                                                width: 5.0,
+                                              ),
+                                              Text('24'),
+                                            ],
+                                          ),
+                                          Divider(),
+                                          //Comments
+                                          ListView.builder(
+                                              scrollDirection: Axis.vertical,
+                                              shrinkWrap: true,
+                                              itemCount: comment.length,
+                                              itemBuilder: (context, position) {
+                                                Map mycomment =
+                                                    comment[position];
+                                                return Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 20),
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xffff6f6f6),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5.0),
+                                                  ),
+                                                  padding: const EdgeInsets.all(
+                                                      16.0),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: <Widget>[
+                                                          Container(
+                                                            width: 30,
+                                                            height: 30,
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    right: 10),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          50),
+                                                              border: Border.all(
+                                                                  width: 3,
+                                                                  color: Colors
+                                                                      .white),
+                                                              image: DecorationImage(
+                                                                  image: NetworkImage(
+                                                                      '${UserData().imageurl}/${mycomment['user']['image']}'),
+                                                                  fit: BoxFit
+                                                                      .fill),
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                              '${mycomment['user']['name']}')
+                                                        ],
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 40),
+                                                        child: Text(
+                                                            '${mycomment['comment_content']}'),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              }),
+                                        ],
                                       ),
-                                      Text('Mohamed Essam')
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 40),
-                                    child: Text(
-                                        'anas ahssan cnfjgoijojgoijsogoigojsojoijioieiion '
-                                        'jejoijeiojoijo ijoi joi jj oijoijo '),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            });
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    }),
                 Positioned(
                   bottom: 40,
                   right: 20,
@@ -675,6 +729,16 @@ class _FancyBottomNavigationState extends State<FancyBottomNavigation> {
       ),
     );
   }
+}
+class LinkTextSpan extends TextSpan {
+  LinkTextSpan({TextStyle style, String url, String text})
+      : super(
+      style: style,
+      text: text ?? url,
+      recognizer: new TapGestureRecognizer()
+        ..onTap = () {
+          launch(url);
+        });
 }
 
 class FancyBottomNavigationItem {

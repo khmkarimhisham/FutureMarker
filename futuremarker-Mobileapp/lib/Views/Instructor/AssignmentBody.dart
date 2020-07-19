@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:futuremarkerapp/Controllers/Instructor/CourseController.dart';
+import 'package:html2md/html2md.dart' as html2md;
 
 class Assignment extends StatefulWidget {
-  int assignmentID, courseID;
-  String assignmentName;
 
-  Assignment(this.courseID, this.assignmentID, this.assignmentName);
+
+   Map assignmentMap;
+    String dec;
+
+
+  Assignment(this.assignmentMap,this.dec);
   @override
   _AssignmentState createState() => _AssignmentState();
 }
@@ -16,7 +20,8 @@ class _AssignmentState extends State<Assignment> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xfff263238),
-        title: Text('${widget.assignmentName}'),
+      title: Text('${widget.assignmentMap['assignment_title']}'),
+
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -28,59 +33,41 @@ class _AssignmentState extends State<Assignment> {
                 borderRadius: BorderRadius.circular(5.0),
               ),
               padding: const EdgeInsets.all(16.0),
-              child: FutureBuilder(
-                future: Courses().CourseContent(widget.courseID),
-                builder: (context, ss) {
-                  if (ss.hasError) {
-                    print('error');
-                  }
-                  if (ss.hasData) {
-                    List myData = ss.data['assignments'];
-                  //  print(myData);
-                    Map myMap=myData[0];
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Wrap(
 
-                          return  Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Wrap(
+                    children: <Widget>[
+                      Text(
+                        '${widget.assignmentMap['assignment_title']}',
+                        style: TextStyle(fontSize: 18),
+                      ),
 
-                                children: <Widget>[
-                                  Text(
-                                    '${myMap['assignment_title']}',
-                                    style: TextStyle(fontSize: 18),
-                                  ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Due:${widget.assignmentMap['assignment_deadline']}',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  Divider(),
+                  SizedBox(
+                    height: 10,
+                  ),
 
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                'Due:${myMap['assignment_deadline']}',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              Divider(),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              //hena haykon l post body lgai mn ldatabse
-                              Text(
-                                  '${myMap['assignment_desc_dir']}'),
+                  Text(
+                      '${html2md.convert(widget.dec)}'),
 
-                              Divider(),
-                              Text(
-                                'Created At ${myMap['created_at']}',
-                                style: TextStyle(fontSize: 12),
-                              ),
+                  Divider(),
+                  Text(
+                    'Created At ${widget.assignmentMap['created_at']}',
+                    style: TextStyle(fontSize: 12),
+                  ),
 
-                            ],
-                          );
-
-                  }
-                  else {
-                    return CircularProgressIndicator();
-                  }
-                },
+                ],
               ),
             ),
           ],
