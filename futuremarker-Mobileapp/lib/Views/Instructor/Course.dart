@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:futuremarkerapp/Controllers/Instructor/CourseController.dart';
+import 'package:futuremarkerapp/Controllers/Instructor/PostController.dart';
 import 'package:futuremarkerapp/Controllers/Instructor/UserDataConrtoller.dart';
+import 'package:futuremarkerapp/Views/Instructor/CreatePost.dart';
+import 'package:futuremarkerapp/Views/Instructor/user_Profile.dart';
 
 import 'dart:async';
 import 'package:tree_view/tree_view.dart';
@@ -11,11 +14,11 @@ import 'package:flutter/src/gestures/tap.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/gestures.dart';
 
-
 import 'AssignmentBody.dart';
 
 class Course extends StatefulWidget {
   int CourseID;
+
   String CourseName, CourseDir;
   Course(this.CourseID, this.CourseName, this.CourseDir);
 
@@ -29,9 +32,10 @@ class _CourseState extends State<Course> {
     indexcontroller.close();
     super.dispose();
   }
-
+  int postID;
   TextEditingController _nameController = TextEditingController();
   TextEditingController _CommentController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Future<void> _showMyDialog() async {
     return showDialog<void>(
@@ -90,6 +94,7 @@ class _CourseState extends State<Course> {
             child: ListBody(
               children: <Widget>[
                 Form(
+                  key: _formKey,
                   child: TextFormField(
                     maxLines: 3,
                     style: TextStyle(
@@ -113,12 +118,24 @@ class _CourseState extends State<Course> {
             FlatButton(
               child: Text('Cancel'),
               onPressed: () {
+
                 Navigator.of(context).pop();
               },
             ),
             FlatButton(
               child: Text('Comment'),
-              onPressed: () {},
+              onPressed: () {
+//                var key = _formKey.currentState;
+//                if (key.validate()) {
+//                  key.save();
+//
+//                  setState(() {
+//                   Post().createComment(_CommentController.text,postID );
+//
+//                    Navigator.pop(context);
+//                  });
+//                }
+              },
             ),
           ],
         );
@@ -130,6 +147,7 @@ class _CourseState extends State<Course> {
   StreamController<int> indexcontroller = StreamController<int>.broadcast();
   int index = 0;
   Color _iconColor = Colors.grey;
+  int CommentCount;
   @override
   Widget build(BuildContext context) {
     Icon icone = Icon(Icons.favorite_border);
@@ -315,15 +333,23 @@ class _CourseState extends State<Course> {
                         print('error');
                       }
                       if (ss.hasData) {
-                        List myData = ss.data['posts'];
-                        List myattch=ss.data['posts_attch'];
+                        Map myData = ss.data['posts'];
+                        List<String> k_posts = [];
+                        List<Map> v_posts = [];
+                        myData.forEach((k, v) {
+                          k_posts.add(k);
+                          v_posts.add(v);
+                        });
 
-                        print(myData);
+                        List myattch = ss.data['posts_attch'];
+
                         return ListView.builder(
-                            itemCount: myData.length,
-                            itemBuilder: (context, position) {
-                              Map myMap = myData[position];
+                            itemCount: v_posts.length,
+                            itemBuilder: (context, position1) {
+                              Map myMap = v_posts[position1];
                               List comment = myMap['comments'];
+                              postID=myMap['id'];
+                              print('**************************${postID}********************');
 
                               return SingleChildScrollView(
                                 child: Column(
@@ -363,24 +389,32 @@ class _CourseState extends State<Course> {
 
                                           Text(
                                               '${html2md.convert(myMap['post_content'])}'),
+                                          SizedBox(height: 15,),
+
                                           ListView.builder(
                                               scrollDirection: Axis.vertical,
                                               shrinkWrap: true,
-                                              itemCount: myattch.length,
-                                              itemBuilder: (context, position)
-                                              {
-                                                myattch[position];
-                                                Map attch=myattch[position];
+                                              itemCount:
+                                                  myattch[position1].length,
+                                              itemBuilder: (context, position) {
+                                                Map x = myattch[position1];
+                                                List<String> y1 = [];
+                                                List<String> y2 = [];
+                                                x.forEach((x, y) {
+                                                  y1.add(x);
+                                                  y2.add(y);
+                                                });
 
-                                                return  Container(
-                                                  color: Colors.black,
-                                                  child: new RichText(
-                                                    text: new LinkTextSpan(
-                                                        url: '${UserData().imageurl}/${attch.values}',
-                                                        text: '${attch.keys}'),
-                                                  ),
+                                                return new RichText(
+                                                  text: new LinkTextSpan(
+                                                      url:
+                                                          '${UserData().imageurl}/${y2[position]}',
+                                                      text: '${y1[position]}',
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.black)),
                                                 );
-                                                  }),
+                                              }),
 
                                           Row(
                                             mainAxisAlignment:
@@ -411,13 +445,69 @@ class _CourseState extends State<Course> {
                                               ),
                                               InkWell(
                                                   onTap: () {
-                                                    _addCommentDialog();
+                                                    showDialog<void>(
+                                                      context: context,
+                                                      barrierDismissible: false, // user must tap button!
+                                                      builder: (BuildContext context) {
+                                                        return AlertDialog(
+                                                          title: Text('Add Comment'),
+                                                          content: SingleChildScrollView(
+                                                            child: ListBody(
+                                                              children: <Widget>[
+                                                                Form(
+                                                                  key: _formKey,
+                                                                  child: TextFormField(
+                                                                    maxLines: 3,
+                                                                    style: TextStyle(
+                                                                        color: Colors.black,
+                                                                        fontSize: 18.0,
+                                                                        fontWeight: FontWeight.bold),
+                                                                    decoration: InputDecoration(
+                                                                      hintText: ' Write A Comment',
+                                                                    ),
+                                                                    controller: _CommentController,
+                                                                    validator: (value) => value.length >= 3
+                                                                        ? null
+                                                                        : 'Comment should Contain at least 3 char',
+                                                                    onSaved: (value) => _CommentController.text = value,
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          actions: <Widget>[
+                                                            FlatButton(
+                                                              child: Text('Cancel'),
+                                                              onPressed: () {
+
+                                                                Navigator.of(context).pop();
+                                                              },
+                                                            ),
+                                                            FlatButton(
+                                                              child: Text('Comment'),
+                                                              onPressed: () {
+                                                                var key = _formKey.currentState;
+                                                                if (key.validate()) {
+                                                                  key.save();
+
+                                                                  setState(() {
+                                                                    Post().createComment(_CommentController.text, myMap['id'] );
+
+                                                                    Navigator.pop(context);
+                                                                  });
+                                                                }
+                                                              },
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
                                                   },
                                                   child: Icon(Icons.comment)),
                                               SizedBox(
                                                 width: 5.0,
                                               ),
-                                              Text('24'),
+
                                             ],
                                           ),
                                           Divider(),
@@ -426,9 +516,10 @@ class _CourseState extends State<Course> {
                                               scrollDirection: Axis.vertical,
                                               shrinkWrap: true,
                                               itemCount: comment.length,
-                                              itemBuilder: (context, position) {
-                                                Map mycomment =
-                                                    comment[position];
+                                              itemBuilder:
+                                                  (context, position2) {
+                                                Map mycomment = comment[position2];
+
                                                 return Container(
                                                   margin: EdgeInsets.symmetric(
                                                       vertical: 10,
@@ -505,7 +596,13 @@ class _CourseState extends State<Course> {
                   right: 20,
                   child: InkWell(
                     onTap: () {
-                      _addCommentDialog();
+
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  createPost(widget.CourseID)));
+
                     },
                     child: Icon(
                       Icons.add,
@@ -522,45 +619,51 @@ class _CourseState extends State<Course> {
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Card(
-                      child: ListTile(
-                        leading: Container(
-                          width: 80,
-                          height: 100,
-                          margin: EdgeInsets.only(right: 15),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            border: Border.all(width: 3, color: Colors.white),
-                            image: DecorationImage(
-                                image: AssetImage('Images/01.png'),
-                                fit: BoxFit.fill),
-                          ),
-                        ),
-                        title: Text('Mohamed Essam'),
-                      ),
-                    ),
-                    Card(
-                      child: ListTile(
-                        leading: Container(
-                          width: 80,
-                          height: 100,
-                          margin: EdgeInsets.only(right: 15),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            border: Border.all(width: 3, color: Colors.white),
-                            image: DecorationImage(
-                                image: AssetImage('Images/01.png'),
-                                fit: BoxFit.fill),
-                          ),
-                        ),
-                        title: Text('Mohamed Essam'),
-                      ),
-                    ),
-                  ],
-                ),
+                child: FutureBuilder(
+                    future: Courses().CourseContent(widget.CourseID),
+                    builder: (context, ss) {
+                      if (ss.hasError) {
+                        print('erroe');
+                      }
+                      if (ss.hasData) {
+                        List members = ss.data['users'];
+                        return ListView.builder(
+                            itemCount: members.length,
+                            itemBuilder: (context, position) {
+                              Map member = members[position];
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => I_userProfile(
+                                              member['id'], member['name'])));
+                                },
+                                child: Card(
+                                  child: ListTile(
+                                    leading: Container(
+                                      width: 80,
+                                      height: 100,
+                                      margin: EdgeInsets.only(right: 15),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        border: Border.all(
+                                            width: 3, color: Colors.white),
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                                '${UserData().imageurl}/${member['image']}'),
+                                            fit: BoxFit.fill),
+                                      ),
+                                    ),
+                                    title: Text('${member['name']}'),
+                                  ),
+                                ),
+                              );
+                            });
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    }),
               ),
             ),
           ),
@@ -593,6 +696,7 @@ class _CourseState extends State<Course> {
           }),
     );
   }
+
 }
 
 class FancyBottomNavigation extends StatefulWidget {
@@ -730,15 +834,16 @@ class _FancyBottomNavigationState extends State<FancyBottomNavigation> {
     );
   }
 }
+
 class LinkTextSpan extends TextSpan {
   LinkTextSpan({TextStyle style, String url, String text})
       : super(
-      style: style,
-      text: text ?? url,
-      recognizer: new TapGestureRecognizer()
-        ..onTap = () {
-          launch(url);
-        });
+            style: style,
+            text: text ?? url,
+            recognizer: new TapGestureRecognizer()
+              ..onTap = () {
+                launch(url);
+              });
 }
 
 class FancyBottomNavigationItem {

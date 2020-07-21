@@ -18,7 +18,7 @@ class CreateCourse extends StatefulWidget {
 }
 
 class _CreateCourseState extends State<CreateCourse> {
-  File _image;
+
   @override
   void initState() {
     super.initState();
@@ -125,36 +125,7 @@ class _CreateCourseState extends State<CreateCourse> {
                               _descriptionController.text = value,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 32.0, vertical: 8.0),
-                            child: Container(
 
-                              child: Column(
-                                children: [
-                                  Text('Course Image' ,style: TextStyle(fontWeight: FontWeight.bold),textAlign: TextAlign.left,),
-
-                                  Container(
-                                    color: Colors.black12,
-                                    height: 200.0,
-                                    width: 200.0,
-                                    child: _image == null ? Container(): Image.file(_image),),
-
-                                  FlatButton(
-                                    color: Color(0xfff263238),
-
-                                    child:Text("Open Gallery", style: TextStyle(color: Colors.white),),
-                                    onPressed: ()async{
-                                      File img = await uploadImage().open_gallery();
-                                      setState(() {
-                                        _image = img;
-                                      });
-                                    },
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
 
                         ],
                       ),
@@ -186,8 +157,8 @@ class _CreateCourseState extends State<CreateCourse> {
       key.save();
 
       setState(() {
-        Courses().createCourse(_nameController.text, _descriptionController.text, _image);
-        //if()
+        Courses().createCourse(_nameController.text, _descriptionController.text);
+
         Navigator.pop(context);
       });
     }
