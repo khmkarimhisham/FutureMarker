@@ -68,7 +68,7 @@ class _createPostState extends State<createPost> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SizedBox(height: 80,),
-                      Text('Enter The Course Information' ,style: TextStyle(fontWeight: FontWeight.bold ,fontSize: 22 ),),
+                      Text('Enter The Post Information' ,style: TextStyle(fontWeight: FontWeight.bold ,fontSize: 22 ),),
                       SizedBox(height: 50),
                       Form(
                         key: _formKey,

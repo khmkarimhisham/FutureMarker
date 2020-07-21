@@ -37,6 +37,7 @@ dependencies:
   url_launcher:
   open_file:
   html2md:
+  datetime_picker_formfield:
 
 
 dev_dependencies:

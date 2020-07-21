@@ -15,6 +15,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/gestures.dart';
 
 import 'AssignmentBody.dart';
+import 'CreateAssignment.dart';
 
 class Course extends StatefulWidget {
   int CourseID;
@@ -307,7 +308,14 @@ class _CourseState extends State<Course> {
                   bottom: 40,
                   right: 20,
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  CreateAssignment(widget.CourseID)));
+                    },
                     child: Icon(
                       Icons.create,
                       color: Colors.black,
