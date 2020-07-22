@@ -3,12 +3,18 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:futuremarkerapp/Controllers/Instructor/CourseController.dart';
+import 'package:flutter/gestures.dart';
+import 'package:futuremarkerapp/Controllers/Instructor/UserDataConrtoller.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../x.dart';
 
 
 class FolderContent extends StatefulWidget {
   int CourseID;
   String FolderName, CourseDir;
-  FolderContent(this.CourseID,this.FolderName,this.CourseDir);
+  List mylist;
+  FolderContent(this.CourseID,this.FolderName,this.CourseDir,this.mylist);
   @override
   _FolderContentState createState() => _FolderContentState();
 }
@@ -36,20 +42,19 @@ class _FolderContentState extends State<FolderContent> {
       body:  Container(
         child: Stack(
           children: <Widget>[
-            FutureBuilder(
-              future: Courses().CourseContent(widget.CourseID),
-              builder: (context, ss) {
-                if (ss.hasError) {
-                  print('error');
-                }
-                if (ss.hasData) {
-                  List myData = ss.data['material'];
-                  print('anas ${widget.CourseDir}');
-                  return ListView.builder(
-                      itemCount: myData.length,
+            ListView.builder(
+                      itemCount: widget.mylist.length,
                       itemBuilder: (context, position) {
-                        Map myMap = myData[position];
-                        return myMap.keys.last == 'dir' ? Container(): SingleChildScrollView(
+                        Map myMap = widget.mylist[position];
+                        List<String> y1 = [];
+                        List<String> y2 = [];
+                        if(widget.mylist.isNotEmpty){
+                          myMap.forEach((x, y) {
+                            y1.add(x);
+                            y2.add(y);
+                          });
+                        }
+                        return SingleChildScrollView(
                           child: Container(
                             child: Center(
                               child: Padding(
@@ -58,12 +63,19 @@ class _FolderContentState extends State<FolderContent> {
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: <Widget>[
                                     GestureDetector(
-                                      onTap: (){},
+                                      onTap: (){
+
+                                      },
                                       child: Card(
                                         elevation: 5,
                                         child: ListTile(
                                           leading: Icon(Icons.insert_drive_file),
-                                          title: Text('${myMap.values.last}'),
+                                          title: RichText(
+                                              text:
+                                              LinkTextSpan(
+                                                  url:
+                                                  '${UserData().imageurl}/${widget.CourseDir}/${widget.FolderName}/${y2.first}', text: '${y2.first}', style: TextStyle(color: Colors.black,fontSize: 16))
+                                          ),
                                         ),
                                       ),
                                     )
@@ -73,14 +85,7 @@ class _FolderContentState extends State<FolderContent> {
                             ),
                           ),
                         );
-                      });
-                } else {
-                  return Text('not found matiral0');
-                }
-              },
-            ),
-
-
+                      }),
             Positioned(
               bottom: 40,
               right: 20,
@@ -89,10 +94,11 @@ class _FolderContentState extends State<FolderContent> {
                  // selectfile();
 
                 },
-                child: Icon(
-                  Icons.file_upload,
-                  color: Colors.black,
-                  size: 45,
+                child: RichText(
+                    text:
+                    LinkTextSpan(
+                        url:
+                        '${UserData().imageurl}/instructor/course/${widget.CourseID}', text: 'Upload File', style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold))
                 ),
               ),
             ),

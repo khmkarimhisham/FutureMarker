@@ -26,11 +26,22 @@ class UserData{
     print(json.decode(response.body));
     return json.decode(response.body);
   }
-  read() async {
+
+
+  Future homeData() async{
+    String FullUrl = "$URL/homeData";
     final prefs = await SharedPreferences.getInstance();
     final key = 'token';
-    final value = prefs.get(key ) ?? 0;
-    print('read : $value');
+    final value = prefs.get(key) ?? 0;
+
+    http.Response response = await http.get(FullUrl,
+        headers: {
+          'Accept':'application/json',
+          'Authorization' : 'Bearer $value'
+        });
+    print(json.decode(response.body));
+    return json.decode(response.body);
   }
+
 
 }

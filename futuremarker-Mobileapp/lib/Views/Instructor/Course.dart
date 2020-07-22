@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:futuremarkerapp/Controllers/Instructor/CourseController.dart';
 import 'package:futuremarkerapp/Controllers/Instructor/PostController.dart';
@@ -181,6 +183,8 @@ class _CourseState extends State<Course> {
                           itemCount: myData.length,
                           itemBuilder: (context, position) {
                             Map myMap = myData[position];
+                            List mylist=myMap['dir'];
+                            print('aaaaaaaaaaaaaaaaaaaaaaaaaaa $mylist aaaaaaaaaaaaaaaaaaaaaa');
                             return myMap.keys.last == 'dir'
                                 ? Container()
                                 : SingleChildScrollView(
@@ -199,12 +203,7 @@ class _CourseState extends State<Course> {
                                                       MaterialPageRoute(
                                                           builder: (context) =>
                                                               FolderContent(
-                                                                  widget
-                                                                      .CourseID,
-                                                                  myMap.values
-                                                                      .last,
-                                                                  widget
-                                                                      .CourseDir)));
+                                                                  widget.CourseID, myMap.values.last, widget.CourseDir,mylist)));
                                                 },
                                                 child: Card(
                                                   elevation: 5,
@@ -257,13 +256,43 @@ class _CourseState extends State<Course> {
                     if (ss.hasData) {
                       List myData = ss.data['assignments'];
                       List mylist = ss.data['assignments_dec'];
+                      List myatt = ss.data['assignment_attach'];
 
-                      print('------------------ ${mylist}');
+                      List maps = List();
+
+                      myatt.forEach((e){
+                        if(e.isEmpty){
+                          print('hi');
+                          maps.add({});
+                        }else{
+                          print('bye');
+                          maps.add(e);
+                        }
+                      });
+                      print(maps);
+//                      List<List> list = [];
+//                      List<Map> map = [];
+//
+//                      myatt.forEach((e){
+//                        if(e){
+//                          list.add(e);
+//                        }
+//                        else{
+//                          map.add(e);
+//                        }
+//
+//                      });
+//
+//
+//
+//                      print('------------------ ${map}');
                       return ListView.builder(
                           itemCount: myData.length,
                           itemBuilder: (context, position) {
                             Map myMap = myData[position];
-                            print("${mylist[position]} ++++++++");
+                             Map att=maps[position];
+
+
                             return SingleChildScrollView(
                               child: Container(
                                 child: Center(
@@ -280,7 +309,7 @@ class _CourseState extends State<Course> {
                                                 MaterialPageRoute(
                                                     builder: (context) =>
                                                         Assignment(myMap,
-                                                            mylist[position])));
+                                                            mylist[position],att)));
                                           },
                                           child: Card(
                                             child: ListTile(
@@ -309,7 +338,6 @@ class _CourseState extends State<Course> {
                   right: 20,
                   child: InkWell(
                     onTap: () {
-
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -341,6 +369,7 @@ class _CourseState extends State<Course> {
                         print('error');
                       }
                       if (ss.hasData) {
+
                         Map myData = ss.data['posts'];
                         List<String> k_posts = [];
                         List<Map> v_posts = [];
@@ -429,25 +458,25 @@ class _CourseState extends State<Course> {
                                                 MainAxisAlignment.end,
                                             children: <Widget>[
 //
-                                              IconButton(
-                                                  icon: Icon(Icons.favorite,
-                                                      color: _iconColor),
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      if (_iconColor ==
-                                                          Colors.red) {
-                                                        _iconColor =
-                                                            Colors.grey;
-                                                      } else {
-                                                        _iconColor = Colors.red;
-                                                      }
-                                                    });
-                                                  }),
-
-                                              SizedBox(
-                                                width: 5.0,
-                                              ),
-                                              Text('55'),
+//                                              IconButton(
+//                                                  icon: Icon(Icons.favorite,
+//                                                      color: _iconColor),
+//                                                  onPressed: () {
+//                                                    setState(() {
+//                                                      if (_iconColor ==
+//                                                          Colors.red) {
+//                                                        _iconColor =
+//                                                            Colors.grey;
+//                                                      } else {
+//                                                        _iconColor = Colors.red;
+//                                                      }
+//                                                    });
+//                                                  }),
+//
+//                                              SizedBox(
+//                                                width: 5.0,
+//                                              ),
+//                                              Text('55'),
                                               SizedBox(
                                                 width: 16.0,
                                               ),
@@ -515,6 +544,7 @@ class _CourseState extends State<Course> {
                                               SizedBox(
                                                 width: 5.0,
                                               ),
+                                              Text('${comment.length}'),
 
                                             ],
                                           ),

@@ -41,11 +41,6 @@ class _XPageState extends State<XPage> {
 }
 class LinkTextSpan extends TextSpan {
   LinkTextSpan({TextStyle style, String url, String text})
-      : super(
-      style: style,
-      text: text ?? url,
-      recognizer: new TapGestureRecognizer()
-        ..onTap = () {
-          launch(url);
+      : super(style: style, text: text ?? url, recognizer: new TapGestureRecognizer()..onTap = () {launch(url);
         });
 }
