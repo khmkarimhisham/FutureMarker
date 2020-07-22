@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:futuremarkerapp/Views/Instructor/Home.dart';
+import 'package:futuremarkerapp/Views/Student/SHome.dart';
+import 'package:futuremarkerapp/Views/Student/SProfile.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
@@ -26,10 +28,16 @@ class _LoginPageState extends State<LoginPage> {
     if (value != 0) {
       sendData
           .loginData(Evalue,Pvalue).then((onValue){
-            if(onValue['token']!= 0){
-              Navigator.push(context,
-              MaterialPageRoute(builder: (context) => InstructorHome()));
-            }
+        if(onValue['token']!= 0){
+          sendData.save(onValue['token'],_emailController.text.trim(), _passwordController.text.trim());
+          if(onValue['role']==1){
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => InstructorHome()));
+          }else{
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => StudentHome()));
+          }
+        }
       });
 //          .whenComplete(() {
 //        if (sendData.status) {
@@ -334,8 +342,13 @@ class _LoginPageState extends State<LoginPage> {
 //                  onValue = {'token': 00000, 'email'::000}
           if(onValue['token']!= 0){
             sendData.save(onValue['token'],_emailController.text.trim(), _passwordController.text.trim());
+            if(onValue['role']==1){
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => InstructorHome()));
+            }else{
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => StudentHome()));
+            }
           }
         });
 //            .whenComplete(() {

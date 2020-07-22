@@ -435,7 +435,8 @@ class _SignUpPageState extends State<SignUpPage> {
           errmessage = 'Check email or password';
         }
         else{
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>InstructorHome()));
+
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
 
 
         }

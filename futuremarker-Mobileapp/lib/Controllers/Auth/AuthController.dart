@@ -10,6 +10,7 @@ class SendData {
 
   var status ;
   var token ;
+  var data;
 
 
   registerData(int role,String name ,String email , String password) async{
@@ -25,13 +26,15 @@ class SendData {
         } ) ;
     status = response.body.contains('error');
 
-    var data = json.decode(response.body);
+     data = json.decode(response.body);
 
     if(status){
       print('data : ${data["error"]}');
     }else{
       print('data : ${data["token"]}');
+
       save(data["token"],data["email"],data["password"]);
+      return json.decode(response.body);
     }
 
   }
