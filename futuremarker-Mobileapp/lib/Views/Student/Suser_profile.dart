@@ -1,20 +1,18 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:circular_profile_avatar/circular_profile_avatar.dart';
-
+import 'package:futuremarkerapp/Controllers/Student/ProfileController.dart';
 import 'Student_Drawer.dart';
 import 'package:futuremarkerapp/Controllers/Student/UserDataController.dart';
 
-//import 'package:cached_network_image/cached_network_image.dart';
-
-class StudentProfile extends StatelessWidget {
-  @override
+class S_userProfile extends StatelessWidget {
+  int userID;
+  String name;
+  S_userProfile(this.userID,this.name);
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xfff263238),
       appBar: AppBar(
         backgroundColor: Color(0xfff263238),
-        title: Text('Profile'),
+        title: Text('${name}'),
         automaticallyImplyLeading: false,
       ),
       drawer: MyDrawer(),
@@ -22,20 +20,21 @@ class StudentProfile extends StatelessWidget {
           child: SingleChildScrollView(
             child: Stack(
               children: <Widget>[
+
                 FutureBuilder(
-                    future: UserData().getData(),
+                    future: User().getUser(userID),
                     builder: (BuildContext context, AsyncSnapshot ss) {
                       if (ss.hasError) {
                         print('error');
                       }
                       if (ss.hasData) {
-                        Map myData = ss.data['user'];
+                        Map myData = ss.data['usrProfile'];
                         List mycourse = ss.data['courses'];
                         // print(mycourse);
-                        int i=0;
-                        while( i<=mycourse.length){
-                          i++;
-                        }
+//                        int i=0;
+//                        while( i<=mycourse.length){
+//                          i++;
+//                        }
 
                         return
                           Column(
@@ -62,7 +61,7 @@ class StudentProfile extends StatelessWidget {
                                             Container(
                                               alignment: Alignment.topLeft,
                                               child: Text(
-                                                "My Courses",
+                                                "${name}'s Courses",
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w500,
@@ -117,6 +116,20 @@ class StudentProfile extends StatelessWidget {
                         return _buildProfile();
                       }
                     }),
+                Positioned(
+                  top: 30,
+                  right: 20,
+                  child: InkWell(
+                    onTap: () {
+                      {}
+                    },
+                    child: Icon(
+                      Icons.message,
+                      color: Colors.white,
+                      size: 35,
+                    ),
+                  ),
+                ),
               ],
             ),
 

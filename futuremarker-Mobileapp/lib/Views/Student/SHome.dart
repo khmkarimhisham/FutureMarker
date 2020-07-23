@@ -59,7 +59,7 @@ class _StudentHomeState extends State<StudentHome> {
               padding: const EdgeInsets.all(16.0),
               child: Center(
                 child: FutureBuilder(
-                    future: UserData().homeData(),
+                    future: UserData().shomeData(),
                     builder: (context, ss) {
                       if (ss.hasError) {
                         print("Error");

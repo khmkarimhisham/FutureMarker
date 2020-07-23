@@ -66,9 +66,11 @@ class SendData {
     final Evalue = email;
     final Pkey = 'password';
     final Pvalue = password;
+
     prefs.setString(Tkey, value);
     prefs.setString(Ekey, Evalue);
     prefs.setString(Pkey, Pvalue);
+
   }
 
   read() async {

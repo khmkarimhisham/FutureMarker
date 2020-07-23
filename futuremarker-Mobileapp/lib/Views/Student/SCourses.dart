@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:futuremarkerapp/Views/Instructor/Instructor_Drawer.dart';
-import 'package:futuremarkerapp/Views/Instructor/CreateCourse.dart';
+import 'package:futuremarkerapp/Controllers/Student/CourseController.dart';
+import 'package:futuremarkerapp/Controllers/Student/UserDataController.dart';
+import 'package:futuremarkerapp/Views/Student/SCourse.dart';
+import 'package:futuremarkerapp/Views/Student/Student_Drawer.dart';
 
 
 
-
-
-
-class MyCourses extends StatefulWidget {
+class StudentCourses extends StatefulWidget {
   @override
-  _MyCoursesState createState() => _MyCoursesState();
+  _StudentCoursesState createState() => _StudentCoursesState();
 }
 
-class _MyCoursesState extends State<MyCourses> {
+class _StudentCoursesState extends State<StudentCourses> {
   final GlobalKey<ScaffoldState> _courseskey = GlobalKey<ScaffoldState>();
   final primary = Color(0xfff263238);
   final secondary = Colors.white;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _accessController = TextEditingController();
   Future<void> _showMyDialog() async {
     return showDialog<void>(
@@ -28,6 +28,7 @@ class _MyCoursesState extends State<MyCourses> {
             child: ListBody(
               children: <Widget>[
                 Form(
+                  key: _formKey,
                   child: TextFormField(
 
                     style: TextStyle(
@@ -56,38 +57,26 @@ class _MyCoursesState extends State<MyCourses> {
             ),
             FlatButton(
               child: Text('Join'),
-              onPressed: () {},
-            ),
+              onPressed: () {
+                var key = _formKey.currentState;
+                if (key.validate()) {
+                  key.save();
+
+                  setState(() {
+                    Courses().joinCourse(_accessController.text);
+
+                    Navigator.pop(context);
+                  });
+                }
+
+
+              }),
           ],
         );
       },
     );
   }
-  final List<Map> schoolLists = [
 
-    {
-      "name": "WilingTon Cambridge",
-      "location": "Kasai Pantan NY, 12483",
-      "type": "Lower Secondary School",
-      "logoText":
-      "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
-    },
-    {
-      "name": "Fredik Panlon",
-      "location": "572 Statan NY, 12483",
-      "type": "Higher Secondary School",
-      "logoText":
-      "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
-    },
-
-    {
-      "name": "Campare Handeson",
-      "location": "Kasai Pantan NY, 12483",
-      "type": "Lower Secondary School",
-      "logoText":
-      "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
-    },
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,24 +89,88 @@ class _MyCoursesState extends State<MyCourses> {
           width: MediaQuery.of(context).size.width,
           child: Stack(
             children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(top: 100),
-                height: MediaQuery.of(context).size.height,
-                width: double.infinity,
-                child: ListView.builder(
-                    itemCount: schoolLists.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
-                        onTap: (){
-//                          Navigator.push(
-//                            context,
-//                            MaterialPageRoute(builder: (context) => Course()),
-//                          );
-                        },
-                        child: buildList(context, index),
+              FutureBuilder(
+                  future: UserData().getData(),
+                  builder: (BuildContext context, AsyncSnapshot ss) {
+                    if (ss.hasError) {
+                      print('error');
+                    }
+                    if (ss.hasData) {
+
+                      List mycourse = ss.data['courses'];
+
+                      int i = 0;
+                      while (i <= mycourse.length) {
+                        i++;
+                      }
+                      return Container(
+                        padding: EdgeInsets.only(top: 100),
+                        height: MediaQuery.of(context).size.height,
+                        width: double.infinity,
+                        child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: mycourse.length,
+                            itemBuilder: (context, i) {
+                              return InkWell(
+                                onTap: (){
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) => StudentCourse(mycourse[i]['id'],mycourse[i]['course_name'],mycourse[i]['course_material_dir'])));
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                    color: Colors.white,
+                                  ),
+                                  width: double.infinity,
+                                  height: 110,
+                                  margin: EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 20),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 20),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                        width: 80,
+                                        height: 80,
+                                        margin: EdgeInsets.only(right: 15),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(50),
+                                          border: Border.all(
+                                              width: 3, color: secondary),
+                                          image: DecorationImage(
+                                              image:  NetworkImage(
+                                                  '${UserData().imageurl}/${mycourse[i]['course_image']}'),
+                                              fit: BoxFit.fill),
+                                        ),
+                                      ),
+                                      Flexible(
+                                        fit: FlexFit.loose,
+                                        child: Center(
+                                          child: Text(
+                                            "${mycourse[i]['course_name']}",
+                                            softWrap: false,
+                                            overflow: TextOverflow.fade,
+                                            style: TextStyle(
+                                                color: primary,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }),
                       );
-                    }),
-              ),
+                    } else {
+                      return Center(
+                        child: Text('You Don\'t join in any course'),
+                      );
+                    }
+                  }),
               Container(
                 height: 110,
                 width: double.infinity,
@@ -127,7 +180,7 @@ class _MyCoursesState extends State<MyCourses> {
                         bottomLeft: Radius.circular(30),
                         bottomRight: Radius.circular(30))),
                 child: Padding(
-                  padding: const EdgeInsets.only(top:20.0),
+                  padding: const EdgeInsets.only(top: 20.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -147,65 +200,21 @@ class _MyCoursesState extends State<MyCourses> {
                       ),
                       IconButton(
                         onPressed: () {
-
                           _showMyDialog();
-
                         },
                         icon: Icon(
                           Icons.add,
                           color: Colors.white,
                           size: 35.0,
-
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-
             ],
           ),
         ),
-      ),
-    );
-
-  }
-
-  Widget buildList(BuildContext context, int index) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
-        color: Colors.white,
-      ),
-      width: double.infinity,
-      height: 110,
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            width: 80,
-            height: 80,
-            margin: EdgeInsets.only(right: 15),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              border: Border.all(width: 3, color: secondary),
-              image: DecorationImage(
-                  image: AssetImage('Images/01.png'),
-                  fit: BoxFit.fill),
-            ),
-          ),
-          Center(
-            child: Text(
-              schoolLists[index]['name'],
-              style: TextStyle(
-                  color: primary,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18),
-            ),
-          )
-        ],
       ),
     );
   }

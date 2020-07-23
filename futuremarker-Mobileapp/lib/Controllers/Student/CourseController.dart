@@ -9,7 +9,26 @@ class Courses{
 
   var status ;
   var token ;
+  void joinCourse(String Access) async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'token';
+    final value = prefs.get(key ) ?? 0;
 
+    String myUrl = "$URL/joinCourse";
+    http.post(myUrl,
+        headers: {
+          'Accept':'application/json',
+          'Authorization' : 'Bearer $value'
+        },
+        body: {
+          "course_access_code":"$Access",
+
+        }).then((response){
+      status = response.body.contains('error');
+      print('Response status : ${response.statusCode}');
+      print('Response body : ${response.body}');
+    });
+  }
 
   Future CourseContent(int id) async{
     String myUrl = "$URL/SgetContent/${id}";

@@ -22,9 +22,12 @@ class _LoginPageState extends State<LoginPage> {
     final key = 'token';
     final Ekey = 'email';
     final Pkey = 'password';
+
     final value = prefs.get(key) ?? 0;
     final Evalue = prefs.get(Ekey) ?? 0;
     final Pvalue = prefs.get(Pkey) ?? 0;
+
+
     if (value != 0) {
       sendData
           .loginData(Evalue,Pvalue).then((onValue){
@@ -39,24 +42,7 @@ class _LoginPageState extends State<LoginPage> {
           }
         }
       });
-//          .whenComplete(() {
-//        if (sendData.status) {
-//          _showDialog();
-//          errmessage = 'Check email or password';
-//        } else {
-//          Navigator.push(context,
-//              MaterialPageRoute(builder: (context) => InstructorHome()));
-//
-//
-//          print(_emailController.text);
-//
-//        }
-//      }
-//      );
-//      Navigator.pushAndRemoveUntil(
-//          context,
-//          MaterialPageRoute(builder: (context) => InstructorHome()),
-//          (Route<dynamic> route) => false);
+
     }
   }
 

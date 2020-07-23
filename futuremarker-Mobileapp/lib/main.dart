@@ -15,6 +15,8 @@ import 'Views/Instructor/Home.dart';
 import 'Views/Instructor/Profile.dart';
 import 'package:futuremarkerapp/Controllers/Auth/AuthController.dart';
 
+import 'Views/Student/SHome.dart';
+
 
 
 
@@ -24,34 +26,29 @@ void main()async {
 
 
 }
-class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget  {
 
   @override
+
   Widget build(BuildContext context) {
 
+    bool student=false;
 
     Future checkEmail() async{
       final prefs = await SharedPreferences.getInstance();
       final Ekey = 'email';
       final Evalue = prefs.get(Ekey) ?? 0;
+      final Pkey = 'password';
+      final Pvalue = prefs.get(Pkey) ?? 0;
       return Evalue;
     }
+
 
     return MaterialApp(
       title: 'Future Marker',
       debugShowCheckedModeBanner: false,
-      home:FutureBuilder(
-        future: checkEmail(),
-       builder: (context,ss){
-         if(ss.data == 0){
-           return LoginPage();
-         }else if(ss.data != 0){
-           return InstructorHome();
-         }else{
-           return Container();
-         }
-       },
-      ) ,
+      home: LoginPage(),
+
     );
   }
 }

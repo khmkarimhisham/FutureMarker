@@ -31,10 +31,10 @@ class I_userProfile extends StatelessWidget {
                         Map myData = ss.data['usrProfile'];
                         List mycourse = ss.data['courses'];
                         // print(mycourse);
-                        int i=0;
-                        while( i<=mycourse.length){
-                          i++;
-                        }
+//                        int i=0;
+//                        while( i<=mycourse.length){
+//                          i++;
+//                        }
 
                         return
                           Column(

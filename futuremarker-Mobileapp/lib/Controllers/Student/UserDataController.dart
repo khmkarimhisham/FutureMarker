@@ -28,7 +28,7 @@ class UserData{
   }
 
 
-  Future homeData() async{
+  Future shomeData() async{
     String FullUrl = "$URL/ShomeData";
     final prefs = await SharedPreferences.getInstance();
     final key = 'token';

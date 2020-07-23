@@ -3,12 +3,14 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:futuremarkerapp/Controllers/Student/UserDataController.dart';
 import 'package:futuremarkerapp/Views/Auth/Login.dart';
-import 'package:futuremarkerapp/Views/Instructor/Courses.dart';
-import 'package:futuremarkerapp/Views/Instructor/Home.dart';
-import 'package:futuremarkerapp/Views/Instructor/Profile.dart';
+
 import 'package:futuremarkerapp/Views/Instructor/Chat.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'SCourses.dart';
+import 'SHome.dart';
+import 'SProfile.dart';
 
 class MyDrawer extends StatelessWidget {
   @override
@@ -66,7 +68,7 @@ class MyDrawer extends StatelessWidget {
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => InstructorHome()),
+                                builder: (context) => StudentHome()),
                                 (Route<dynamic> route) => false);
                       },
                       child: _buildRow(Icons.home, "Home")),
@@ -76,7 +78,7 @@ class MyDrawer extends StatelessWidget {
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => InstructorProfile()),
+                                builder: (context) => StudentProfile()),
                                 (Route<dynamic> route) => false);
                       },
                       child: _buildRow(Icons.person_pin, "My profile")),
@@ -86,7 +88,7 @@ class MyDrawer extends StatelessWidget {
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MyCourses()),
+                                builder: (context) => StudentCourses()),
                                 (Route<dynamic> route) => false);
                       },
                       child: _buildRow(Icons.folder_shared, "Courses")),
