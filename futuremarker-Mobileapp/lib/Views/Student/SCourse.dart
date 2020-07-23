@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:futuremarkerapp/Controllers/Student/CourseController.dart';
 import 'package:futuremarkerapp/Controllers/Student/PostController.dart';
 import 'package:futuremarkerapp/Controllers/Student/UserDataController.dart';
+import 'package:futuremarkerapp/Views/Student/SAssignmentBody.dart';
 
 import 'package:futuremarkerapp/Views/Student/SFolder.dart';
 import 'package:futuremarkerapp/Views/Student/Suser_profile.dart';
@@ -218,14 +219,11 @@ class _StudentCourseState extends State<StudentCourse> {
                                       children: <Widget>[
                                         GestureDetector(
                                           onTap: () {
-//                                            Navigator.push(
-//                                                context,
-//                                                MaterialPageRoute(
-//                                                    builder: (context) =>
-//                                                        Assignment(
-//                                                            myMap,
-//                                                            mylist[position],
-//                                                            att)));
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        StudentAssignment(myMap, mylist[position], att)));
                                           },
                                           child: Card(
                                             child: ListTile(
