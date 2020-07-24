@@ -94,17 +94,17 @@ class MyDrawer extends StatelessWidget {
                       child: _buildRow(Icons.folder_shared, "Courses")),
                   buildDivider(),
                   _buildRow(Icons.grade, "Grades"),
-                  buildDivider(),
-                  InkWell(
-                      onTap: () {
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => InstructorListChat()),
-                                (Route<dynamic> route) => false);
-                      },
-                      child: _buildRow(Icons.message, "Messages",
-                          showBadge: true)),
+  //                buildDivider(),
+//                  InkWell(
+//                      onTap: () {
+//                        Navigator.pushAndRemoveUntil(
+//                            context,
+//                            MaterialPageRoute(
+//                                builder: (context) => InstructorListChat()),
+//                                (Route<dynamic> route) => false);
+//                      },
+//                      child: _buildRow(Icons.message, "Messages",
+//                          showBadge: true)),
                   buildDivider(),
                   _buildRow(Icons.notifications, "Notifications",
                       showBadge: true),

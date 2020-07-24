@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:futuremarkerapp/Controllers/Student/CourseController.dart';
 import 'package:futuremarkerapp/Controllers/Student/UserDataController.dart';
 import 'package:html2md/html2md.dart' as html2md;
+import 'package:url_launcher/url_launcher.dart';
 
 
 import '../../x.dart';
@@ -106,12 +107,51 @@ class _StudentAssignmentState extends State<StudentAssignment> {
 
                       SizedBox(height: 50,),
 
-                      RichText(
-                          text:
-                          LinkTextSpan(
-                              url:
-                              '${UserData().imageurl}/student/course/assignment/${widget.assignmentMap['id']}', text: 'Click To Submit Assignment', style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold))
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          RaisedButton(
+                            onPressed: () {
+                              launch('${UserData().imageurl}/student/course/assignment/${widget.assignmentMap['id']}');
+                            },
+                            textColor: Colors.white,
+                            padding: const EdgeInsets.all(0.0),
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: Color(0xfff263238),
+                              ),
+                              padding: const EdgeInsets.all(10.0),
+                              child:
+                              const Text('Submit Assignment', style: TextStyle(fontSize: 20)),
+                            ),
+                          ),
+                        ],
                       ),
+
+                      SizedBox(height: 30,),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          RaisedButton(
+                            onPressed: () {
+                              launch('${UserData().imageurl}/student/course/assignment/${widget.assignmentMap['id']}');
+                            },
+                            textColor: Colors.white,
+                            padding: const EdgeInsets.all(0.0),
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: Color(0xfff263238),
+                              ),
+                              padding: const EdgeInsets.all(10.0),
+                              child:
+                              const Text('Show Submitions', style: TextStyle(fontSize: 20)),
+                            ),
+                          ),
+                        ],
+                      )
+
+
 
                     ],
                   ),

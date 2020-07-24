@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:futuremarkerapp/Controllers/Student/CourseController.dart';
+import 'package:futuremarkerapp/Controllers/Student/Grades.dart';
 import 'package:futuremarkerapp/Controllers/Student/PostController.dart';
 import 'package:futuremarkerapp/Controllers/Student/UserDataController.dart';
 import 'package:futuremarkerapp/Views/Student/SAssignmentBody.dart';
@@ -12,9 +13,6 @@ import 'package:html2md/html2md.dart' as html2md;
 import 'package:flutter/src/gestures/tap.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/gestures.dart';
-
-
-
 
 class StudentCourse extends StatefulWidget {
   int CourseID;
@@ -127,51 +125,50 @@ class _StudentCourseState extends State<StudentCourse> {
                             return myMap.keys.last == 'dir'
                                 ? Container()
                                 : SingleChildScrollView(
-                              child: Container(
-                                child: Center(
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                      children: <Widget>[
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        SFolderContent(
-                                                            widget
-                                                                .CourseID,
-                                                            myMap.values
-                                                                .last,
-                                                            widget
-                                                                .CourseDir,
-                                                            mylist)));
-                                          },
-                                          child: Card(
-                                            elevation: 5,
-                                            child: ListTile(
-                                              leading: Icon(Icons.folder),
-                                              title: Text(
-                                                  '${myMap.values.last}'),
-                                            ),
+                                    child: Container(
+                                      child: Center(
+                                        child: Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: <Widget>[
+                                              GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              SFolderContent(
+                                                                  widget
+                                                                      .CourseID,
+                                                                  myMap.values
+                                                                      .last,
+                                                                  widget
+                                                                      .CourseDir,
+                                                                  mylist)));
+                                                },
+                                                child: Card(
+                                                  elevation: 5,
+                                                  child: ListTile(
+                                                    leading: Icon(Icons.folder),
+                                                    title: Text(
+                                                        '${myMap.values.last}'),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                        )
-                                      ],
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ),
-                            );
+                                  );
                           });
                     } else {
                       return Text('not found matiral0');
                     }
                   },
                 ),
-
               ],
             ),
           ),
@@ -215,7 +212,7 @@ class _StudentCourseState extends State<StudentCourse> {
                                     padding: EdgeInsets.all(8.0),
                                     child: Column(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                          MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
                                         GestureDetector(
                                           onTap: () {
@@ -223,7 +220,10 @@ class _StudentCourseState extends State<StudentCourse> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        StudentAssignment(myMap, mylist[position], att)));
+                                                        StudentAssignment(
+                                                            myMap,
+                                                            mylist[position],
+                                                            att)));
                                           },
                                           child: Card(
                                             child: ListTile(
@@ -243,17 +243,206 @@ class _StudentCourseState extends State<StudentCourse> {
                             );
                           });
                     } else {
+                      return Text('not found assignment');
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Stack(
+              children: <Widget>[
+                FutureBuilder(
+                  future: Courses().CourseContent(widget.CourseID),
+                  builder: (context, ss) {
+                    if (ss.hasError) {
+                      print('error');
+                    }
+                    if (ss.hasData) {
+                      List myData = ss.data['quizzes'];
+
+
+                      return ListView.builder(
+                          itemCount: myData.length,
+                          itemBuilder: (context, position) {
+                            Map myMap = myData[position];
+
+                            return SingleChildScrollView(
+                              child: Container(
+                                child: Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                        GestureDetector(
+                                          onTap: () {launch('${UserData().imageurl}/student/course/startQuiz/${myMap['id']}');},
+                                          child: Card(
+
+                                            child: ListTile(
+                                              leading: Icon(Icons.filter_frames),
+                                              title: Text(
+                                                  '${myMap['quiz_title']}'),
+                                              subtitle: Text(
+                                                  'Due ${myMap['quiz_deadline']}'),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          });
+                    } else {
                       return Text('not found matiral0');
                     }
                   },
                 ),
-
               ],
             ),
           ),
           //grades screen
-          Center(
-            child: Text('grades'),
+          Container(
+            child: FutureBuilder(
+              future: Grade().courseGrade(widget.CourseID),
+              builder: (context, ss) {
+                if (ss.hasError) {
+                  print('error');
+                }
+                if (ss.hasData) {
+                  Map mymap = ss.data;
+                  List assignment = mymap['finishedAssignments'];
+                  List Quiz = mymap['finishedQuizzes'];
+
+                  return SingleChildScrollView(
+                    child: Card(
+                      child: Container(
+                        alignment: Alignment.topLeft,
+                        padding: EdgeInsets.all(15),
+                        child: Column(
+                          children: <Widget>[
+                            Center(
+                              child: Container(
+                                  child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "Assignments",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 23,
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 25,
+                                  ),
+                                  ListView.builder(
+                                      scrollDirection: Axis.vertical,
+                                      shrinkWrap: true,
+                                      itemCount: assignment.length,
+                                      itemBuilder: (context, position) {
+                                        Map Amap = assignment[position];
+                                        return Column(
+                                          children: <Widget>[
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: <Widget>[
+                                                Text(
+                                                  '${Amap['assignment']['assignment_title']}',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  '${Amap['compilation_grade'] + Amap['style_grade'] + Amap['dynamic_test_grade'] + Amap['feature_test_grade']} %',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 20,
+                                            )
+                                          ],
+                                        );
+                                      }),
+                                  Divider(
+                                    color: Colors.black38,
+                                    height: 50,
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "Quizzes",
+                                      style: TextStyle(
+                                        //   color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 23,
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 25,
+                                  ),
+                                  ListView.builder(
+                                      scrollDirection: Axis.vertical,
+                                      shrinkWrap: true,
+                                      itemCount: Quiz.length,
+                                      itemBuilder: (context, position) {
+                                        Map Qmap = Quiz[position];
+                                        return Column(
+                                          children: <Widget>[
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                              children: <Widget>[
+                                                Text(
+                                                  '${Qmap['quiz']['quiz_title']}',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  '${Qmap['quiz_grade'] }%',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 20,
+                                            )
+                                          ],
+                                        );
+                                      }),
+                                ],
+                              )),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                } else {
+                  return CircularProgressIndicator();
+                }
+              },
+            ),
           ),
           //posts screen
           Container(
@@ -282,8 +471,6 @@ class _StudentCourseState extends State<StudentCourse> {
                               Map myMap = v_posts[position1];
                               List comment = myMap['comments'];
                               postID = myMap['id'];
-                              print(
-                                  '**************************${postID}********************');
 
                               return SingleChildScrollView(
                                 child: Column(
@@ -294,12 +481,12 @@ class _StudentCourseState extends State<StudentCourse> {
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius:
-                                        BorderRadius.circular(5.0),
+                                            BorderRadius.circular(5.0),
                                       ),
                                       padding: const EdgeInsets.all(16.0),
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Wrap(
                                             children: <Widget>[
@@ -331,7 +518,7 @@ class _StudentCourseState extends State<StudentCourse> {
                                               scrollDirection: Axis.vertical,
                                               shrinkWrap: true,
                                               itemCount:
-                                              myattch[position1].length,
+                                                  myattch[position1].length,
                                               itemBuilder: (context, position) {
                                                 Map x = myattch[position1];
                                                 List<String> y1 = [];
@@ -344,7 +531,7 @@ class _StudentCourseState extends State<StudentCourse> {
                                                 return new RichText(
                                                   text: new LinkTextSpan(
                                                       url:
-                                                      '${UserData().imageurl}/${y2[position]}',
+                                                          '${UserData().imageurl}/${y2[position]}',
                                                       text: '${y1[position]}',
                                                       style: TextStyle(
                                                           color: Colors.black)),
@@ -353,7 +540,7 @@ class _StudentCourseState extends State<StudentCourse> {
 
                                           Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                                MainAxisAlignment.end,
                                             children: <Widget>[
                                               SizedBox(
                                                 width: 16.0,
@@ -363,44 +550,44 @@ class _StudentCourseState extends State<StudentCourse> {
                                                     showDialog<void>(
                                                       context: context,
                                                       barrierDismissible:
-                                                      false, // user must tap button!
+                                                          false, // user must tap button!
                                                       builder: (BuildContext
-                                                      context) {
+                                                          context) {
                                                         return AlertDialog(
                                                           title: Text(
                                                               'Add Comment'),
                                                           content:
-                                                          SingleChildScrollView(
+                                                              SingleChildScrollView(
                                                             child: ListBody(
                                                               children: <
                                                                   Widget>[
                                                                 Form(
                                                                   key: _formKey,
                                                                   child:
-                                                                  TextFormField(
+                                                                      TextFormField(
                                                                     maxLines: 3,
                                                                     style: TextStyle(
                                                                         color: Colors
                                                                             .black,
                                                                         fontSize:
-                                                                        18.0,
+                                                                            18.0,
                                                                         fontWeight:
-                                                                        FontWeight.bold),
+                                                                            FontWeight.bold),
                                                                     decoration:
-                                                                    InputDecoration(
+                                                                        InputDecoration(
                                                                       hintText:
-                                                                      ' Write A Comment',
+                                                                          ' Write A Comment',
                                                                     ),
                                                                     controller:
-                                                                    _CommentController,
+                                                                        _CommentController,
                                                                     validator: (value) =>
-                                                                    value.length >=
-                                                                        3
-                                                                        ? null
-                                                                        : 'Comment should Contain at least 3 char',
+                                                                        value.length >=
+                                                                                3
+                                                                            ? null
+                                                                            : 'Comment should Contain at least 3 char',
                                                                     onSaved: (value) =>
-                                                                    _CommentController.text =
-                                                                        value,
+                                                                        _CommentController.text =
+                                                                            value,
                                                                   ),
                                                                 )
                                                               ],
@@ -412,7 +599,7 @@ class _StudentCourseState extends State<StudentCourse> {
                                                                   'Cancel'),
                                                               onPressed: () {
                                                                 Navigator.of(
-                                                                    context)
+                                                                        context)
                                                                     .pop();
                                                               },
                                                             ),
@@ -431,7 +618,7 @@ class _StudentCourseState extends State<StudentCourse> {
                                                                         _CommentController
                                                                             .text,
                                                                         myMap[
-                                                                        'id']);
+                                                                            'id']);
 
                                                                     Navigator.pop(
                                                                         context);
@@ -460,7 +647,7 @@ class _StudentCourseState extends State<StudentCourse> {
                                               itemBuilder:
                                                   (context, position2) {
                                                 Map mycomment =
-                                                comment[position2];
+                                                    comment[position2];
 
                                                 return Container(
                                                   margin: EdgeInsets.symmetric(
@@ -469,33 +656,33 @@ class _StudentCourseState extends State<StudentCourse> {
                                                   decoration: BoxDecoration(
                                                     color: Color(0xffff6f6f6),
                                                     borderRadius:
-                                                    BorderRadius.circular(
-                                                        5.0),
+                                                        BorderRadius.circular(
+                                                            5.0),
                                                   ),
                                                   padding: const EdgeInsets.all(
                                                       16.0),
                                                   child: Column(
                                                     crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: <Widget>[
                                                       Row(
                                                         mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .start,
+                                                            MainAxisAlignment
+                                                                .start,
                                                         children: <Widget>[
                                                           Container(
                                                             width: 30,
                                                             height: 30,
                                                             margin:
-                                                            EdgeInsets.only(
-                                                                right: 10),
+                                                                EdgeInsets.only(
+                                                                    right: 10),
                                                             decoration:
-                                                            BoxDecoration(
+                                                                BoxDecoration(
                                                               borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                  50),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          50),
                                                               border: Border.all(
                                                                   width: 3,
                                                                   color: Colors
@@ -513,8 +700,8 @@ class _StudentCourseState extends State<StudentCourse> {
                                                       ),
                                                       Padding(
                                                         padding:
-                                                        EdgeInsets.only(
-                                                            left: 40),
+                                                            EdgeInsets.only(
+                                                                left: 40),
                                                         child: Text(
                                                             '${mycomment['comment_content']}'),
                                                       ),
@@ -533,7 +720,6 @@ class _StudentCourseState extends State<StudentCourse> {
                         return CircularProgressIndicator();
                       }
                     }),
-
               ],
             ),
           ),
@@ -605,6 +791,8 @@ class _StudentCourseState extends State<StudentCourse> {
                 FancyBottomNavigationItem(
                     icon: Icon(Icons.assignment), title: Text('Assignments')),
                 FancyBottomNavigationItem(
+                    icon: Icon(Icons.filter_frames), title: Text('Quizzes')),
+                FancyBottomNavigationItem(
                     icon: Icon(Icons.grade), title: Text('Grades')),
                 FancyBottomNavigationItem(
                     icon: Icon(Icons.speaker_phone), title: Text('Updates')),
@@ -632,13 +820,13 @@ class FancyBottomNavigation extends StatefulWidget {
 
   FancyBottomNavigation(
       {Key key,
-        this.currentIndex = 0,
-        this.iconSize = 24,
-        this.activeColor,
-        this.inactiveColor,
-        this.backgroundColor,
-        @required this.items,
-        @required this.onItemSelected}) {
+      this.currentIndex = 0,
+      this.iconSize = 24,
+      this.activeColor,
+      this.inactiveColor,
+      this.backgroundColor,
+      @required this.items,
+      @required this.onItemSelected}) {
     assert(items != null);
     assert(onItemSelected != null);
   }
@@ -668,12 +856,12 @@ class _FancyBottomNavigationState extends State<FancyBottomNavigation> {
 
   _FancyBottomNavigationState(
       {@required this.items,
-        this.currentIndex,
-        this.activeColor,
-        this.inactiveColor = Colors.black,
-        this.backgroundColor,
-        this.iconSize,
-        @required this.onItemSelected}) {
+      this.currentIndex,
+      this.activeColor,
+      this.inactiveColor = Colors.black,
+      this.backgroundColor,
+      this.iconSize,
+      @required this.onItemSelected}) {
     _selectedIndex = currentIndex;
   }
 
@@ -686,9 +874,9 @@ class _FancyBottomNavigationState extends State<FancyBottomNavigation> {
       decoration: !isSelected
           ? null
           : BoxDecoration(
-        color: Color(0xfff263238),
-        borderRadius: BorderRadius.all(Radius.circular(50)),
-      ),
+              color: Color(0xfff263238),
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+            ),
       child: ListView(
         shrinkWrap: true,
         padding: EdgeInsets.all(0),
@@ -710,9 +898,9 @@ class _FancyBottomNavigationState extends State<FancyBottomNavigation> {
               ),
               isSelected
                   ? DefaultTextStyle.merge(
-                style: TextStyle(color: backgroundColor),
-                child: item.title,
-              )
+                      style: TextStyle(color: backgroundColor),
+                      child: item.title,
+                    )
                   : SizedBox.shrink()
             ],
           )
@@ -724,7 +912,7 @@ class _FancyBottomNavigationState extends State<FancyBottomNavigation> {
   @override
   Widget build(BuildContext context) {
     activeColor =
-    (activeColor == null) ? Theme.of(context).accentColor : activeColor;
+        (activeColor == null) ? Theme.of(context).accentColor : activeColor;
 
     backgroundColor = (backgroundColor == null)
         ? Theme.of(context).bottomAppBarColor
@@ -760,12 +948,12 @@ class _FancyBottomNavigationState extends State<FancyBottomNavigation> {
 class LinkTextSpan extends TextSpan {
   LinkTextSpan({TextStyle style, String url, String text})
       : super(
-      style: style,
-      text: text ?? url,
-      recognizer: new TapGestureRecognizer()
-        ..onTap = () {
-          launch(url);
-        });
+            style: style,
+            text: text ?? url,
+            recognizer: new TapGestureRecognizer()
+              ..onTap = () {
+                launch(url);
+              });
 }
 
 class FancyBottomNavigationItem {

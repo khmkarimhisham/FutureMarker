@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 class User{
-  String URL='http://192.168.1.9:8000/api';
+  String URL='http://192.168.1.7:8000/api';
 
   var status ;
   var token ;

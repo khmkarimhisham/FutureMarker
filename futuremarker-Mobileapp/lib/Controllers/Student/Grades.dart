@@ -1,16 +1,18 @@
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class User{
+
+class Grade{
+
   String URL='http://192.168.1.7:8000/api';
 
   var status ;
   var token ;
 
-  Future getUser(int id) async{
-    String myUrl = "$URL/Sgetuser/${id}";
+
+  Future courseGrade(int id) async{
+    String myUrl = "$URL/courseGrade/${id}";
     final prefs = await SharedPreferences.getInstance();
     final key = 'token';
     final value = prefs.get(key) ?? 0;
@@ -21,7 +23,5 @@ class User{
         });
     print(json.decode(response.body));
     return json.decode(response.body);
-
   }
-
 }
