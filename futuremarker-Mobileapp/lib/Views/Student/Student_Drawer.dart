@@ -5,6 +5,7 @@ import 'package:futuremarkerapp/Controllers/Student/UserDataController.dart';
 import 'package:futuremarkerapp/Views/Auth/Login.dart';
 
 import 'package:futuremarkerapp/Views/Instructor/Chat.dart';
+import 'package:futuremarkerapp/Views/Student/Grades.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -93,7 +94,15 @@ class MyDrawer extends StatelessWidget {
                       },
                       child: _buildRow(Icons.folder_shared, "Courses")),
                   buildDivider(),
-                  _buildRow(Icons.grade, "Grades"),
+                  InkWell(
+                      onTap: (){
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => StudentGrades()),
+                                (Route<dynamic> route) => false);
+                      },
+                      child: _buildRow(Icons.grade, "Grades")),
   //                buildDivider(),
 //                  InkWell(
 //                      onTap: () {
