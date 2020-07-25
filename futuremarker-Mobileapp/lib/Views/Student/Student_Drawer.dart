@@ -6,6 +6,7 @@ import 'package:futuremarkerapp/Views/Auth/Login.dart';
 
 import 'package:futuremarkerapp/Views/Instructor/Chat.dart';
 import 'package:futuremarkerapp/Views/Student/Grades.dart';
+import 'package:futuremarkerapp/Views/Student/StudentNotifiactions.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,6 +19,8 @@ class MyDrawer extends StatelessWidget {
   final Color active = Colors.white;
   final Color divider = Colors.grey.shade600;
   final Color primary = Color(0xfff263238);
+
+
 
   _save(String token) async {
     final prefs = await SharedPreferences.getInstance();
@@ -56,6 +59,7 @@ class MyDrawer extends StatelessWidget {
 
                           Map myData = ss.data['user'];
 
+
                           return _BuildHeader(name: "${myData['name']}",email: "${myData['email']}",image:"${myData['image']}" );
 //                        return Container();
                         }
@@ -66,41 +70,41 @@ class MyDrawer extends StatelessWidget {
                   SizedBox(height: 30.0),
                   InkWell(
                       onTap: () {
-                        Navigator.pushAndRemoveUntil(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => StudentHome()),
-                                (Route<dynamic> route) => false);
+                                );
                       },
                       child: _buildRow(Icons.home, "Home")),
                   buildDivider(),
                   InkWell(
                       onTap: () {
-                        Navigator.pushAndRemoveUntil(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => StudentProfile()),
-                                (Route<dynamic> route) => false);
+                                );
                       },
                       child: _buildRow(Icons.person_pin, "My profile")),
                   buildDivider(),
                   InkWell(
                       onTap: () {
-                        Navigator.pushAndRemoveUntil(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => StudentCourses()),
-                                (Route<dynamic> route) => false);
+                              );
                       },
                       child: _buildRow(Icons.folder_shared, "Courses")),
                   buildDivider(),
                   InkWell(
                       onTap: (){
-                        Navigator.pushAndRemoveUntil(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => StudentGrades()),
-                                (Route<dynamic> route) => false);
+                                );
                       },
                       child: _buildRow(Icons.grade, "Grades")),
   //                buildDivider(),
@@ -115,8 +119,17 @@ class MyDrawer extends StatelessWidget {
 //                      child: _buildRow(Icons.message, "Messages",
 //                          showBadge: true)),
                   buildDivider(),
-                  _buildRow(Icons.notifications, "Notifications",
-                      showBadge: true),
+                  InkWell(
+                    onTap: (){
+                      Navigator.pushReplacement(
+                           context,
+                           MaterialPageRoute(
+                                builder: (context) => StudentNotification()),
+                                );
+                    },
+                    child: _buildRow(Icons.notifications, "Notifications",
+                        showBadge: true),
+                  ),
                   buildDivider(),
                   _buildRow(Icons.settings, "Settings"),
                   buildDivider(),
@@ -126,21 +139,21 @@ class MyDrawer extends StatelessWidget {
                   InkWell(
                       onTap: () {
                         _save('0');
-                        Navigator.pushAndRemoveUntil(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => LoginPage()),
-                                (Route<dynamic> route) => false);
+                                );
                       },
                       child: _buildRow(Icons.power_settings_new, "Log out")),
-                  FlatButton(
-                    child: Text('Print'),
-                    onPressed: ()async{
-                      final prefs = await SharedPreferences.getInstance();
-                      final key = 'token';
-                      print(prefs.get(key));
-                    },
-                  )
+//                  FlatButton(
+//                    child: Text('Print'),
+//                    onPressed: ()async{
+//                      final prefs = await SharedPreferences.getInstance();
+//                      final key = 'token';
+//                      print(prefs.get(key));
+//                    },
+//                  )
                 ],
               ),
             ),
@@ -181,7 +194,7 @@ class MyDrawer extends StatelessWidget {
     );
   }
 
-  Widget _buildRow(IconData icon, String title, {bool showBadge = false}) {
+  Widget _buildRow(IconData icon, String title,{bool showBadge = false}) {
     final TextStyle tStyle = TextStyle(color: active, fontSize: 16.0);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -211,7 +224,7 @@ class MyDrawer extends StatelessWidget {
               borderRadius: BorderRadius.circular(5.0),
             ),
             child: Text(
-              "10+",
+              "1+",
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 12.0,

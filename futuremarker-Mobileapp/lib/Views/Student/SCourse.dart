@@ -250,6 +250,7 @@ class _StudentCourseState extends State<StudentCourse> {
               ],
             ),
           ),
+
           Container(
             child: Stack(
               children: <Widget>[
@@ -492,7 +493,7 @@ class _StudentCourseState extends State<StudentCourse> {
                                             children: <Widget>[
                                               Text(
                                                 '${myMap['user']['name']}',
-                                                style: TextStyle(fontSize: 18),
+                                                style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
                                               ),
                                             ],
                                           ),
@@ -509,7 +510,7 @@ class _StudentCourseState extends State<StudentCourse> {
                                           ),
 
                                           Text(
-                                              '${html2md.convert(myMap['post_content'])}'),
+                                              '${html2md.convert(myMap['post_content'])}',style: TextStyle(fontSize:18,fontWeight: FontWeight.bold),),
                                           SizedBox(
                                             height: 15,
                                           ),
@@ -528,13 +529,16 @@ class _StudentCourseState extends State<StudentCourse> {
                                                   y2.add(y);
                                                 });
 
-                                                return new RichText(
-                                                  text: new LinkTextSpan(
-                                                      url:
-                                                          '${UserData().imageurl}/${y2[position]}',
-                                                      text: '${y1[position]}',
-                                                      style: TextStyle(
-                                                          color: Colors.black)),
+                                                return  Padding(
+                                                  padding: const EdgeInsets.only(top: 18),
+                                                  child: RichText(
+                                                    text: new LinkTextSpan(
+                                                        url:
+                                                            '${UserData().imageurl}/${y2[position]}',
+                                                        text: '${y1[position]}',
+                                                        style:TextStyle(
+                                                            color: Colors.blueAccent,fontWeight: FontWeight.bold,fontSize: 16)),
+                                                  ),
                                                 );
                                               }),
 
@@ -654,7 +658,7 @@ class _StudentCourseState extends State<StudentCourse> {
                                                       vertical: 10,
                                                       horizontal: 20),
                                                   decoration: BoxDecoration(
-                                                    color: Color(0xffff6f6f6),
+                                                    color: Colors.white,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             5.0),
@@ -672,8 +676,8 @@ class _StudentCourseState extends State<StudentCourse> {
                                                                 .start,
                                                         children: <Widget>[
                                                           Container(
-                                                            width: 30,
-                                                            height: 30,
+                                                            width: 40,
+                                                            height: 40,
                                                             margin:
                                                                 EdgeInsets.only(
                                                                     right: 10),
@@ -695,7 +699,8 @@ class _StudentCourseState extends State<StudentCourse> {
                                                             ),
                                                           ),
                                                           Text(
-                                                              '${mycomment['user']['name']}')
+                                                              '${mycomment['user']['name']}',style: TextStyle(
+                                                              fontWeight: FontWeight.bold,fontSize: 16))
                                                         ],
                                                       ),
                                                       Padding(
@@ -703,7 +708,8 @@ class _StudentCourseState extends State<StudentCourse> {
                                                             EdgeInsets.only(
                                                                 left: 40),
                                                         child: Text(
-                                                            '${mycomment['comment_content']}'),
+                                                            '${mycomment['comment_content']}',style: TextStyle(
+                                                            fontWeight: FontWeight.bold,fontSize: 16)),
                                                       ),
                                                     ],
                                                   ),

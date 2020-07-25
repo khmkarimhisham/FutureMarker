@@ -172,7 +172,7 @@ class _StudentCoursesState extends State<StudentCourses> {
                     }
                   }),
               Container(
-                height: 110,
+                height: 100,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     color: primary,

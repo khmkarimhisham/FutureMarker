@@ -15,7 +15,7 @@ class InstructorProfile extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Color(0xfff263238),
         title: Text('Profile'),
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
       ),
       drawer: MyDrawer(),
       body: SafeArea(

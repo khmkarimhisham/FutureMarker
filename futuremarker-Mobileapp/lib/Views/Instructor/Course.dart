@@ -287,6 +287,74 @@ class _CourseState extends State<Course> {
               ],
             ),
           ),
+          //Quizzes
+          Container(
+            child: Stack(
+              children: <Widget>[
+                FutureBuilder(
+                  future: Courses().CourseContent(widget.CourseID),
+                  builder: (context, ss) {
+                    if (ss.hasError) {
+                      print('error');
+                    }
+                    if (ss.hasData) {
+                      List myData = ss.data['quizzes'];
+
+
+                      return ListView.builder(
+                          itemCount: myData.length,
+                          itemBuilder: (context, position) {
+                            Map myMap = myData[position];
+
+                            return SingleChildScrollView(
+                              child: Container(
+                                child: Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                        GestureDetector(
+                                          onTap: () {launch('${UserData().imageurl}/instructor/course/quiz/${myMap['id']}');},
+                                          child: Card(
+
+                                            child: ListTile(
+                                              leading: Icon(Icons.filter_frames),
+                                              title: Text(
+                                                  '${myMap['quiz_title']}'),
+                                              subtitle: Text(
+                                                  'Due ${myMap['quiz_deadline']}'),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          });
+                    } else {
+                      return Text('not found matiral0');
+                    }
+                  },
+                ),
+                Positioned(
+                  bottom: 40,
+                  right: 20,
+                  child: InkWell(
+                    onTap: () {launch('${UserData().imageurl}/instructor/course/createQuiz/${widget.CourseID}');},
+                    child: Icon(
+                      Icons.create,
+                      color: Colors.black,
+                      size: 45,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
           //grades screen
           Center(
             child: Text('grades'),
@@ -657,6 +725,8 @@ class _CourseState extends State<Course> {
                     icon: Icon(Icons.book), title: Text('Material')),
                 FancyBottomNavigationItem(
                     icon: Icon(Icons.assignment), title: Text('Assignments')),
+                FancyBottomNavigationItem(
+                    icon: Icon(Icons.filter_frames), title: Text('Quizzes')),
                 FancyBottomNavigationItem(
                     icon: Icon(Icons.grade), title: Text('Grades')),
                 FancyBottomNavigationItem(

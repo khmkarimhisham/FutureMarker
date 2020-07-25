@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Courses{
-  String URL='http://192.168.1.7:8000/api';
+  String URL='http://192.168.1.5:8000/api';
 
   var status ;
   var token ;

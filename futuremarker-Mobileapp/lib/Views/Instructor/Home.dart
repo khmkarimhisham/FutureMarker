@@ -7,6 +7,8 @@ import 'package:futuremarkerapp/Views/Instructor/Instructor_Drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:html2md/html2md.dart' as html2md;
 
+import '../../x.dart';
+
 // ignore: camel_case_types
 class InstructorHome extends StatefulWidget {
   @override
@@ -66,6 +68,7 @@ class _InstructorHomeState extends State<InstructorHome> {
                       }
                       if (ss.hasData) {
                         List myList = ss.data['posts'];
+                        List myattch = ss.data['posts_attch'];
 
                         return ListView.builder(
                             scrollDirection: Axis.vertical,
@@ -82,12 +85,12 @@ class _InstructorHomeState extends State<InstructorHome> {
                                       children: <Widget>[
                                         Text(
                                           '${mymap['user']['name']}',
-                                          style: TextStyle(fontSize: 18),
+                                          style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
                                         ),
                                         Icon(Icons.play_arrow),
                                         Text(
                                           '${mymap['course']['course_name']}',
-                                          style: TextStyle(fontSize: 18),
+                                            style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.blueAccent),
                                         ),
                                       ],
                                     ),
@@ -104,7 +107,33 @@ class _InstructorHomeState extends State<InstructorHome> {
                                     ),
                                     //hena haykon l post body lgai mn ldatabse
                                     Text(
-                                        '${html2md.convert(mymap['post_content'])}'),
+                                        '${html2md.convert(mymap['post_content'])}',style: TextStyle(fontSize:18,fontWeight: FontWeight.bold),),
+                                    ListView.builder(
+                                        scrollDirection: Axis.vertical,
+                                        shrinkWrap: true,
+                                        itemCount:
+                                        myattch[position].length,
+                                        itemBuilder: (context, position1) {
+                                          Map x = myattch[position];
+                                          List<String> y1 = [];
+                                          List<String> y2 = [];
+                                          x.forEach((x, y) {
+                                            y1.add(x);
+                                            y2.add(y);
+                                          });
+
+                                          return  Padding(
+                                            padding: const EdgeInsets.only(top:18),
+                                            child: RichText(
+                                              text: new LinkTextSpan(
+                                                  url:
+                                                  '${UserData().imageurl}/${y2[position1]}',
+                                                  text: '${y1[position1]}',
+                                                  style: TextStyle(
+                                                      color: Colors.blueAccent,fontWeight: FontWeight.bold,fontSize: 16)),
+                                            ),
+                                          );
+                                        }),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: <Widget>[
@@ -230,7 +259,7 @@ class _InstructorHomeState extends State<InstructorHome> {
                                             margin: EdgeInsets.symmetric(
                                                 vertical: 10, horizontal: 20),
                                             decoration: BoxDecoration(
-                                              color: Color(0xffff6f6f6),
+                                              color: Colors.white,
                                               borderRadius:
                                                   BorderRadius.circular(5.0),
                                             ),
@@ -244,8 +273,8 @@ class _InstructorHomeState extends State<InstructorHome> {
                                                       MainAxisAlignment.start,
                                                   children: <Widget>[
                                                     Container(
-                                                      width: 30,
-                                                      height: 30,
+                                                      width: 40,
+                                                      height: 40,
                                                       margin: EdgeInsets.only(
                                                           right: 10),
                                                       decoration: BoxDecoration(
@@ -263,14 +292,16 @@ class _InstructorHomeState extends State<InstructorHome> {
                                                       ),
                                                     ),
                                                     Text(
-                                                        '${Comment['user']['name']}')
+                                                        '${Comment['user']['name']}',style: TextStyle(
+                                                        fontWeight: FontWeight.bold,fontSize: 16))
                                                   ],
                                                 ),
                                                 Padding(
                                                   padding:
                                                       EdgeInsets.only(left: 40),
                                                   child: Text(
-                                                      '${Comment['comment_content']}'),
+                                                      '${Comment['comment_content']}',style: TextStyle(
+                                                      fontWeight: FontWeight.bold,fontSize: 16)),
                                                 ),
                                               ],
                                             ),

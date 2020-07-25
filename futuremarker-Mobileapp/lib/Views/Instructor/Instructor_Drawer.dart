@@ -63,47 +63,47 @@ class MyDrawer extends StatelessWidget {
                   SizedBox(height: 30.0),
                   InkWell(
                       onTap: () {
-                        Navigator.pushAndRemoveUntil(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => InstructorHome()),
-                            (Route<dynamic> route) => false);
+                            );
                       },
                       child: _buildRow(Icons.home, "Home")),
                   buildDivider(),
                   InkWell(
                       onTap: () {
-                        Navigator.pushAndRemoveUntil(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => InstructorProfile()),
-                            (Route<dynamic> route) => false);
+                            );
                       },
                       child: _buildRow(Icons.person_pin, "My profile")),
                   buildDivider(),
                   InkWell(
                       onTap: () {
-                        Navigator.pushAndRemoveUntil(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => MyCourses()),
-                            (Route<dynamic> route) => false);
+                            );
                       },
                       child: _buildRow(Icons.folder_shared, "Courses")),
                   buildDivider(),
                   _buildRow(Icons.grade, "Grades"),
                   buildDivider(),
-                  InkWell(
-                      onTap: () {
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => InstructorListChat()),
-                            (Route<dynamic> route) => false);
-                      },
-                      child: _buildRow(Icons.message, "Messages",
-                          showBadge: true)),
-                  buildDivider(),
+//                  InkWell(
+//                      onTap: () {
+//                        Navigator.pushReplacement(
+//                            context,
+//                            MaterialPageRoute(
+//                                builder: (context) => InstructorListChat()),
+//                            );
+//                      },
+//                      child: _buildRow(Icons.message, "Messages",
+//                          showBadge: true)),
+//                  buildDivider(),
                   _buildRow(Icons.notifications, "Notifications",
                       showBadge: true),
                   buildDivider(),
@@ -115,21 +115,21 @@ class MyDrawer extends StatelessWidget {
                   InkWell(
                       onTap: () {
                         _save('0');
-                        Navigator.pushAndRemoveUntil(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => LoginPage()),
-                            (Route<dynamic> route) => false);
+                            );
                       },
                       child: _buildRow(Icons.power_settings_new, "Log out")),
-                  FlatButton(
-                    child: Text('Print'),
-                    onPressed: ()async{
-                      final prefs = await SharedPreferences.getInstance();
-                      final key = 'token';
-                      print(prefs.get(key));
-                    },
-                  )
+//                  FlatButton(
+//                    child: Text('Print'),
+//                    onPressed: ()async{
+//                      final prefs = await SharedPreferences.getInstance();
+//                      final key = 'token';
+//                      print(prefs.get(key));
+//                    },
+//                  )
                 ],
               ),
             ),

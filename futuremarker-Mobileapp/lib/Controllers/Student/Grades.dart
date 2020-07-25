@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Grade{
 
-  String URL='http://192.168.1.7:8000/api';
+  String URL='http://192.168.1.5:8000/api';
 
   var status ;
   var token ;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:futuremarkerapp/Controllers/Student/Grades.dart';
+import 'package:futuremarkerapp/Views/Student/Student_Drawer.dart';
 
 class StudentGrades extends StatefulWidget {
   @override
@@ -13,8 +14,11 @@ class _StudentGradesState extends State<StudentGrades> {
         appBar: AppBar(
           backgroundColor: Color(0xfff263238),
           title: Text('Grades'),
-          automaticallyImplyLeading: false,
+          automaticallyImplyLeading: true,
+
+
         ),
+        drawer: MyDrawer(),
         body: SingleChildScrollView(
           child: Card(
             child: Container(
