@@ -81,6 +81,7 @@ class _InstructorHomeState extends State<InstructorHome> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
+                                    Container(),
                                     Wrap(
                                       children: <Widget>[
                                         Text(
@@ -95,19 +96,21 @@ class _InstructorHomeState extends State<InstructorHome> {
                                       ],
                                     ),
                                     SizedBox(
-                                      height: 10,
+                                      height: 5,
                                     ),
                                     Text(
                                       'Posted in ${mymap['created_at']}',
                                       style: TextStyle(fontSize: 12),
                                     ),
-                                    Divider(),
-                                    SizedBox(
-                                      height: 10,
+                                    Divider(
+
                                     ),
-                                    //hena haykon l post body lgai mn ldatabse
+                                    SizedBox(
+                                      height: 3,
+                                    ),
+
                                     Text(
-                                        '${html2md.convert(mymap['post_content'])}',style: TextStyle(fontSize:18,fontWeight: FontWeight.bold),),
+                                        '${html2md.convert(mymap['post_content'])}',style: TextStyle(fontSize:18,),),
                                     ListView.builder(
                                         scrollDirection: Axis.vertical,
                                         shrinkWrap: true,
@@ -137,24 +140,7 @@ class _InstructorHomeState extends State<InstructorHome> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: <Widget>[
-//
-//                                    IconButton(
-//                                        icon: Icon(Icons.favorite, color: _iconColor),
-//                                        onPressed: () {
-//                                          setState(() {
-//                                            if(_iconColor == Colors.red){
-//                                              _iconColor = Colors.grey;
-//                                            }
-//                                            else{
-//                                              _iconColor = Colors.red;
-//                                            }
-//                                          });
-//                                        }),
 
-//                                    SizedBox(
-//                                      width: 5.0,
-//                                    ),
-//                                    Text('55'),
                                         SizedBox(
                                           width: 16.0,
                                         ),
@@ -246,7 +232,7 @@ class _InstructorHomeState extends State<InstructorHome> {
                                         Text('${myComment.length}'),
                                       ],
                                     ),
-                                    Divider(),
+
                                     //Comments
                                     ListView.builder(
                                         scrollDirection: Axis.vertical,
@@ -298,7 +284,7 @@ class _InstructorHomeState extends State<InstructorHome> {
                                                 ),
                                                 Padding(
                                                   padding:
-                                                      EdgeInsets.only(left: 40),
+                                                      EdgeInsets.only(left: 50),
                                                   child: Text(
                                                       '${Comment['comment_content']}',style: TextStyle(
                                                       fontWeight: FontWeight.bold,fontSize: 16)),
@@ -307,6 +293,13 @@ class _InstructorHomeState extends State<InstructorHome> {
                                             ),
                                           );
                                         }),
+                                    Divider(
+                                      color: Colors.black,
+                                      height: 18,
+                                      thickness: 1,
+                                      indent:0 ,
+                                      endIndent: 0,
+                                    ),
                                   ],
                                 ),
                               );
