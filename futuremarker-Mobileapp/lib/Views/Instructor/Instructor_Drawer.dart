@@ -5,6 +5,7 @@ import 'package:futuremarkerapp/Controllers/Instructor/UserDataConrtoller.dart';
 import 'package:futuremarkerapp/Views/Auth/Login.dart';
 import 'package:futuremarkerapp/Views/Instructor/Courses.dart';
 import 'package:futuremarkerapp/Views/Instructor/Home.dart';
+import 'package:futuremarkerapp/Views/Instructor/InstructorNotifications.dart';
 import 'package:futuremarkerapp/Views/Instructor/Profile.dart';
 import 'package:futuremarkerapp/Views/Instructor/Chat.dart';
 import 'package:http/http.dart' as http;
@@ -90,8 +91,7 @@ class MyDrawer extends StatelessWidget {
                             );
                       },
                       child: _buildRow(Icons.folder_shared, "Courses")),
-                  buildDivider(),
-                  _buildRow(Icons.grade, "Grades"),
+
                   buildDivider(),
 //                  InkWell(
 //                      onTap: () {
@@ -104,8 +104,17 @@ class MyDrawer extends StatelessWidget {
 //                      child: _buildRow(Icons.message, "Messages",
 //                          showBadge: true)),
 //                  buildDivider(),
-                  _buildRow(Icons.notifications, "Notifications",
-                      showBadge: true),
+                  InkWell(
+                    onTap: (){
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => InstructorsNotifications()),
+                      );
+                    },
+                    child: _buildRow(Icons.notifications, "Notifications",
+                        showBadge: true),
+                  ),
                   buildDivider(),
                   _buildRow(Icons.settings, "Settings"),
                   buildDivider(),
@@ -200,7 +209,7 @@ class MyDrawer extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5.0),
                   ),
                   child: Text(
-                    "10+",
+                    "1+",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 12.0,
