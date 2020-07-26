@@ -50,9 +50,7 @@ class _createPostState extends State<createPost> {
         appBar: AppBar(
           backgroundColor: Color(0xfff263238),
           title: Center(child: Text('Create Post')),
-          automaticallyImplyLeading: false,
-
-
+          automaticallyImplyLeading: true,
 
         ),
         body:Container(

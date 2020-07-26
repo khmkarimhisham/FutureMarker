@@ -355,10 +355,7 @@ class _CourseState extends State<Course> {
               ],
             ),
           ),
-          //grades screen
-          Center(
-            child: Text('grades'),
-          ),
+
           //posts screen
           Container(
             child: Stack(
@@ -409,7 +406,7 @@ class _CourseState extends State<Course> {
                                             children: <Widget>[
                                               Text(
                                                 '${myMap['user']['name']}',
-                                                style: TextStyle(fontSize: 18),
+                                                style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
                                               ),
                                             ],
                                           ),
@@ -426,7 +423,7 @@ class _CourseState extends State<Course> {
                                           ),
 
                                           Text(
-                                              '${html2md.convert(myMap['post_content'])}'),
+                                              '${html2md.convert(myMap['post_content'])}',style: TextStyle(fontSize:18,fontWeight: FontWeight.bold),),
                                           SizedBox(
                                             height: 15,
                                           ),
@@ -450,8 +447,8 @@ class _CourseState extends State<Course> {
                                                       url:
                                                           '${UserData().imageurl}/${y2[position]}',
                                                       text: '${y1[position]}',
-                                                      style: TextStyle(
-                                                          color: Colors.black)),
+                                                      style:TextStyle(
+                                                          color: Colors.blueAccent,fontWeight: FontWeight.bold,fontSize: 16)),
                                                 );
                                               }),
 
@@ -571,7 +568,7 @@ class _CourseState extends State<Course> {
                                                       vertical: 10,
                                                       horizontal: 20),
                                                   decoration: BoxDecoration(
-                                                    color: Color(0xffff6f6f6),
+                                                    color:Colors.white,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             5.0),
@@ -589,8 +586,8 @@ class _CourseState extends State<Course> {
                                                                 .start,
                                                         children: <Widget>[
                                                           Container(
-                                                            width: 30,
-                                                            height: 30,
+                                                            width: 40,
+                                                            height: 40,
                                                             margin:
                                                                 EdgeInsets.only(
                                                                     right: 10),
@@ -612,7 +609,8 @@ class _CourseState extends State<Course> {
                                                             ),
                                                           ),
                                                           Text(
-                                                              '${mycomment['user']['name']}')
+                                                              '${mycomment['user']['name']}',style: TextStyle(
+                                                              fontWeight: FontWeight.bold,fontSize: 16))
                                                         ],
                                                       ),
                                                       Padding(
@@ -620,7 +618,8 @@ class _CourseState extends State<Course> {
                                                             EdgeInsets.only(
                                                                 left: 40),
                                                         child: Text(
-                                                            '${mycomment['comment_content']}'),
+                                                            '${mycomment['comment_content']}',style: TextStyle(
+                                                            fontWeight: FontWeight.bold,fontSize: 16)),
                                                       ),
                                                     ],
                                                   ),
@@ -727,8 +726,7 @@ class _CourseState extends State<Course> {
                     icon: Icon(Icons.assignment), title: Text('Assignments')),
                 FancyBottomNavigationItem(
                     icon: Icon(Icons.filter_frames), title: Text('Quizzes')),
-                FancyBottomNavigationItem(
-                    icon: Icon(Icons.grade), title: Text('Grades')),
+
                 FancyBottomNavigationItem(
                     icon: Icon(Icons.speaker_phone), title: Text('Updates')),
                 FancyBottomNavigationItem(

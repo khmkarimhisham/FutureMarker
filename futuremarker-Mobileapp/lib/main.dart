@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:futuremarkerapp/SpalashScreen.dart';
 
 import 'package:futuremarkerapp/Views/Auth/Signup.dart';
 import 'package:futuremarkerapp/Views/Instructor/CreateCourse.dart';
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget  {
     return MaterialApp(
       title: 'Future Marker',
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: SplashScreen(),
 
     );
   }

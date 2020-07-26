@@ -62,7 +62,7 @@ class _CreateAssignmentState extends State<CreateAssignment> {
         appBar: AppBar(
           backgroundColor: Color(0xfff263238),
           title: Center(child: Text('Create Assignment')),
-          automaticallyImplyLeading: false,
+          automaticallyImplyLeading: true,
 
 
 

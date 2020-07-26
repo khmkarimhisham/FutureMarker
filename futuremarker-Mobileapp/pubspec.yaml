@@ -40,10 +40,12 @@ dependencies:
   datetime_picker_formfield:
 
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons:
+  splashscreen:
 
 flutter_icons:
   android: "launcher_icon"

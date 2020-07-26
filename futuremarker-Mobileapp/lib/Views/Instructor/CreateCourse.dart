@@ -59,7 +59,7 @@ class _CreateCourseState extends State<CreateCourse> {
       appBar: AppBar(
         backgroundColor: Color(0xfff263238),
         title: Center(child: Text('Create Course')),
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
 
 
 
