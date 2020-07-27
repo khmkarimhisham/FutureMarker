@@ -46,7 +46,7 @@ class _StudentHomeState extends State<StudentHome> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xfff263238),
-        title: Text('sHome'),
+        title: Text('Home'),
       ),
       drawer: MyDrawer(),
       body: SingleChildScrollView(
@@ -68,7 +68,7 @@ class _StudentHomeState extends State<StudentHome> {
                       }
                       if (ss.hasData) {
                         List myList = ss.data['posts'];
-                        List myattch = ss.data['posts_attch'];
+                        List myattch = ss.data['posts_attch'] == null ? [] : ss.data['posts_attch'];
 
                         return ListView.builder(
                             scrollDirection: Axis.vertical,
@@ -113,7 +113,7 @@ class _StudentHomeState extends State<StudentHome> {
                                         scrollDirection: Axis.vertical,
                                         shrinkWrap: true,
                                         itemCount:
-                                        myattch[position].length,
+                                        myattch.length != 0 ? myattch[position].length : 0,
                                         itemBuilder: (context, position1) {
                                           Map x = myattch[position];
                                           List<String> y1 = [];
@@ -247,7 +247,7 @@ class _StudentHomeState extends State<StudentHome> {
                                         Text('${myComment.length}'),
                                       ],
                                     ),
-                                    Divider(),
+
                                     //Comments
                                     ListView.builder(
                                         scrollDirection: Axis.vertical,
@@ -308,12 +308,26 @@ class _StudentHomeState extends State<StudentHome> {
                                             ),
                                           );
                                         }),
+                                    Divider(
+                                      color: Colors.black,
+                                      height: 18,
+                                      thickness: 1,
+                                      indent:0 ,
+                                      endIndent: 0,
+                                    ),
                                   ],
                                 ),
                               );
                             });
                       } else {
-                        return CircularProgressIndicator();
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ],
+                        );
                       }
                     }),
               ),

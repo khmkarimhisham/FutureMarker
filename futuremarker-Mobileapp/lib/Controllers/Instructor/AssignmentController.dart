@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class CAssignment{
 
-  String URL='http://192.168.1.5:8000/api';
+  String URL='http://futuremarker.com/api';
 
   var status ;
   var token ;

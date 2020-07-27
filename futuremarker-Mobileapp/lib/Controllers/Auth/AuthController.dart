@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SendData {
 
-  String URL='http://192.168.1.5:8000/api';
+  String URL='http://futuremarker.com/api';
 
   var status ;
   var token ;
@@ -48,6 +48,9 @@ class SendData {
           "password" : "$password"
         } ) ;
     if(response.statusCode == 200){
+      data = json.decode(response.body);
+      Login_save(data["token"],data["email"],data["password"],data["role"]);
+      print('Login Sava by :${data['role']}');
       return json.decode(response.body); // token
     } return {'token':0};
 
@@ -70,6 +73,24 @@ class SendData {
     prefs.setString(Tkey, value);
     prefs.setString(Ekey, Evalue);
     prefs.setString(Pkey, Pvalue);
+
+  }
+  Login_save(String token,String email,String password,int role) async {
+    final prefs = await SharedPreferences.getInstance();
+    final Tkey = 'token';
+    final value = token;
+    final Ekey = 'email';
+    final Evalue = email;
+    final Pkey = 'password';
+    final Pvalue = password;
+    final Rkey = 'role';
+    final Rvalue = role;
+
+
+    prefs.setString(Tkey, value);
+    prefs.setString(Ekey, Evalue);
+    prefs.setString(Pkey, Pvalue);
+    prefs.setInt(Rkey, Rvalue);
 
   }
 

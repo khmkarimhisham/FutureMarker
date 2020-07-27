@@ -166,8 +166,13 @@ class _StudentCoursesState extends State<StudentCourses> {
                             }),
                       );
                     } else {
-                      return Center(
-                        child: Text('You Don\'t join in any course'),
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ],
                       );
                     }
                   }),

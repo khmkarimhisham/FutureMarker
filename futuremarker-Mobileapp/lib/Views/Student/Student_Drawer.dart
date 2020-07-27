@@ -6,6 +6,7 @@ import 'package:futuremarkerapp/Views/Auth/Login.dart';
 
 import 'package:futuremarkerapp/Views/Instructor/Chat.dart';
 import 'package:futuremarkerapp/Views/Student/Grades.dart';
+import 'package:futuremarkerapp/Views/Student/Settings.dart';
 import 'package:futuremarkerapp/Views/Student/StudentNotifiactions.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,6 +29,8 @@ class MyDrawer extends StatelessWidget {
     final value = token;
     prefs.remove(key);
     prefs.remove('email');
+    prefs.remove('role');
+    prefs.remove('password');
 
   }
 
@@ -107,17 +110,17 @@ class MyDrawer extends StatelessWidget {
                                 );
                       },
                       child: _buildRow(Icons.grade, "Grades")),
-  //                buildDivider(),
-//                  InkWell(
-//                      onTap: () {
-//                        Navigator.pushAndRemoveUntil(
-//                            context,
-//                            MaterialPageRoute(
-//                                builder: (context) => InstructorListChat()),
-//                                (Route<dynamic> route) => false);
-//                      },
-//                      child: _buildRow(Icons.message, "Messages",
-//                          showBadge: true)),
+                  buildDivider(),
+                  InkWell(
+                      onTap: () {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => InstructorListChat()),
+                                (Route<dynamic> route) => false);
+                      },
+                      child: _buildRow(Icons.message, "Messages",
+                          showBadge: true)),
                   buildDivider(),
                   InkWell(
                     onTap: (){
@@ -131,7 +134,15 @@ class MyDrawer extends StatelessWidget {
                         showBadge: true),
                   ),
                   buildDivider(),
-                  _buildRow(Icons.settings, "Settings"),
+                  InkWell(
+                      onTap: (){
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => settings()),
+                        );
+                      },
+                      child: _buildRow(Icons.settings, "Settings")),
                   buildDivider(),
                   SizedBox(
                     height: 50.0,

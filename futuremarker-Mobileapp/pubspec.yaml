@@ -38,6 +38,7 @@ dependencies:
   open_file:
   html2md:
   datetime_picker_formfield:
+  splashscreen: ^1.2.0
 
 
 
@@ -45,7 +46,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons:
-  splashscreen:
+
 
 flutter_icons:
   android: "launcher_icon"

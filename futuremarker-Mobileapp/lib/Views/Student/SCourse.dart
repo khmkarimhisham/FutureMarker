@@ -165,7 +165,14 @@ class _StudentCourseState extends State<StudentCourse> {
                                   );
                           });
                     } else {
-                      return Text('not found matiral0');
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ],
+                      );
                     }
                   },
                 ),
@@ -243,7 +250,14 @@ class _StudentCourseState extends State<StudentCourse> {
                             );
                           });
                     } else {
-                      return Text('not found assignment');
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ],
+                      );
                     }
                   },
                 ),
@@ -299,7 +313,14 @@ class _StudentCourseState extends State<StudentCourse> {
                             );
                           });
                     } else {
-                      return Text('not found matiral0');
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ],
+                      );
                     }
                   },
                 ),
@@ -440,7 +461,14 @@ class _StudentCourseState extends State<StudentCourse> {
                     ),
                   );
                 } else {
-                  return CircularProgressIndicator();
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ],
+                  );
                 }
               },
             ),
@@ -456,7 +484,7 @@ class _StudentCourseState extends State<StudentCourse> {
                         print('error');
                       }
                       if (ss.hasData) {
-                        Map myData = ss.data['posts'];
+                        var myData = ss.data['posts'].length > 1? ss.data['posts'] : {'1':ss.data['posts'][0]};
                         List<String> k_posts = [];
                         List<Map> v_posts = [];
                         myData.forEach((k, v) {
@@ -723,7 +751,14 @@ class _StudentCourseState extends State<StudentCourse> {
                               );
                             });
                       } else {
-                        return CircularProgressIndicator();
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ],
+                        );
                       }
                     }),
               ],
@@ -776,7 +811,14 @@ class _StudentCourseState extends State<StudentCourse> {
                               );
                             });
                       } else {
-                        return CircularProgressIndicator();
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ],
+                        );
                       }
                     }),
               ),

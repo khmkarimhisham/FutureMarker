@@ -70,7 +70,14 @@ class _InstructorsNotificationsState extends State<InstructorsNotifications> {
                 );
               }
               else{
-                return CircularProgressIndicator();
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ],
+                );
               }
             }
         ),

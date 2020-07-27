@@ -68,7 +68,8 @@ class _InstructorHomeState extends State<InstructorHome> {
                       }
                       if (ss.hasData) {
                         List myList = ss.data['posts'];
-                        List myattch = ss.data['posts_attch'];
+                        List myattch = ss.data['posts_attch'] == null ? [] : ss.data['posts_attch'];
+
 
                         return ListView.builder(
                             scrollDirection: Axis.vertical,
@@ -115,7 +116,7 @@ class _InstructorHomeState extends State<InstructorHome> {
                                         scrollDirection: Axis.vertical,
                                         shrinkWrap: true,
                                         itemCount:
-                                        myattch[position].length,
+                                        myattch.length != 0 ? myattch[position].length : 0,
                                         itemBuilder: (context, position1) {
                                           Map x = myattch[position];
                                           List<String> y1 = [];
@@ -305,7 +306,14 @@ class _InstructorHomeState extends State<InstructorHome> {
                               );
                             });
                       } else {
-                        return CircularProgressIndicator();
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ],
+                        );
                       }
                     }),
               ),

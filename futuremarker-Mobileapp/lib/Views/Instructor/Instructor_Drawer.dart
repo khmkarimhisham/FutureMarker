@@ -8,6 +8,7 @@ import 'package:futuremarkerapp/Views/Instructor/Home.dart';
 import 'package:futuremarkerapp/Views/Instructor/InstructorNotifications.dart';
 import 'package:futuremarkerapp/Views/Instructor/Profile.dart';
 import 'package:futuremarkerapp/Views/Instructor/Chat.dart';
+import 'package:futuremarkerapp/Views/Instructor/Settings.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,6 +24,8 @@ class MyDrawer extends StatelessWidget {
     final value = token;
     prefs.remove(key);
     prefs.remove('email');
+    prefs.remove('role');
+    prefs.remove('password');
 
   }
 
@@ -93,17 +96,17 @@ class MyDrawer extends StatelessWidget {
                       child: _buildRow(Icons.folder_shared, "Courses")),
 
                   buildDivider(),
-//                  InkWell(
-//                      onTap: () {
-//                        Navigator.pushReplacement(
-//                            context,
-//                            MaterialPageRoute(
-//                                builder: (context) => InstructorListChat()),
-//                            );
-//                      },
-//                      child: _buildRow(Icons.message, "Messages",
-//                          showBadge: true)),
-//                  buildDivider(),
+                  InkWell(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => InstructorListChat()),
+                            );
+                      },
+                      child: _buildRow(Icons.message, "Messages",
+                          showBadge: true)),
+                  buildDivider(),
                   InkWell(
                     onTap: (){
                       Navigator.pushReplacement(
@@ -116,7 +119,15 @@ class MyDrawer extends StatelessWidget {
                         showBadge: true),
                   ),
                   buildDivider(),
-                  _buildRow(Icons.settings, "Settings"),
+                  InkWell(
+                      onTap: (){
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => settings()),
+                        );
+                      },
+                      child: _buildRow(Icons.settings, "Settings")),
                   buildDivider(),
                   SizedBox(
                     height: 50.0,
@@ -161,12 +172,12 @@ class MyDrawer extends StatelessWidget {
         ),
         SizedBox(height: 5.0),
         Text(
-          name == null ? 'User' : "$name",
+          name == null ? 'Instructor' : "$name",
           style: TextStyle(
               color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w600),
         ),
         Text(
-          email == null ? 'future@gmail.com' : "$email",
+          email == null ? 'Instructor@gmail.com' : "$email",
           style: TextStyle(color: active, fontSize: 16.0),
         ),
       ],

@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:futuremarkerapp/Controllers/Instructor/CourseController.dart';
 import 'package:futuremarkerapp/Controllers/Instructor/PostController.dart';
 import 'package:futuremarkerapp/Controllers/Instructor/UserDataConrtoller.dart';
@@ -170,7 +171,14 @@ class _CourseState extends State<Course> {
                                   );
                           });
                     } else {
-                      return Text('not found matiral0');
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ],
+                      );
                     }
                   },
                 ),
@@ -179,7 +187,8 @@ class _CourseState extends State<Course> {
                   right: 20,
                   child: InkWell(
                     onTap: () {
-                      _showMyDialog();
+                      launch('${UserData().imageurl}/instructor/course/${widget.CourseID}');
+
                     },
                     child: Icon(
                       Icons.create_new_folder,
@@ -262,7 +271,14 @@ class _CourseState extends State<Course> {
                             );
                           });
                     } else {
-                      return Text('not found matiral0');
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ],
+                      );
                     }
                   },
                 ),
@@ -336,7 +352,14 @@ class _CourseState extends State<Course> {
                             );
                           });
                     } else {
-                      return Text('not found matiral0');
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ],
+                      );
                     }
                   },
                 ),
@@ -367,7 +390,7 @@ class _CourseState extends State<Course> {
                         print('error');
                       }
                       if (ss.hasData) {
-                        Map myData = ss.data['posts'];
+                        var myData = ss.data['posts'].length > 1? ss.data['posts'] : {'1':ss.data['posts'][0]};
                         List<String> k_posts = [];
                         List<Map> v_posts = [];
                         myData.forEach((k, v) {
@@ -633,7 +656,14 @@ class _CourseState extends State<Course> {
                               );
                             });
                       } else {
-                        return CircularProgressIndicator();
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ],
+                        );
                       }
                     }),
                 Positioned(
@@ -704,7 +734,14 @@ class _CourseState extends State<Course> {
                               );
                             });
                       } else {
-                        return CircularProgressIndicator();
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ],
+                        );
                       }
                     }),
               ),

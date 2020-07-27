@@ -22,10 +22,14 @@ class _LoginPageState extends State<LoginPage> {
     final key = 'token';
     final Ekey = 'email';
     final Pkey = 'password';
+    final Rkey = 'role';
+
 
     final value = prefs.get(key) ?? 0;
     final Evalue = prefs.get(Ekey) ?? 0;
     final Pvalue = prefs.get(Pkey) ?? 0;
+    final Rvalue = prefs.get(Rkey) ?? 0;
+
 
 
     if (value != 0) {
@@ -195,9 +199,7 @@ class _LoginPageState extends State<LoginPage> {
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {
                               if (value.length >= 5 &&
-                                      value.contains('@gmail.com') ||
-                                  value.contains('@hotmail.com') ||
-                                  value.contains('@outlook.com')) {
+                                      value.contains('.com') ) {
                                 return null;
                               } else {
                                 return 'Email is not valid';
@@ -325,7 +327,7 @@ class _LoginPageState extends State<LoginPage> {
         sendData
             .loginData(
                 _emailController.text.trim(), _passwordController.text.trim()).then((onValue){
-//                  onValue = {'token': 00000, 'email'::000}
+
           if(onValue['token']!= 0){
             sendData.save(onValue['token'],_emailController.text.trim(), _passwordController.text.trim());
             if(onValue['role']==1){
@@ -337,20 +339,6 @@ class _LoginPageState extends State<LoginPage> {
             }
           }
         });
-//            .whenComplete(() {
-////          if (sendData.status) {
-////            _showDialog();
-////            errmessage = 'Check email or password';
-////          } else {
-//            Navigator.push(context,
-//                MaterialPageRoute(builder: (context) => InstructorHome()));
-//
-//
-//            print(_emailController.text);
-//
-////          }
-//        })
-        ;
       });
     }
   }

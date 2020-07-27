@@ -6,12 +6,14 @@ import 'package:futuremarkerapp/Views/Instructor/CreateCourse.dart';
 import 'package:futuremarkerapp/x.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
+
 import 'Views/Auth/Login.dart';
 import 'Views/Instructor/Chat.dart';
 import 'Views/Instructor/ChatContent.dart';
 import 'Views/Instructor/Course.dart';
 import 'Views/Instructor/Courses.dart';
-import 'Views/Instructor/EditProfile.dart';
+import 'Views/Instructor/Settings.dart';
 import 'Views/Instructor/Home.dart';
 import 'Views/Instructor/Profile.dart';
 import 'package:futuremarkerapp/Controllers/Auth/AuthController.dart';
@@ -48,7 +50,7 @@ class MyApp extends StatelessWidget  {
     return MaterialApp(
       title: 'Future Marker',
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: WelcomeScreen(),
 
     );
   }

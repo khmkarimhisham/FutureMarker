@@ -184,8 +184,13 @@ class _StudentGradesState extends State<StudentGrades> {
                    // return CircularProgressIndicator();
                   }
                   else {
-                    return Center(
-                      child: CircularProgressIndicator(),
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ],
                     );
                   }
                 },

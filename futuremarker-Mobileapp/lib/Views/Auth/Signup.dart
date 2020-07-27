@@ -260,9 +260,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               controller: _emailController,
                               validator: (value) {
                                 if (value.length >= 5 &&
-                                        value.contains('@gmail.com') ||
-                                    value.contains('@hotmail.com') ||
-                                    value.contains('@outlook.com')) {
+                                    value.contains('.com') ) {
                                   return null;
                                 } else {
                                   return 'Email is not valid';

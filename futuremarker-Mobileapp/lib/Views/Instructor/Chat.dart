@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'ChatContent.dart';
 
 class InstructorListChat extends StatelessWidget {
@@ -91,6 +90,12 @@ class InstructorListChat extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Color(0xfff263238),
+      appBar: AppBar(
+        backgroundColor: Color(0xfff263238),
+
+        automaticallyImplyLeading: true,
+      ),
+
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -133,32 +138,9 @@ class Friend {
 }
 
 final List<Friend> friends = [
-  Friend('MOhamed Essam', Image(image: AssetImage('Images/01.png')),
+  Friend('Mohamed Essam', Image(image: AssetImage('Images/01.png')),
       'Hello, how are you?', '1 hr.'),
   Friend('Anas hassan', Image(image: AssetImage('Images/01.png')),
       'Hello, how are you?', '1 hr.'),
-  Friend('Karim', Image(image: AssetImage('Images/01.png')),
-      'Hello, how are you?', '1 hr.'),
-  Friend('Martin', Image(image: AssetImage('Images/01.png')),
-      'Hello, how are you?', '1 hr.'),
-  Friend('Mahmoud', Image(image: AssetImage('Images/01.png')),
-      'Hello, how are you?', '1 hr.'),
-  Friend('Ahmed', Image(image: AssetImage('Images/01.png')),
-      'Hello, how are you?', '1 hr.'),
-  Friend('Non', Image(image: AssetImage('Images/01.png')),
-      'Hello, how are you?', '1 hr.'),
-  Friend('Abdo', Image(image: AssetImage('Images/01.png')),
-      'Hello, how are you?', '1 hr.'),
-  Friend('Sid', Image(image: AssetImage('Images/01.png')),
-      'Hello, how are you?', '1 hr.'),
-  Friend('Sid', Image(image: AssetImage('Images/01.png')),
-      'Hello, how are you?', '1 hr.'),
-  Friend('Sid', Image(image: AssetImage('Images/01.png')),
-      'Hello, how are you?', '1 hr.'),
-  Friend('Sid', Image(image: AssetImage('Images/01.png')),
-      'Hello, how are you?', '1 hr.'),
-  Friend('Sid', Image(image: AssetImage('Images/01.png')),
-      'Hello, how are you?', '1 hr.'),
-  Friend('Sid', Image(image: AssetImage('Images/01.png')),
-      'Hello, how are you?', '1 hr.'),
+
 ];

@@ -91,15 +91,21 @@ class _FolderContentState extends State<FolderContent> {
               right: 20,
               child: InkWell(
                 onTap: () {
-                 // selectfile();
+                  launch('${UserData().imageurl}/instructor/course/${widget.CourseID}');
 
                 },
-                child: RichText(
-                    text:
-                    LinkTextSpan(
-                        url:
-                        '${UserData().imageurl}/instructor/course/${widget.CourseID}', text: 'Upload File', style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold))
-                ),
+                child:Icon(
+                Icons.file_upload,
+                color: Colors.black,
+                size: 45,
+              ),
+
+//                RichText(
+//                    text:
+//                    LinkTextSpan(
+//                        url:
+//                        '${UserData().imageurl}/instructor/course/${widget.CourseID}', text: 'Upload File', style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold))
+//                ),
               ),
             ),
           ],
